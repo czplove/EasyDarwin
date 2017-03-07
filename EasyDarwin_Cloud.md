@@ -44,7 +44,7 @@ Windows平台：
 ### 2.nginx ###
 Windows平台：
 
->	运行nginx.exe，其中conf/nginx.conf中已经配置WEB路径为当前路径下的www目录，记住此目录的位置，例如为 D:\EasyDarwin\nginx\www\
+>	运行nginx.exe，其中conf/nginx.conf中已经配置WEB路径为当前路径下的www目录，http监听10080端口，记住此目录的位置，例如为 D:\EasyDarwin\nginx\www\
 
 ### 3.EasyCMS ###
 Windows平台：
