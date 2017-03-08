@@ -55,7 +55,7 @@ Windows平台：
 	
 	snap_web_path为： http://121.40.50.44:10080/snap/
 		
-	service_wan_ip为： 121.40.50.44
+	service_wan_ip为： 121.40.50.44（不可以配置成127.0.0.1）
 		
 	service_wan_port为： 10000
 	
