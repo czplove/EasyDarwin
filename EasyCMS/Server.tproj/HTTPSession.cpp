@@ -2248,10 +2248,10 @@ bool HTTPSession::isRightChannel(const char* channel) const
 	try
 	{
 		int channelNum = boost::lexical_cast<unsigned int>(channel);
-		if (channelNum > 64)
+		/*if (channelNum > 64)
 		{
 			return false;
-		}
+		}*/
 	}
 	catch (...)
 	{
