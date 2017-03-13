@@ -64,10 +64,10 @@ UInt32                          ReflectorStream::sMaxPacketAgeMSec = 20000;
 UInt32                          ReflectorStream::sMaxFuturePacketSec = 60; // max packet future time
 UInt32                          ReflectorStream::sOverBufferInSec = 10;
 UInt32                          ReflectorStream::sBucketDelayInMsec = 73;
-bool                          ReflectorStream::sUsePacketReceiveTime = false;
+bool							ReflectorStream::sUsePacketReceiveTime = false;
 UInt32                          ReflectorStream::sFirstPacketOffsetMsec = 500;
 
-UInt32                          ReflectorStream::sRelocatePacketAgeMSec = 3000;
+UInt32                          ReflectorStream::sRelocatePacketAgeMSec = 1000;
 
 void ReflectorStream::Register()
 {
@@ -1306,6 +1306,7 @@ OSQueueElem* ReflectorSender::NeedRelocateBookMark(OSQueueElem* elem)
 			if (keyPacket->fTimeArrived > thePacket->fTimeArrived)
 			{
 				this->fStream->GetMyReflectorSession()->SetHasVideoKeyFrameUpdate(true);
+				//printf("NeedRelocateBookMark TTTTTTTTTTTTTTTTTTTTTTTTTT\n");
 				return fKeyFrameStartPacketElementPointer;
 			}
 		}
