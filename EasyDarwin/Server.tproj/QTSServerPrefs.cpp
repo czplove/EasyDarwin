@@ -91,7 +91,7 @@ QTSServerPrefs::PrefInfo QTSServerPrefs::sPrefInfo[] =
 	{ kDontAllowMultipleValues,	"120",		NULL					},	//rtp_session_timeout
 	{ kDontAllowMultipleValues, "1000",     NULL                    },  //maximum_connections
 	{ kDontAllowMultipleValues, "102400",   NULL                    },  //maximum_bandwidth
-	{ kDontAllowMultipleValues,	NONE_CONFIG_NGINX_LOCAL_PATH, NULL  },	//nginx_root_folder
+	{ kDontAllowMultipleValues,	NONE_CONFIG_NGINX_LOCAL_PATH, NULL  },	//movie_folder
 	{ kAllowMultipleValues,     "0",        NULL                    },  //bind_ip_addr
 	{ kDontAllowMultipleValues, "false",    NULL                    },  //break_on_assert
 	{ kDontAllowMultipleValues, "true",     NULL                    },  //auto_restart
@@ -183,7 +183,6 @@ QTSServerPrefs::PrefInfo QTSServerPrefs::sPrefInfo[] =
 
 	{ kDontAllowMultipleValues, "0.0.0.0",	NULL					 }, //service_wan_ip
 	{ kDontAllowMultipleValues, "10554",	NULL					 }, //rtsp_wan_port
-	{ kDontAllowMultipleValues, "10035",	NULL					 }, //rtmp_wan_port
 	{ kDontAllowMultipleValues, NONE_CONFIG_NGINX_WEB_PATH,		NULL }	//nginx_web_path
 };
 
@@ -194,7 +193,7 @@ QTSSAttrInfoDict::AttrInfo  QTSServerPrefs::sAttributes[] =
 	/* 2 */ { "rtp_session_timeout",                    NULL,                   qtssAttrDataTypeUInt32,     qtssAttrModeRead | qtssAttrModeWrite },
 	/* 3 */ { "maximum_connections",                    NULL,                   qtssAttrDataTypeSInt32,     qtssAttrModeRead | qtssAttrModeWrite },
 	/* 4 */ { "maximum_bandwidth",                      NULL,                   qtssAttrDataTypeSInt32,     qtssAttrModeRead | qtssAttrModeWrite },
-	/* 5 */ { "nginx_root_folder",                       NULL,                   qtssAttrDataTypeCharArray,  qtssAttrModeRead | qtssAttrModeWrite },
+	/* 5 */ { "movie_folder",                       NULL,                   qtssAttrDataTypeCharArray,  qtssAttrModeRead | qtssAttrModeWrite },
 	/* 6 */ { "bind_ip_addr",                           NULL,                   qtssAttrDataTypeCharArray,  qtssAttrModeRead | qtssAttrModeWrite },
 	/* 7 */ { "break_on_assert",                        NULL,                   qtssAttrDataTypeBool16,     qtssAttrModeRead | qtssAttrModeWrite },
 	/* 8 */ { "auto_restart",                           NULL,                   qtssAttrDataTypeBool16,     qtssAttrModeRead | qtssAttrModeWrite },
@@ -277,7 +276,6 @@ QTSSAttrInfoDict::AttrInfo  QTSServerPrefs::sAttributes[] =
 
 	/* 84 */ { "service_wan_ip",						NULL,                   qtssAttrDataTypeCharArray,  qtssAttrModeRead | qtssAttrModeWrite },
 	/* 85 */ { "rtsp_wan_port",							NULL,                   qtssAttrDataTypeUInt16,     qtssAttrModeRead | qtssAttrModeWrite },
-	/* 86 */ { "rtmp_wan_port",							NULL,                   qtssAttrDataTypeUInt16,     qtssAttrModeRead | qtssAttrModeWrite },
 
 	/* 87 */{ "nginx_web_path",							NULL,					qtssAttrDataTypeCharArray,  qtssAttrModeRead | qtssAttrModeWrite }
 };
@@ -355,8 +353,7 @@ QTSServerPrefs::QTSServerPrefs(XMLPrefsParser* inPrefsSource, bool inWriteMissin
 	fAllowGuestAuthorizeDefault(true),
 	fServiceLANPort(10008),
 	fServiceWANPort(10008),
-	fRTSPWANPort(10554),
-	fRTMPWANPort(10035)
+	fRTSPWANPort(10554)
 {
 	SetupAttributes();
 	RereadServerPreferences(inWriteMissingPrefs);
@@ -450,7 +447,6 @@ void QTSServerPrefs::SetupAttributes()
 
 	this->SetVal(easyPrefsServiceWANIPAddr, &fRTSPWANAddr, sizeof(fRTSPWANAddr));
 	this->SetVal(easyPrefsRTSPWANPort, &fRTSPWANPort, sizeof(fRTSPWANPort));
-	this->SetVal(easyPrefsRTMPWANPort, &fRTMPWANPort, sizeof(fRTMPWANPort));
 }
 
 
@@ -602,7 +598,7 @@ void    QTSServerPrefs::UpdateAuthScheme()
 //	OSMutexLocker locker(&fPrefsMutex);
 //
 //	// Get the movie folder attribute
-//	StrPtrLen* theMovieFolder = this->GetValue(qtssPrefsNginxRootFolder);
+//	StrPtrLen* theMovieFolder = this->GetValue(qtssPrefsMovieFolder);
 //
 //	// If the movie folder path fits inside the provided buffer, copy it there
 //	if (theMovieFolder->Len < *ioLen)

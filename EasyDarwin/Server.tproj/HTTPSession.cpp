@@ -409,12 +409,6 @@ QTSS_Error HTTPSession::SetupRequest()
 				{
 					return execNetMsgCSGetRTSPLiveSessionsRESTful(fRequest->GetQueryString());
 				}
-
-				//if (path[0] == "api" && path[1] == EASY_PROTOCOL_VERSION && path[2] == "getrecordlist")
-				//{
-				//	return execNetMsgCSGetRTSPRecordSessionsRESTful(fRequest->GetQueryString());
-				//}
-
 			}
 
 			execNetMsgCSUsageAck();
@@ -846,7 +840,7 @@ QTSS_Error HTTPSession::execNetMsgCSLoginReqRESTful(const char* queryString)
 	EasyProtocolACK rsp(MSG_SC_SERVER_LOGIN_ACK);
 	EasyJsonValue header, body;
 
-	body[EASY_TAG_TOKEN] = "EasyDarwinTestToken";
+	body[EASY_TAG_TOKEN] = "EasyDarwinTempToken";
 
 	header[EASY_TAG_VERSION] = EASY_PROTOCOL_VERSION;
 	header[EASY_TAG_CSEQ] = 1;
@@ -926,11 +920,9 @@ QTSS_Error HTTPSession::execNetMsgCSGetBaseConfigReqRESTful(const char* queryStr
 	body[EASY_TAG_CONFIG_SERVICE_LAN_IP] = lanip;
 
 	body[EASY_TAG_CONFIG_RTSP_WAN_PORT] = to_string(QTSServerInterface::GetServer()->GetPrefs()->GetRTSPWANPort());
-	body[EASY_TAG_CONFIG_RTMP_WAN_PORT] = to_string(QTSServerInterface::GetServer()->GetPrefs()->GetRTMPWANPort());
 
 	body[EASY_TAG_CONFIG_SERVICE_WAN_IP] = QTSServerInterface::GetServer()->GetPrefs()->GetServiceWANIP();
 
-	body[EASY_TAG_CONFIG_NGINX_ROOT_FOLDER] = QTSServerInterface::GetServer()->GetPrefs()->GetNginxRootFolder();
 	body[EASY_TAG_CONFIG_NGINX_WEB_PATH] = QTSServerInterface::GetServer()->GetPrefs()->GetNginxWebPath();
 
 	body[EASY_TAG_CONFIG_SERVICE_LAN_PORT] = to_string(QTSServerInterface::GetServer()->GetPrefs()->GetServiceLanPort());
@@ -986,13 +978,6 @@ QTSS_Error HTTPSession::execNetMsgCSSetBaseConfigReqRESTful(const char* queryStr
 	//if (chLanIP)
 	//	(void)QTSS_SetValue(QTSServerInterface::GetServer()->GetPrefs(), qtssPrefsRTSPIPAddr, 0, (void*)chLanIP, strlen(chLanIP));
 
-	//2.EASY_TAG_CONFIG_RTSP_WAN_PORT
-	const char*	chRTMPWanPort = parList.DoFindCGIValueForParam(EASY_TAG_CONFIG_RTMP_WAN_PORT);
-	if (chRTMPWanPort)
-	{
-		UInt16 uRTMPWanPort = stoi(chRTMPWanPort);
-		(void)QTSS_SetValue(QTSServerInterface::GetServer()->GetPrefs(), easyPrefsRTMPWANPort, 0, &uRTMPWanPort, sizeof(uRTMPWanPort));
-	}
 
 	//4.EASY_TAG_CONFIG_SERVICE_WAN_IP
 	const char* chWanIP = parList.DoFindCGIValueForParam(EASY_TAG_CONFIG_SERVICE_WAN_IP);
@@ -1008,7 +993,7 @@ QTSS_Error HTTPSession::execNetMsgCSSetBaseConfigReqRESTful(const char* queryStr
 		{
 			nginxRootFolder.push_back('\\');
 		}
-		(void)QTSS_SetValue(QTSServerInterface::GetServer()->GetPrefs(), qtssPrefsNginxRootFolder, 0, (void*)nginxRootFolder.c_str(), nginxRootFolder.size());
+		(void)QTSS_SetValue(QTSServerInterface::GetServer()->GetPrefs(), qtssPrefsMovieFolder, 0, (void*)nginxRootFolder.c_str(), nginxRootFolder.size());
 	}
 
 	//6.EASY_TAG_CONFIG_NGINX_WEB_PATH

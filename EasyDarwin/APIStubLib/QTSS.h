@@ -719,7 +719,7 @@ enum
     qtssPrefsRTPSessionTimeout				= 2,    //"rtp_session_timeout"         //UInt32    //Amount of time in seconds the server will wait before disconnecting idle RTP clients. 0 means no timeout
     qtssPrefsMaximumConnections				= 3,    //"maximum_connections"         //SInt32    //Maximum # of concurrent RTP connections allowed by the server. -1 means unlimited.
     qtssPrefsMaximumBandwidth				= 4,    //"maximum_bandwidth"           //SInt32    //Maximum amt of bandwidth the server is allowed to serve in K bits. -1 means unlimited.
-    qtssPrefsNginxRootFolder				= 5,    //"nginx_root_folder"           //char array    //Path to the root movie folder
+    qtssPrefsMovieFolder					= 5,    //"movie_folder"           //char array    //Path to the root movie folder
     qtssPrefsRTSPIPAddr						= 6,    //"bind_ip_addr"                //char array    //IP address the server should accept RTSP connections on. 0.0.0.0 means all addresses on the machine.
     qtssPrefsBreakOnAssert					= 7,    //"break_on_assert"             //bool        //If true, the server will break in the debugger when an assert fails.
     qtssPrefsAutoRestart					= 8,    //"auto_restart"                //bool        //If true, the server will automatically restart itself if it crashes.
@@ -818,10 +818,9 @@ enum
 
 	easyPrefsServiceWANIPAddr				= 84,	// "service_wan_ip"		//char array
 	easyPrefsRTSPWANPort					= 85,	// "rtsp_wan_port"		//UInt16
-	easyPrefsRTMPWANPort					= 86,	// "rtmp_wan_port"		//UInt16
 
-	easyPrefsNginxWebPath					= 87,	// "nginx_web_path"		//char array
-	qtssPrefsNumParams                      = 88
+	easyPrefsNginxWebPath					= 86,	// "nginx_web_path"		//char array
+	qtssPrefsNumParams                      = 87
 };
 
 typedef UInt32 QTSS_PrefsAttributes;
