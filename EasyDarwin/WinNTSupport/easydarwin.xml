@@ -104,8 +104,6 @@
 			<VALUE>vlc</VALUE>
 		</LIST-PREF>
 		<LIST-PREF NAME="player_requires_no_pause_time_adjustment" >
-			<VALUE>Android</VALUE>
-			<VALUE>vlc</VALUE>
 			<VALUE>EasyPlayer</VALUE>
 		</LIST-PREF>
 		<PREF NAME="default_stream_quality" TYPE="UInt16" >0</PREF>
@@ -121,12 +119,9 @@
 		<PREF NAME="rtsp_wan_port" TYPE="UInt16" >10554</PREF>
 		<PREF NAME="service_lan_port" TYPE="UInt16" >10008</PREF>
 		<PREF NAME="service_wan_port" TYPE="UInt16" >10008</PREF>
-		<PREF NAME="nginx_root_folder" >./nginx/www/</PREF>
-		<PREF NAME="module_folder" >c:\Program Files\EasyDarwin\QTSSModules\</PREF>
-		<PREF NAME="error_logfile_dir" >c:\Program Files\EasyDarwin\Logs\</PREF>
 		<PREF NAME="service_wan_ip" >0.0.0.0</PREF>
-		<PREF NAME="rtmp_wan_port" TYPE="UInt16" >10035</PREF>
-		<PREF NAME="nginx_web_path" >http://127.0.0.1:10080/</PREF>
+		<PREF NAME="movie_folder" >./nginx/www/</PREF>
+		<PREF NAME="nginx_rtmp_server" >http://127.0.0.1:10080/</PREF>
 	</SERVER>
 	<MODULE NAME="QTSSAccessLogModule" >
 		<PREF NAME="request_logfile_interval" TYPE="UInt32" >7</PREF>
@@ -180,8 +175,6 @@
 	<MODULE NAME="QTSSAccessModule" >
 		<PREF NAME="modAccess_qtaccessfilename" >qtaccess</PREF>
 		<PREF NAME="modAccess_enabled" TYPE="bool" >true</PREF>
-		<PREF NAME="modAccess_usersfilepath" >c:\Program Files\EasyDarwin\qtusers</PREF>
-		<PREF NAME="modAccess_groupsfilepath" >c:\Program Files\EasyDarwin\qtgroups</PREF>
 	</MODULE>
 	<MODULE NAME="QTSSErrorLogModule" ></MODULE>
 	<MODULE NAME="QTSSPosixFileSysModule" ></MODULE>
@@ -189,7 +182,6 @@
 	<MODULE NAME="EasyRedisModule" >
 		<PREF NAME="redis_ip" >127.0.0.1</PREF>
 		<PREF NAME="redis_port" TYPE="UInt16" >6379</PREF>
-		<PREF NAME="redis_user" >admin</PREF>
 		<PREF NAME="redis_password" >admin</PREF>
 	</MODULE>
 </CONFIGURATION>

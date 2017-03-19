@@ -228,7 +228,7 @@ public:
 	UInt16 GetRTSPWANPort() const {	return fRTSPWANPort; }
 
 	char* GetMovieFolder() { return this->GetStringPref(qtssPrefsMovieFolder); }
-	char* GetNginxWebPath() { return this->GetStringPref(easyPrefsNginxWebPath); }
+	char* GetNginxWebPath() { return this->GetStringPref(easyPrefsNginxRTMPServer); }
 
 private:
 

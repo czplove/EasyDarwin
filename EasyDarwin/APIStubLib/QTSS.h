@@ -819,7 +819,7 @@ enum
 	easyPrefsServiceWANIPAddr				= 84,	// "service_wan_ip"		//char array
 	easyPrefsRTSPWANPort					= 85,	// "rtsp_wan_port"		//UInt16
 
-	easyPrefsNginxWebPath					= 86,	// "nginx_web_path"		//char array
+	easyPrefsNginxRTMPServer					= 86,	// "nginx_rtmp_server"		//char array
 	qtssPrefsNumParams                      = 87
 };
 
