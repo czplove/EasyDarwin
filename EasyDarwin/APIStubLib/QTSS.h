@@ -49,12 +49,6 @@ extern "C" {
 #define QTSS_MAX_ATTRIBUTE_NUMS			128
 
 #define EASY_KEY_SPLITER				"-"
-	
-const std::string NGINX_HTTP_PORT = "10080";
-const std::string NGINX_RTMP_PORT = "10035";
-
-#define NONE_CONFIG_NGINX_WEB_PATH		"http://127.0.0.1:10080/"
-#define NONE_CONFIG_NGINX_LOCAL_PATH	"./nginx/www/"
 
 //*******************************
 // ENUMERATED TYPES
@@ -819,7 +813,7 @@ enum
 	easyPrefsServiceWANIPAddr				= 84,	// "service_wan_ip"		//char array
 	easyPrefsRTSPWANPort					= 85,	// "rtsp_wan_port"		//UInt16
 
-	easyPrefsNginxRTMPServer					= 86,	// "nginx_rtmp_server"		//char array
+	easyPrefsNginxRTMPServer				= 86,	// "nginx_rtmp_server"		//char array
 	qtssPrefsNumParams                      = 87
 };
 

@@ -91,7 +91,7 @@ QTSServerPrefs::PrefInfo QTSServerPrefs::sPrefInfo[] =
 	{ kDontAllowMultipleValues,	"120",		NULL					},	//rtp_session_timeout
 	{ kDontAllowMultipleValues, "1000",     NULL                    },  //maximum_connections
 	{ kDontAllowMultipleValues, "102400",   NULL                    },  //maximum_bandwidth
-	{ kDontAllowMultipleValues,	NONE_CONFIG_NGINX_LOCAL_PATH, NULL  },	//movie_folder
+	{ kDontAllowMultipleValues,	"./",			NULL  },	//movie_folder
 	{ kAllowMultipleValues,     "0",        NULL                    },  //bind_ip_addr
 	{ kDontAllowMultipleValues, "false",    NULL                    },  //break_on_assert
 	{ kDontAllowMultipleValues, "true",     NULL                    },  //auto_restart
@@ -183,7 +183,7 @@ QTSServerPrefs::PrefInfo QTSServerPrefs::sPrefInfo[] =
 
 	{ kDontAllowMultipleValues, "0.0.0.0",	NULL					 }, //service_wan_ip
 	{ kDontAllowMultipleValues, "10554",	NULL					 }, //rtsp_wan_port
-	{ kDontAllowMultipleValues, NONE_CONFIG_NGINX_WEB_PATH,		NULL }	//nginx_rtmp_server
+	{ kDontAllowMultipleValues, "rtmp://127.0.0.1/",			NULL }	//nginx_rtmp_server
 };
 
 QTSSAttrInfoDict::AttrInfo  QTSServerPrefs::sAttributes[] =
@@ -277,7 +277,7 @@ QTSSAttrInfoDict::AttrInfo  QTSServerPrefs::sAttributes[] =
 	/* 84 */ { "service_wan_ip",						NULL,                   qtssAttrDataTypeCharArray,  qtssAttrModeRead | qtssAttrModeWrite },
 	/* 85 */ { "rtsp_wan_port",							NULL,                   qtssAttrDataTypeUInt16,     qtssAttrModeRead | qtssAttrModeWrite },
 
-	/* 87 */{ "nginx_rtmp_server",							NULL,					qtssAttrDataTypeCharArray,  qtssAttrModeRead | qtssAttrModeWrite }
+	/* 86 */{ "nginx_rtmp_server",						NULL,					qtssAttrDataTypeCharArray,  qtssAttrModeRead | qtssAttrModeWrite }
 };
 
 
