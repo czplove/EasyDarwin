@@ -120,10 +120,6 @@
 		<PREF NAME="service_lan_port" TYPE="UInt16" >10008</PREF>
 		<PREF NAME="service_wan_port" TYPE="UInt16" >10008</PREF>
 		<PREF NAME="service_wan_ip" >0.0.0.0</PREF>
-		<PREF NAME="movie_folder" >./</PREF>
-		<PREF NAME="module_folder" >c:\Program Files\EasyDarwin\QTSSModules\</PREF>
-		<PREF NAME="error_logfile_dir" >c:\Program Files\EasyDarwin\Logs\</PREF>
-		<PREF NAME="nginx_rtmp_server" >rtmp://127.0.0.1/</PREF>
 	</SERVER>
 	<MODULE NAME="QTSSAccessLogModule" >
 		<PREF NAME="request_logfile_interval" TYPE="UInt32" >7</PREF>
@@ -131,7 +127,6 @@
 		<PREF NAME="request_logfile_size" TYPE="UInt32" >10240000</PREF>
 		<PREF NAME="request_logtime_in_gmt" TYPE="bool" >true</PREF>
 		<PREF NAME="request_logfile_name" >EasyDarwin</PREF>
-		<PREF NAME="request_logfile_dir" >c:\Program Files\EasyDarwin\Logs\</PREF>
 	</MODULE>
 	<MODULE NAME="QTSSReflectorModule" >
 		<PREF NAME="reflector_bucket_offset_delay_msec" TYPE="UInt32" >73</PREF>
@@ -177,8 +172,6 @@
 	<MODULE NAME="QTSSAccessModule" >
 		<PREF NAME="modAccess_qtaccessfilename" >qtaccess</PREF>
 		<PREF NAME="modAccess_enabled" TYPE="bool" >true</PREF>
-		<PREF NAME="modAccess_usersfilepath" >c:\Program Files\EasyDarwin\qtusers</PREF>
-		<PREF NAME="modAccess_groupsfilepath" >c:\Program Files\EasyDarwin\qtgroups</PREF>
 	</MODULE>
 	<MODULE NAME="QTSSErrorLogModule" ></MODULE>
 	<MODULE NAME="QTSSPosixFileSysModule" ></MODULE>
