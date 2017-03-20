@@ -923,7 +923,7 @@ QTSS_Error HTTPSession::execNetMsgCSGetBaseConfigReqRESTful(const char* queryStr
 
 	body[EASY_TAG_CONFIG_SERVICE_WAN_IP] = QTSServerInterface::GetServer()->GetPrefs()->GetServiceWANIP();
 
-	body[EASY_TAG_CONFIG_NGINX_RTMP_PATH] = QTSServerInterface::GetServer()->GetPrefs()->GetNginxWebPath();
+	body[EASY_TAG_CONFIG_RTMP_SERVER] = QTSServerInterface::GetServer()->GetPrefs()->GetNginxWebPath();
 
 	body[EASY_TAG_CONFIG_SERVICE_LAN_PORT] = to_string(QTSServerInterface::GetServer()->GetPrefs()->GetServiceLanPort());
 	body[EASY_TAG_CONFIG_SERVICE_WAN_PORT] = to_string(QTSServerInterface::GetServer()->GetPrefs()->GetServiceWanPort());
@@ -985,8 +985,8 @@ QTSS_Error HTTPSession::execNetMsgCSSetBaseConfigReqRESTful(const char* queryStr
 		(void)QTSS_SetValue(QTSServerInterface::GetServer()->GetPrefs(), easyPrefsServiceWANIPAddr, 0, (void*)chWanIP, strlen(chWanIP));
 
 
-	//5.EASY_TAG_CONFIG_NGINX_RTMP_PATH
-	const char* chNginxWebPath = parList.DoFindCGIValueForParam(EASY_TAG_CONFIG_NGINX_RTMP_PATH);
+	//5.EASY_TAG_CONFIG_RTMP_SERVER
+	const char* chNginxWebPath = parList.DoFindCGIValueForParam(EASY_TAG_CONFIG_RTMP_SERVER);
 	if (chNginxWebPath)
 	{
 		(void)QTSS_SetValue(QTSServerInterface::GetServer()->GetPrefs(), easyPrefsNginxRTMPServer, 0, (void*)chNginxWebPath, strlen(chNginxWebPath));
