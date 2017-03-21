@@ -60,7 +60,6 @@
             height: auto;
         }
     </style>
-    <script src="/js/cyberplayer.js"></script>
 </head>
 
 <body class="hold-transition skin-green sidebar-mini">
@@ -134,53 +133,50 @@
                     <div class="col-lg-offset-2 col-lg-8 no-padding server-info">
                         <div class="box box-widget">
                             <div class="box-header">
-                                <h3> <i class="fa fa-video-camera"></i> 播放信息</h3>
+                                <h3> <i class="fa  fa-sign-in"></i> EasyPusher流媒体音/视频流推送库</h3>
                             </div>
                             <div class="box-body table-responsive no-padding">
                                 <table class="table table-striped">
                                     <tr>
-                                        <td>协议</td>
-                                        <td><span>RTSP</span></td>
+                                        <td style="width: 20%">项目介绍</td>
+                                        <td>EasyPusher是EasyDarwin开源流媒体团队开发的一个推送流媒体音/视频流给开源流媒体服务器EasyDarwin的标准RTSP/RTP协议推送库，全平台支持(包括Windows/Linux(32 & 64)，ARM各平台，Android、IOS)，通过EasyPusher我们就可以避免接触到稍显复杂的RTSP/RTP/RTCP推送流程，只需要调用EasyPusher的几个API接口，就能轻松、稳定地把流媒体音视频数据推送给EasyDarwin服务器进行转发和分发，EasyPusher经过长时间的企业用户检验，稳定性非常高;</td>
                                     </tr>
                                     <tr>
-                                        <td>播放地址</td>
-                                        <td><span id="rtsp_url"></span></td>
+                                        <td>EasyPusher项目地址</td>
+                                        <td><a href="https://github.com/EasyDarwin/EasyPusher">https://github.com/EasyDarwin/EasyPusher</a></td>
+                                    </tr>
+                                    <!--<tr>
+                                        <td>EasyPusher_Android</td>
+                                        <td><a href="https://github.com/EasyDarwin/EasyPusher_Android">https://github.com/EasyDarwin/EasyPusher_Android</a></td>
                                     </tr>
                                     <tr>
-                                        <td>Windows RTSP播放器</td>
-                                        <td><a href="https://github.com/EasyDarwin/EasyPlayer/releases">https://github.com/EasyDarwin/EasyPlayer/releases</a></td>
-                                    </tr>
+                                        <td>EasyPusher_iOS</td>
+                                        <td><a href="https://github.com/EasyDarwin/EasyPusher_iOS">https://github.com/EasyDarwin/EasyPusher_iOS</a></td>
+                                    </tr>-->
                                     <tr>
-                                        <td>Android RTSP版</td>
-                                        <td><a href="http://fir.im/EasyPlayer">http://fir.im/EasyPlayer</a>
+                                        <td>EasyPusher 安卓客户端</td>
+                                        <td><a href="https://fir.im/EasyPusher">https://fir.im/EasyPusher</a>
                                             <br/>
-                                            <img style="width: 250px;height: 250px;" src="./img/android_rtsp.png"></img>
+                                            <img style="width: 250px;height: 250px;" src="./img/EasyPusher_AN.png"></img>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>iOS RTSP版</td>
-                                        <td><a href="https://itunes.apple.com/us/app/easy-player/id1158675416?l=zh&ls=1&mt=8">https://itunes.apple.com/us/app/easy-player/id1158675416?l=zh&ls=1&mt=8</a>
-                                            <br/>
-                                            <img style="width: 250px;height: 250px;" src="./img/ios_rtsp.png"></img>
+                                        <td>EasyPusher IOS客户端</td>
+                                        <td>
+                                            <img style="width: 250px;height: 250px;" src="./img/EasyPusher_iOS.png"></img>
                                         </td>
                                     </tr>
+
                                     <tr>
-                                        <td>EasyPlayer项目地址</td>
-                                        <td><a href="https://github.com/EasyDarwin/EasyPlayer">https://github.com/EasyDarwin/EasyPlayer</a></td>
+                                        <td>详细介绍</td>
+                                        <td><a href="https://github.com/EasyDarwin/EasyPusher/blob/master/README.md">https://github.com/EasyDarwin/EasyPusher/blob/master/README.md</a></td>
                                     </tr>
                                 </table>
                             </div>
-                            <div class="box-footer"><button id="back-btn" class="label pull-right btn btn-sm btn-default">
-									<i class="fa fa-back"></i>返回
-								</button></div>
                         </div>
                     </div>
                 </div>
                 <script>
-                    $("#rtsp_url").html($.cookie("videoUrl"));
-                    $("#back-btn").click(function() {
-                        top.location.href = "/index.html";
-                    });
                 </script>
             </section>
         </div>
