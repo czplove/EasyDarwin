@@ -107,6 +107,10 @@ EasyDarwin主要的几个配置项：
 	   }
 	}
 
+###Web后台###
+ - Web后台默认登录账户admin，密码admin，代码中固定的，您可以根据自己的需求进行用户名、密码管理。
+ - web后台地址： http://ip:10080 , 其中ip为运行EasyDarwin服务器的ip地址。
+ - web后台代码在nginx目录下。
 
 ## 调用方法 ##
 
