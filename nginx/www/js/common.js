@@ -102,15 +102,32 @@ function isPC() {
 
 var _url = "/api/v1";
 try {
-    $.ajax({
+    var getinfo_ajax= $.ajax({
         type: "GET",
         url: _url + "/getserverinfo",
         global: false,
-        async: false,
+        async: true,
+        timeout:3000,
         success: function (data) {
             var ret = JSON.parse(data);
             _url = "/api/" + ret.EasyDarwin.Body.InterfaceVersion;
-        }
+        },complete : function(XMLHttpRequest,status){
+								if(status=='timeout'){//超时,status还有success,error等值的情况
+                                    getinfo_ajax.abort();
+									var openurls = ["/","/index.html","/easyplayer.html", "/easypusher.html"];
+									var token = $.cookie("token") || "";
+									if (!token) {
+										if($.inArray(location.pathname, openurls) >0){
+											$.gritter.add("您好！请启动EasyDarwin流媒体服务！");
+										}else {
+											top.location.href = "index.html";
+										}
+									}else {
+										$.gritter.add("您好！请启动EasyDarwin流媒体服务！");
+									}
+                                    //top.location.href = "index.html";
+　　　　						 }
+							}
     });
 } catch (e) { }
 
@@ -149,7 +166,7 @@ $(function () {
         if (xhr.status == 401) {
             $.cookie("token", "", { expires: -1 });
             $.cookie("username", "", { expires: -1 });
-            top.location.href = '/login.html';
+            top.location.href = 'index.html';
             return false;
         }
         if (xhr.status == 404) {

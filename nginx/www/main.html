@@ -37,10 +37,47 @@
     <script src="./easyui/easyloader.js"></script>
 
     <link rel="stylesheet" href="./css/common.css">
-    <script src="./js/common.js"></script>
+	<script src="./js/common.js"></script>
+    <style>
+        .channel .thumbnail {
+            position: relative;
+        }
+        
+        .channel .mask {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.5);
+        }
+        
+        .channel.offline .mask {
+            display: block;
+        }
+        
+        .left_div {
+            position: absolute;
+            top: 12%;
+            left: 2.5%;
+            width: 18%;
+            height: 81%;
+            cursor: pointer;
+        }
+        
+        .right_div {
+            position: absolute;
+            top: 18%;
+            right: 3%;
+            width: 18%;
+            height: 69%;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
-<body class="hold-transition skin-green sidebar-mini hide">
+<body class="hold-transition skin-green sidebar-mini ">
     <script>
         try {
             $(document).on("transitionend", ".content-wrapper", function() {
@@ -168,47 +205,71 @@
             </div>
         </div>
 
-        <div class="content-wrapper">
-            <section class="content-header">
-                <ol class="breadcrumb">
-                    <li><a href="main.html"><i class="fa fa-dashboard"></i> 首页</a></li>
-                </ol>
-            </section>
+        <div class="content-wrapper" style="background-color: white">
             <section class="content">
-
+                <div class="container-fluid">
+                    <table id="session-table" style="display:none" class="easyui-datagrid hide" width="100%" height="400px;" rownumbers="true" pagination="true" title="直播流列表" data-options="onBeforeLoad : onBeforeLoad">
+                        <thead>
+                            <tr>
+                                <th field="index" width="10%" align="center" sortable="true">序号</th>
+                                <th field="Channel" width="20%" align="center" sortable="false">通道</th>
+                                <th field="name" width="25%" align="right" sortable="true">名称</th>
+                                <th field="NumOutputs" width="20%" align="right" sortable="true">在线人数</th>
+                                <th field="url" width="20%" align="center" formatter="formatOpt" sortable="false">操作</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="box box-success box-solid" style="width: 99.5%;margin: auto;margin-top:30px;margin-left: 0.5%;">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">EasyDarwin系统拓扑图</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                        </div>
+                        <!-- /.box-tools -->
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body" style="display: block;">
+                        <div class="left_div" onclick="top.location.href = 'easyplayer.html'"></div>
+                        <div class="right_div" onclick="top.location.href = 'easypusher.html'"></div>
+                        <img style="width: 100%;height: 100%; " src="./img/introduction.png "></img>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
                 <script>
-                    var openurls = [ "/easyplayer.html", "/easypusher.html"];
+                    var openurls = ["/easyplayer.html", "/easypusher.html"];
                     var token = $.cookie("token") || "";
                     if (!token && $.inArray(location.pathname, openurls) < 0) {
                         top.location.href = "index.html";
                     }
-                    // if (!token) {
-                    //     $(".treeview [href=/config.html]").closest(".treeview").hide();
-                    //     $(".treeview [href=/channel.html]").closest(".treeview").hide();
-                    // }
-                    $("#btn-logout").click(function() {
-                        $.get(_url + "/logout");
-                        $.cookie("token", "", {
+                    if (!token) {
+                        // $(".treeview [href=/config.html] ").closest(".treeview ").hide();
+                        // $(".treeview [href=/about.html] ").closest(".treeview ").hide();
+                    }
+                    $("#btn-logout ").click(function() {
+                        $.get(_url + "/logout ");
+                        $.cookie("token", " ", {
                             expires: -1
                         });
-                        $.cookie("username", "", {
+                        $.cookie("username", " ", {
                             expires: -1
                         });
-                        top.location.href = "index.html";
+                        top.location.href = "index.html ";
                     })
                     $('#pwd-form').validator().on('submit', function(e) {
                         if (!e.isDefaultPrevented()) {
                             e.preventDefault();
-                            var _oldPwd = $("#pwd-form [name=oldPwd]").val();
-                            var _newPwd = $("#pwd-form [name=newPwd]").val();
+                            var _oldPwd = $("#pwd-form [name=oldPwd] ").val();
+                            var _newPwd = $("#pwd-form [name=newPwd] ").val();
                             if (!/^[a-zA-Z0-9]+$/.test(_newPwd) || _newPwd.length > 16) {
-                                $.gritter.add("密码长度不超过16字符，为英文或数字!");
+                                $.gritter.add("密码长度不超过16字符，为英文或数字! ");
                                 return false;
                             }
-                            $("#pwd-form [type=submit]").prop("disabled", true);
+                            $("#pwd-form [type=submit] ").prop("disabled ", true);
                             $.ajax({
-                                type: "GET",
-                                url: _url + "/modifypassword",
+                                type: "GET ",
+                                url: _url + "/modifypassword ",
                                 data: {
                                     oldpassword: $.md5(_oldPwd),
                                     newpassword: $.md5(_newPwd)
@@ -218,137 +279,120 @@
                                     try {
                                         console.log(data);
                                         var ret = JSON.parse(data);
-                                        $.cookie("token", ret.EasyDarwin.Body.Token);
+                                        $.cookie("token ", ret.EasyDarwin.Body.Token);
                                         $.gritter.add({
-                                            text: "修改密码成功!",
-                                            class_name: "gritter-info"
+                                            text: "修改密码成功! ",
+                                            class_name: "gritter-info "
                                         });
-                                        $("#pwd-dlg").modal("hide");
+                                        $("#pwd-dlg ").modal("hide ");
                                         return;
                                     } catch (e) {}
-                                    $.gritter.add("修改密码不成功!");
+                                    $.gritter.add("修改密码不成功! ");
                                 },
                                 error: function(xhr, ts, err) {
-                                    $.gritter.add("修改密码不成功!");
+                                    $.gritter.add("修改密码不成功! ");
                                 },
                                 complete: function() {
-                                    $("#pwd-form [type=submit]").prop("disabled", false);
+                                    $("#pwd-form [type=submit] ").prop("disabled ", false);
                                 }
                             });
                         }
                     });
                 </script>
                 <script>
-                    $(".breadcrumb").append("<li class='active'><i class='fa fa-cogs'></i> 本地配置</li>");
-                </script>
-                <div class="container-fluid no-padding">
-                    <div class="nav-tabs-custom col-lg-offset-2 col-lg-8 no-padding">
-                        <ul class="nav nav-tabs">
-                            <li class="active"><a href="#nvr-config" data-toggle="tab">EasyDarwin 基础配置</a></li>
-                        </ul>
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="edw-config">
-                                <form role="form" class="form-horizontal" data-toggle="validator" data-disable="false">
-                                    <div class="form-group">
-                                        <label for="service-lan-port" class="col-sm-4 control-label">RTSP监听端口</label>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control" id="RTSPLanPort" name="RTSPLanPort" pattern="^[0-9]+$" required>
-                                            <span class="help-block with-errors"></span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="service-lan-ip" class="col-sm-4 control-label">RTSP公网发布端口</label>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control" id="RTSPWanPort" name="RTSPWanPort" pattern="^[0-9]+$" required>
-                                            <span class="help-block with-errors"></span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="service-wan-port" class="col-sm-4 control-label">服务器本机IP</label>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control" id="ServiceLanIP" name="ServiceLanIP" readonly="readonly">
-                                            <span class="help-block with-errors"></span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="service-wan-ip" class="col-sm-4 control-label">HTTP接口监听端口</label>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control" id="ServiceLanPort" name="ServiceLanPort" pattern="^[0-9]+$" required>
-                                            <span class="help-block with-errors"></span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="channel-snap-interval" class="col-sm-4 control-label">服务器公网IP</label>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control" id="ServiceWanIP" name="ServiceWanIP" required>
-                                            <span class="help-block with-errors"></span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="channel-snap-interval" class="col-sm-4 control-label">HTTP公网发布端口</label>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control" id="ServiceWanPort" name="ServiceWanPort" pattern="^[0-9]+$" required>
-                                            <span class="help-block with-errors"></span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="channel-snap-interval" class="col-sm-4 control-label">配套的RTMP服务器</label>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control" id="RTMPServer" name="RTMPServer" required>
-                                            <span class="help-block with-errors"></span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-4 col-sm-7">
-                                            <button type="submit" class="btn btn-primary">保存</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <!-- /.tab-content -->
-                    </div>
-                </div>
-                <script>
-                    function reload() {
-                        $.get(_url + "/getbaseconfig", function(data) {
-                            try {
-                                var ret = JSON.parse(data);
-                                $("#edw-config form").form("load", ret.EasyDarwin.Body);
-                            } catch (e) {}
-                        });
-                        $.get(_url + "/getthirdplatformconfig", function(data) {
-                            try {
-                                var ret = JSON.parse(data);
-                                $("#platform-config form").form("load", ret.EasyDarwin.Body);
-                                $("[name=ThridPlatform]").trigger("change");
-                            } catch (e) {}
-                        });
+                    function formatOpt(val, row, idx) {
+                        var btns = "<div class='btn-group'>";
+                        btns += "<a class='btn btn-xs btn-success' href='javascript:playLive();'><i class='fa fa-play'></i> 播放</a>";
+                        btns += "</div>";
+                        return btns;
                     }
-                    $(function() {
-                        easyloader.load(['form'], function() {
-                            reload();
-                        });
-                        $('#edw-config form').validator().on('submit', function(e) {
-                            if (!e.isDefaultPrevented()) {
-                                e.preventDefault();
-                                var $this = $(this);
-                                $this.find("button[type=submit]").prop("disabled", true);
-                                $.ajax({
-                                    type: "GET",
-                                    url: _url + "/setbaseconfig",
-                                    data: $this.serialize(),
-                                    success: function(data) {
-                                        reload();
-                                        $.gritter.add({
-                                            text: '配置成功,重启后生效!',
-                                            class_name: 'gritter-info'
-                                        });
-                                    },
-                                    complete: function(xhr, ts) {
-                                        $this.find("button[type=submit]").prop("disabled", false);
+
+                    function onBeforeLoad(param) {
+                        var start = (param.page - 1) * param.rows;
+                        var end = param.page * param.rows;
+                        $.ajax("/api/v1/getrtsplivesessions", {
+                            cache: false
+                        }).then(function(data) {
+                            try {
+                                data = JSON.parse(data);
+                                var total = data.EasyDarwin.Body.SessionCount;
+                                var sessions;
+                                if (total == 0) {
+                                    $.gritter.add("暂无直播流数据");
+                                    sessions = [];
+                                } else {
+                                    sessions = data.EasyDarwin.Body.Sessions;
+                                }
+                                var rows = sessions.slice(start, end);
+                                $("#session-table").datagrid("loadData", {
+                                    total: total,
+                                    rows: rows
+                                });
+                            } catch (e) {
+                                return $.Deferred().reject(e);
+                            }
+                        }).fail(function(e,
+                            ts, xhr) {
+                            console.log(e);
+                            $.gritter.add("获取信息失败");
+                        })
+                    }
+
+                    function playLive() {
+                        var row = $("#session-table").datagrid("getSelected");
+                        console.log(row.url);
+                        var url = row.url.replace(/(.+)\/\/(.+)\/\/(.+)/, "$1//$2/$3");
+                        console.log(url);
+                        $.cookie("videoUrl", url);
+                        $.cookie("videoTitle", row.name);
+                        top.location.href = "easyplayer_rtsp.html";
+                    }
+                    $(document).on("click", ".channel img", function(e) {
+                        var $img = $(this);
+                        var $channel = $img.closest(".channel");
+                        var
+                            channel = $channel.data("channel");
+                        $("body").mask("加载中...", 100);
+                        $.ajax({
+                            type: "GET",
+                            url: _url + "/getchannelstream",
+                            data: {
+                                Channel: channel["Channel"],
+                                Protocol: isPC() ? "RTMP" : "HLS",
+                                Line: "local",
+                                From: "lan"
+                            },
+                            success: function(data) {
+                                try {
+                                    var ret = JSON.parse(data);
+                                    var videoUrl = ret.EasyDarwin.Body.URL;
+                                    if (!videoUrl) {
+                                        throw new Error('URL is empty');
                                     }
-                                })
+                                    $.cookie("videoUrl", videoUrl);
+                                    $.cookie("videoImg", $img.attr("src"));
+                                    $.cookie("channel",
+                                        channel["Channel"]);
+                                    $.cookie("channelName", channel["Name"]);
+                                    top.location.href = "./play.html";
+                                    return;
+                                } catch (e) {
+                                    $.gritter.add({
+                                        text: '获取视频流失败!',
+                                        class_name: 'gritter-error'
+                                    });
+                                    console.log(e);
+                                }
+                            },
+                            error: function(xhr,
+                                ts, err) {
+                                $.gritter.add({
+                                    text: '获取视频流失败!',
+                                    class_name: 'gritter-error'
+                                });
+                            },
+                            complete: function() {
+                                $("body").unmask();
                             }
                         });
                     })

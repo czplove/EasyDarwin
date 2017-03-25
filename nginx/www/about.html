@@ -82,7 +82,7 @@
             <section class="sidebar">
                 <ul class="sidebar-menu">
                     <li class="treeview">
-                        <a href="index.html">
+                        <a href="main.html">
                             <i class="fa fa-video-camera"></i>
                             <span>直播推流列表</span>
                         </a>
@@ -172,17 +172,17 @@
         <div class="content-wrapper">
             <section class="content-header">
                 <ol class="breadcrumb">
-                    <li><a href="/"><i class="fa fa-dashboard"></i> 首页</a></li>
+                    <li><a href="/main.html"><i class="fa fa-dashboard"></i> 首页</a></li>
                 </ol>
             </section>
             <section class="content">
 
                 <script>
                     $(function() {
-                        var openurls = ["/", "/easyplayer.html", "/easypusher.html"];
+                        var openurls = ["/easyplayer.html", "/easypusher.html"];
                         var token = $.cookie("token") || "";
                         if (!token && $.inArray(location.pathname, openurls) < 0) {
-                            top.location.href = "/login.html";
+                            top.location.href = "index.html";
                         }
                         // if (!token) {
                         //     $(".treeview [href=/config.html]").closest(".treeview").hide();
@@ -196,7 +196,7 @@
                             $.cookie("username", "", {
                                 expires: -1
                             });
-                            top.location.href = "/login.html";
+                            top.location.href = "index.html";
                         })
                         $("#reboot-btn").click(function() {
                             var $this = $(this);
