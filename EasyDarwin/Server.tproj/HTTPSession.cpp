@@ -834,6 +834,16 @@ QTSS_Error HTTPSession::execNetMsgCSLoginReqRESTful(const char* queryString)
 		return theErr;
 	}
 
+	/*
+	*TODO: You need do your own self Login check!!!
+	*Here is only a demo. user: admin  password : admin
+	*passward encoded with MD5
+	*/
+	if (strcmp(chUserName, "admin") != 0 || strcmp(chPassword, "21232f297a57a5a743894a0e4a801fc3") != 0)
+	{
+		return theErr;
+	}
+
 	//Authentication->token->redis->Platform use
 	theErr = QTSS_NoErr;
 
