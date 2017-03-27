@@ -58,3 +58,6 @@ Movies*/
 *.doc
 *.VC.db
 *.VC.opendb
+*.conf
+*.types
+*.types
