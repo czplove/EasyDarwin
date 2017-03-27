@@ -5,7 +5,10 @@ EasyDarwin开源流媒体服务器是EasyDarwin开源流媒体云平台的流媒
 EasyDarwin本身提供了一个高性能的服务端框架，Linux/Windows跨平台支持，是开发流媒体服务以及其他类型服务的极佳框架工具，EasyDarwin具备一套完整的网络I/O框架以及Utility，EasyDarwin开源团队也在不断进行更优的性能优化（epoll、线程池、内存池、堆栈调用、寄存器调用等）、应用优化（RESTful接口、WEB管理后台、配套APP等），开发者很容易在EasyDarwin的基础上开发跨平台服务程序，例如Windows、Linux、Mac、Solaris等系统平台，只要一次熟悉，将会受用终身，并且部署和开发过程简单，文档和支持完备，是互联网<sup>+</sup>时代，对企业和开发者来说，最接地气的开源流媒体服务器；
 
 ## 云平台部署示例 ##
+在线演示：[http://demo.easydarwin.org/](http://demo.easydarwin.org/ "EasyDarwin demo")
+
 下载地址：http://pan.baidu.com/s/1sluDEPn
+
 EasyDarwin.rar为Windows平台，EasyDarwin.tar.gz为Linux平台。
 需根据里面的文档修改IP、路径等就可以运行。
 参考：http://blog.csdn.net/jinlong0603/article/details/60886234
