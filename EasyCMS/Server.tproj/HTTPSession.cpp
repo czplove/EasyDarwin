@@ -427,6 +427,11 @@ QTSS_Error HTTPSession::setupRequest()
 				{
 					return execNetMsgCSRestartReqRESTful(fRequest->GetQueryString());
 				}
+
+				if (path[0] == "api" && path[1] == EASY_PROTOCOL_VERSION && path[2] == "login")
+				{
+					return execNetMsgCSLoginReqRESTful(fRequest->GetQueryString());
+				}
 			}
 
 			execNetMsgCSGetUsagesReqRESTful(nullptr);
@@ -2142,6 +2147,62 @@ QTSS_Error HTTPSession::execNetMsgCSRestartReqRESTful(const char* queryString)
 #endif //WIN32
 }
 
+QTSS_Error HTTPSession::execNetMsgCSLoginReqRESTful(const char* queryString)
+{
+	/*//暂时注释掉，实际上是需要认证的
+	if(!fAuthenticated)//没有进行认证请求
+	return httpUnAuthorized;
+	*/
+
+	if (queryString == nullptr)
+	{
+		return QTSS_BadArgument;
+	}
+
+	string decQueryString = EasyUtil::Urldecode(queryString);
+
+	QueryParamList parList(decQueryString);
+
+
+	const char* chUserName = parList.DoFindCGIValueForParam(EASY_TAG_L_USER_NAME);//username
+	const char* chPassword = parList.DoFindCGIValueForParam(EASY_TAG_L_PASSWORD);//password
+
+	QTSS_Error theErr = QTSS_BadArgument;
+
+	if (!chUserName || !chPassword)
+	{
+		return theErr;
+	}
+
+	/*
+	*TODO: You need do your own self Login check!!!
+	*Here is only a demo. user: admin  password : admin
+	*passward encoded with MD5
+	*/
+	if (strcmp(chUserName, "admin") != 0 || strcmp(chPassword, "21232f297a57a5a743894a0e4a801fc3") != 0)
+	{
+		return theErr;
+	}
+
+
+	EasyProtocolACK rsp(MSG_SC_PTZ_CONTROL_ACK);
+	EasyJsonValue header, body;
+	body[EASY_TAG_TOKEN] = "EasyCMSTempToken";
+
+	header[EASY_TAG_VERSION] = EASY_PROTOCOL_VERSION;
+	header[EASY_TAG_CSEQ] = 1;
+	header[EASY_TAG_ERROR_NUM] = EASY_ERROR_SUCCESS_OK;
+	header[EASY_TAG_ERROR_STRING] = EasyProtocol::GetErrorString(EASY_ERROR_SUCCESS_OK);
+
+	rsp.SetHead(header);
+	rsp.SetBody(body);
+
+	string msg = rsp.GetMsg();
+	this->SendHTTPPacket(msg, false, false);
+
+	return QTSS_NoErr;
+}
+
 QTSS_Error HTTPSession::execNetMsgCSGetUsagesReqRESTful(const char* queryString)
 {
 	/*//暂时注释掉，实际上是需要认证的
@@ -2226,6 +2287,16 @@ QTSS_Error HTTPSession::execNetMsgCSGetUsagesReqRESTful(const char* queryString)
 		value[EASY_TAG_PARAMETER] = "";
 		value[EASY_TAG_EXAMPLE] = "http://ip:port";
 		value[EASY_TAG_DESCRIPTION] = "";
+		(*proot)[EASY_TAG_ROOT][EASY_TAG_BODY][EASY_TAG_API].append(value);
+	}
+
+	{
+		Json::Value value;
+		value[EASY_TAG_HTTP_METHOD] = EASY_TAG_HTTP_GET;
+		value[EASY_TAG_ACTION] = "Login";
+		value[EASY_TAG_PARAMETER] = "username=[UserName]&password=[Password]";
+		value[EASY_TAG_EXAMPLE] = "http://ip:port/api/v1/login?username=admin&password=admin";
+		value[EASY_TAG_DESCRIPTION] = "user login";
 		(*proot)[EASY_TAG_ROOT][EASY_TAG_BODY][EASY_TAG_API].append(value);
 	}
 
