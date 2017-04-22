@@ -182,8 +182,8 @@ protected:
 	// What session type are we?
 	QTSS_RTSPSessionType    fSessionType;
 	bool              fLiveSession;
-	//unsigned int        fObjectHolders;
-	std::atomic_uint	fObjectHolders;
+	unsigned int        fObjectHolders;
+
 	UInt8               fCurChannelNum;
 	StrPtrLen*          fChNumToSessIDMap;
 
@@ -204,8 +204,7 @@ protected:
 	SInt32					fRoundTripTime;
 	bool					fRoundTripTimeCalculation;
 
-	//static unsigned int sSessionIDCounter;
-	static std::atomic_uint sSessionIDCounter;
+	static unsigned int sSessionIDCounter;
 
 	static bool           sDoBase64Decoding;
 

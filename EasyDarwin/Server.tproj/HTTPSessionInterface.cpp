@@ -44,7 +44,7 @@
 #define HTTP_SESSION_INTERFACE_DEBUGGING 0
 #endif
 
-std::atomic_uint HTTPSessionInterface::sSessionIndexCounter{ kFirstHTTPSessionID };
+unsigned int	HTTPSessionInterface::sSessionIndexCounter = kFirstHTTPSessionID;
 
 QTSSAttrInfoDict::AttrInfo  HTTPSessionInterface::sAttributes[] =
 {   /*fields:   fAttrName, fFuncPtr, fAttrDataType, fAttrPermission */

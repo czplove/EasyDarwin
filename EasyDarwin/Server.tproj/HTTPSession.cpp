@@ -922,21 +922,21 @@ QTSS_Error HTTPSession::execNetMsgCSGetBaseConfigReqRESTful(const char* queryStr
 	UInt16 port;
 	UInt32 len = sizeof(UInt16);
 	(void)QTSS_GetValue(QTSServerInterface::GetServer()->GetPrefs(), qtssPrefsRTSPPorts, 0, static_cast<void*>(&port), &len);
-	body[EASY_TAG_CONFIG_RTSP_LAN_PORT] = to_string(port);
+	body[EASY_TAG_CONFIG_RTSP_LAN_PORT] = EasyUtil::ToString(port);
 
 	char* lanip = nullptr;
 	(void)QTSS_GetValueAsString(QTSServerInterface::GetServer(), qtssSvrDefaultIPAddrStr, 0, &lanip);
 	QTSSCharArrayDeleter theWanIPStrDeleter(lanip);
 	body[EASY_TAG_CONFIG_SERVICE_LAN_IP] = lanip;
 
-	body[EASY_TAG_CONFIG_RTSP_WAN_PORT] = to_string(QTSServerInterface::GetServer()->GetPrefs()->GetRTSPWANPort());
+	body[EASY_TAG_CONFIG_RTSP_WAN_PORT] = EasyUtil::ToString(QTSServerInterface::GetServer()->GetPrefs()->GetRTSPWANPort());
 
 	body[EASY_TAG_CONFIG_SERVICE_WAN_IP] = QTSServerInterface::GetServer()->GetPrefs()->GetServiceWANIP();
 
 	body[EASY_TAG_CONFIG_RTMP_SERVER] = QTSServerInterface::GetServer()->GetPrefs()->GetNginxWebPath();
 
-	body[EASY_TAG_CONFIG_SERVICE_LAN_PORT] = to_string(QTSServerInterface::GetServer()->GetPrefs()->GetServiceLanPort());
-	body[EASY_TAG_CONFIG_SERVICE_WAN_PORT] = to_string(QTSServerInterface::GetServer()->GetPrefs()->GetServiceWanPort());
+	body[EASY_TAG_CONFIG_SERVICE_LAN_PORT] = EasyUtil::ToString(QTSServerInterface::GetServer()->GetPrefs()->GetServiceLanPort());
+	body[EASY_TAG_CONFIG_SERVICE_WAN_PORT] = EasyUtil::ToString(QTSServerInterface::GetServer()->GetPrefs()->GetServiceWanPort());
 
 	rsp.SetHead(header);
 	rsp.SetBody(body);

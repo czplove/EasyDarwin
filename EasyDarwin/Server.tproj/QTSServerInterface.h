@@ -107,8 +107,7 @@ public:
 	//total rtp bytes sent by the server
 	void            IncrementTotalRTPBytes(UInt32 bytes)
 	{
-		//(void)atomic_add(&fPeriodicRTPBytes, bytes);
-		fPeriodicRTPBytes.fetch_add(bytes);
+		(void)atomic_add(&fPeriodicRTPBytes, bytes);
 	}
 	//total rtp packets sent by the server
 	void            IncrementTotalPackets()
@@ -119,8 +118,7 @@ public:
 	//total rtp bytes reported as lost by the clients
 	void            IncrementTotalRTPPacketsLost(UInt32 packets)
 	{
-		//(void)atomic_add(&fPeriodicRTPPacketsLost, packets);
-		fPeriodicRTPPacketsLost.fetch_add(packets);
+		(void)atomic_add(&fPeriodicRTPPacketsLost, packets);
 	}
 
 	// Also increments current RTP session count
@@ -229,6 +227,8 @@ public:
 
 	//Allows you to map RTP session IDs (strings) to actual RTP session objects
 	OSRefTable*         GetRTPSessionMap() { return fRTPMap; }
+	OSRefTable*			GetHLSSessionMap() { return fHLSMap; }
+	OSRefTable*			GetRTMPSessionMap() { return fRTMPMap; }
 	OSRefTable*			GetReflectorSessionMap() { return fReflectorSessionMap; }
 
 	//Server provides a statically created & bound UDPSocket / Demuxer pair
@@ -326,6 +326,8 @@ protected:
 
 	// All RTP sessions are put into this map
 	OSRefTable*                 fRTPMap;
+	OSRefTable*					fHLSMap;
+	OSRefTable*					fRTMPMap;
 	OSRefTable*					fReflectorSessionMap;
 
 	QTSServerPrefs*             fSrvrPrefs;
@@ -398,17 +400,12 @@ private:
 	//because there is no 64 bit atomic add (for obvious reasons), we efficiently
 	//implement total byte counting by atomic adding to this variable, then every
 	//once in awhile updating the sTotalBytes.
-	//unsigned int        fPeriodicRTPBytes;
+	
+	unsigned int        fPeriodicRTPBytes;
 
-	std::atomic_uint	fPeriodicRTPBytes;
+	unsigned int        fPeriodicRTPPacketsLost;
 
-	//unsigned int        fPeriodicRTPPacketsLost;
-
-	std::atomic_uint	fPeriodicRTPPacketsLost;
-
-	//unsigned int        fPeriodicRTPPackets;
-
-	std::atomic_uint	fPeriodicRTPPackets;
+	unsigned int        fPeriodicRTPPackets;
 
 	//stores the current served bandwidth in BITS per second
 	UInt32              fCurrentRTPBandwidthInBits;

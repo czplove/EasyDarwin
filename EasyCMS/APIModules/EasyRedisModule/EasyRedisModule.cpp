@@ -440,10 +440,10 @@ do
 			{
 				string ip(replyHmgetEasyDarwin->element[0]->str);
 				string httpPort(replyHmgetEasyDarwin->element[1]->str);
-				string rtmpPort(replyHmgetEasyDarwin->element[2]->str);
+				string rtspPort(replyHmgetEasyDarwin->element[2]->str);
 				memcpy(inParams->outDssIP, ip.c_str(), ip.size());
 				memcpy(inParams->outHTTPPort, httpPort.c_str(), httpPort.size());
-				memcpy(inParams->outDssPort, rtmpPort.c_str(), rtmpPort.size());
+				memcpy(inParams->outDssPort, rtspPort.c_str(), rtspPort.size());
 				inParams->isOn = true;
 			}
 			else
@@ -477,7 +477,7 @@ do
 				}
 
 				string strTemp = Format("hmget %s %s %s %s %s ", string(replyTemp->str), string(EASY_REDIS_LOAD), string(EASY_REDIS_IP),
-					string(EASY_REDIS_HTTP), string(EASY_REDIS_RTMP));
+					string(EASY_REDIS_HTTP), string(EASY_REDIS_RTSP));
 				auto replyHmget = static_cast<redisReply*>(redisCommand(redisContext_, strTemp.c_str()));
 				RedisReplyObjectDeleter replyHmgetDeleter(replyHmget);
 
@@ -495,12 +495,12 @@ do
 				auto loadReply = replyHmget->element[0];
 				auto ipReply = replyHmget->element[1];
 				auto httpReply = replyHmget->element[2];
-				auto rtmpReply = replyHmget->element[3];
+				auto rtspReply = replyHmget->element[3];
 
 				auto load = stoi(loadReply->str);
 				string ip(ipReply->str);
 				string http(httpReply->str);
-				string rtmp(rtmpReply->str);
+				string rtmp(rtspReply->str);
 
 				if (eleIndex == -1)
 				{

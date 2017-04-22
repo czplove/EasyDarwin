@@ -178,6 +178,8 @@ QTSServerInterface::QTSServerInterface()
 	: QTSSDictionary(QTSSDictionaryMap::GetMap(QTSSDictionaryMap::kServerDictIndex), &fMutex),
 	fSocketPool(NULL),
 	fRTPMap(NULL),
+	fHLSMap(NULL),
+	fRTMPMap(NULL),
 	fReflectorSessionMap(NULL),
 	fSrvrPrefs(NULL),
 	fSrvrMessages(NULL),
@@ -374,21 +376,17 @@ SInt64 RTPStatsUpdaterTask::Run()
 	// On a non-PowerPC platform, the following would be thread safe:
 	//unsigned int periodicBytes = atomic_add(&theServer->fPeriodicRTPBytes, 0);-----------
 	unsigned int periodicBytes = theServer->fPeriodicRTPBytes;
-	//(void)atomic_sub(&theServer->fPeriodicRTPBytes, periodicBytes);
-
-	theServer->fPeriodicRTPBytes.fetch_sub(periodicBytes);
+	(void)atomic_sub(&theServer->fPeriodicRTPBytes, periodicBytes);
 	theServer->fTotalRTPBytes += periodicBytes;
 
 	// Same deal for packet totals
 	unsigned int periodicPackets = theServer->fPeriodicRTPPackets;
-	//(void)atomic_sub(&theServer->fPeriodicRTPPackets, periodicPackets);
-	theServer->fPeriodicRTPPackets.fetch_sub(periodicPackets);
+	(void)atomic_sub(&theServer->fPeriodicRTPPackets, periodicPackets);
 	theServer->fTotalRTPPackets += periodicPackets;
 
 	// ..and for lost packet totals
 	unsigned int periodicPacketsLost = theServer->fPeriodicRTPPacketsLost;
-	//(void)atomic_sub(&theServer->fPeriodicRTPPacketsLost, periodicPacketsLost);
-	theServer->fPeriodicRTPPacketsLost.fetch_sub(periodicPacketsLost);
+	(void)atomic_sub(&theServer->fPeriodicRTPPacketsLost, periodicPacketsLost);
 
 	theServer->fTotalRTPPacketsLost += periodicPacketsLost;
 

@@ -269,13 +269,6 @@ bool QTSServer::Initialize(XMLPrefsParser* inPrefsSource, PrefsSource* inMessage
 		return false;
 	}
 
-	string defIP("127.0.0.1");
-	auto theLocalAddrStr = SocketUtils::GetIPAddrStr(0);
-	if (theLocalAddrStr->Ptr)
-	{
-		defIP = string(theLocalAddrStr->Ptr, theLocalAddrStr->Len);
-	}
-
 	fServerState = qtssStartingUpState;
 	return true;
 }

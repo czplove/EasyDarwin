@@ -39,7 +39,6 @@
 #include "ReflectorStream.h"
 #include "SourceInfo.h"
 #include "Task.h"//add
-#include <atomic>
 
 #ifndef _FILE_DELETER_
 #define _FILE_DELETER_
@@ -178,7 +177,7 @@ private:
 
 	OSQueueElem fQueueElem; // Relay uses this.
 
-	std::atomic_uint fNumOutputs;
+	unsigned int        fNumOutputs;
 
 	ReflectorStream**   fStreamArray;
 

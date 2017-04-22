@@ -38,7 +38,7 @@
 #include "md5digest.h"
 #include "base64.h"
 
-std::atomic_uint RTPSessionInterface::sRTPSessionIDCounter{ 0 };
+unsigned int            RTPSessionInterface::sRTPSessionIDCounter = 0;
 
 
 QTSSAttrInfoDict::AttrInfo  RTPSessionInterface::sAttributes[] =

@@ -17,7 +17,6 @@
 #include "Task.h"
 #include "QTSS.h"
 #include "QTSSDictionary.h"
-#include <atomic>
 
 class HTTPSessionInterface : public QTSSDictionary, public Task
 {
@@ -92,7 +91,7 @@ protected:
 	void        SnarfInputSocket(HTTPSessionInterface* fromHTTPSession);
 
 	bool              fLiveSession;
-	atomic_int			fObjectHolders;
+	unsigned int	fObjectHolders;
 
 	UInt32              fSessionIndex;
 	UInt32              fLocalAddr;
@@ -104,8 +103,7 @@ protected:
 
 	bool				fAuthenticated;
 
-	//static unsigned int	sSessionIndexCounter;
-	static std::atomic_uint sSessionIndexCounter;
+	static unsigned int	sSessionIndexCounter;
 
 	// Dictionary support Param retrieval function
 	static void*        SetupParams(QTSSDictionary* inSession, UInt32* outLen);

@@ -40,7 +40,7 @@
 #define RTSP_SESSION_INTERFACE_DEBUGGING 0
 #endif
 
-std::atomic_uint RTSPSessionInterface::sSessionIDCounter{ kFirstRTSPSessionID };
+unsigned int            RTSPSessionInterface::sSessionIDCounter = kFirstRTSPSessionID;
 bool                  RTSPSessionInterface::sDoBase64Decoding = true;
 UInt32					RTSPSessionInterface::sOptionsRequestBody[kMaxRandomDataSize / sizeof(UInt32)];
 

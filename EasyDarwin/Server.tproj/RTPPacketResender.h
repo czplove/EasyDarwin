@@ -159,8 +159,7 @@ private:
 	void RemovePacket(RTPResenderEntry* inEntry);
 
 	static OSBufferPool sBufferPool;
-	//static unsigned int sNumWastedBytes;
-	static std::atomic_uint sNumWastedBytes;
+	static unsigned int sNumWastedBytes;
 
 	void            UpdateCongestionWindow(SInt32 bytesToOpenBy);
 };

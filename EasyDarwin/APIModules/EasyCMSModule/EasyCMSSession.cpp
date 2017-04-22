@@ -12,6 +12,7 @@
 #include "OSArrayObjectDeleter.h"
 #include "SocketUtils.h"
 #include "QTSServerInterface.h"
+#include "EasyUtil.h"
 
 EasyCMSSession::EasyCMSSession()
 	: Task(),
@@ -357,7 +358,7 @@ QTSS_Error EasyCMSSession::CSFreeStream()
 
 
 	body[EASY_TAG_SERIAL] = fStreamName;
-	body[EASY_TAG_CHANNEL] = to_string(fChannelNum);
+	body[EASY_TAG_CHANNEL] = EasyUtil::ToString(fChannelNum);
 	//body[EASY_TAG_PROTOCOL] = EasyProtocol::GetProtocolString(EASY_PROTOCOL_TYPE_RTSP);
 	//body[EASY_TAG_RESERVE] = "1";
 
