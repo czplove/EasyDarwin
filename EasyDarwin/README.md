@@ -118,11 +118,9 @@ EasyDarwin主要的几个配置项：
 ## 调用方法 ##
 
 ### 点播 ###
-重要的事情说3遍：
 
-	EasyDarwin RTSP版本的流媒体服务器不支持点播，只有商用版本EasyDarwin才支持点播！！！
-	EasyDarwin RTSP版本的流媒体服务器不支持点播，只有商用版本EasyDarwin才支持点播！！！
-	EasyDarwin RTSP版本的流媒体服务器不支持点播，只有商用版本EasyDarwin才支持点播！！！
+EasyDarwin RTSP版本的流媒体服务器不支持点播，只有商用版本EasyDarwin才支持点播！！！
+详情请访问：[http://www.easydss.com/](http://www.easydss.com/ "EasyDSS")
 
 
 ### 直播转发 ###
