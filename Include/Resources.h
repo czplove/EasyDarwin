@@ -12,6 +12,7 @@
 
 #define EASY_REDIS_HTTP					"HTTP"
 #define EASY_REDIS_RTSP					"RTSP"
+#define EASY_REDIS_RTMP					"RTMP"
 
 #define EASY_REDIS_DEVICE_TYPE			"DeviceType"
 #define EASY_REDIS_TYPE					"Type"

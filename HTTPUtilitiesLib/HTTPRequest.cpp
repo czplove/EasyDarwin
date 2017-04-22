@@ -75,16 +75,16 @@ HTTPRequest::HTTPRequest(StrPtrLen* serverHeader, StrPtrLen* requestPtr)
 
 	// Set initial state
 	fRequestHeader = *requestPtr;
-	fHTTPHeader = nullptr;
-	fHTTPHeaderFormatter = nullptr;
+	fHTTPHeader = NULL;
+	fHTTPHeaderFormatter = NULL;
 	fMethod = httpIllegalMethod;
 	fVersion = httpIllegalVersion;
-	fAbsoluteURI = nullptr;
-	fRelativeURI = nullptr;
-	fAbsoluteURIScheme = nullptr;
-	fHostHeader = nullptr;
-	fRequestPath = nullptr;
-	fQueryString = nullptr;
+	fAbsoluteURI = NULL;
+	fRelativeURI = NULL;
+	fAbsoluteURIScheme = NULL;
+	fHostHeader = NULL;
+	fRequestPath = NULL;
+	fQueryString = NULL;
 	fStatusCode = httpOK;
 	fRequestKeepAlive = false; // Default value when there is no version string
 
@@ -99,24 +99,24 @@ HTTPRequest::HTTPRequest(StrPtrLen* serverHeader, HTTPType httpType)
 	fSvrHeader = *serverHeader;
 
 	// We do not require any of these:
-	fRequestHeader = nullptr;
+	fRequestHeader = NULL;
 
 	fMethod = httpIllegalMethod;
 	fVersion = httpIllegalVersion;
-	fRequestLine = nullptr;
-	fAbsoluteURI = nullptr;
-	fRelativeURI = nullptr;
-	fAbsoluteURIScheme = nullptr;
-	fHostHeader = nullptr;
-	fRequestPath = nullptr;
-	fQueryString = nullptr;
+	fRequestLine = NULL;
+	fAbsoluteURI = NULL;
+	fRelativeURI = NULL;
+	fAbsoluteURIScheme = NULL;
+	fHostHeader = NULL;
+	fRequestPath = NULL;
+	fQueryString = NULL;
 	fStatusCode = 0;
 	fRequestKeepAlive = false;
 
 	// We require the response  but we allocate memory only when we call
 	// CreateResponseHeader
-	fHTTPHeader = nullptr;
-	fHTTPHeaderFormatter = nullptr;
+	fHTTPHeader = NULL;
+	fHTTPHeaderFormatter = NULL;
 
 	fHTTPType = httpType;
 }
@@ -124,23 +124,23 @@ HTTPRequest::HTTPRequest(StrPtrLen* serverHeader, HTTPType httpType)
 // Destructor
 HTTPRequest::~HTTPRequest()
 {
-	if (fHTTPHeader != nullptr)
+	if (fHTTPHeader != NULL)
 	{
-		if (fHTTPHeader->Ptr != nullptr)
+		if (fHTTPHeader->Ptr != NULL)
 			delete fHTTPHeader->Ptr;
 		delete fHTTPHeader;
 	}
-	if (fHTTPHeaderFormatter != nullptr)
+	if (fHTTPHeaderFormatter != NULL)
 		delete fHTTPHeaderFormatter;
-	if (fRequestPath != nullptr)
+	if (fRequestPath != NULL)
 		delete[] fRequestPath;
-	if (fQueryString != nullptr)
+	if (fQueryString != NULL)
 		delete[] fQueryString;
 }
 //Parses the request
 QTSS_Error HTTPRequest::Parse()
 {
-	Assert(fRequestHeader.Ptr != nullptr);
+	Assert(fRequestHeader.Ptr != NULL);
 	StringParser parser(&fRequestHeader);
 
 	// Store the request line (used for logging) 
@@ -181,14 +181,14 @@ QTSS_Error HTTPRequest::parseRequestLine(StringParser* parser)
 	if ((fMethod == httpIllegalMethod) && theParsedData.Equal("HTTP"))
 	{
 		parser->ConsumeUntilWhitespace();//¹ýÂËµôHTTP/1.1
-		parser->ConsumeUntilDigit(nullptr);
-		UInt32 statusCode = parser->ConsumeInteger(nullptr);
+		parser->ConsumeUntilDigit(NULL);
+		UInt32 statusCode = parser->ConsumeInteger(NULL);
 		if (statusCode != 0)
 		{
 			fHTTPType = httpResponseType;
 
 			parser->ConsumeWhitespace();
-			parser->ConsumeUntilWhitespace(nullptr);
+			parser->ConsumeUntilWhitespace(NULL);
 			// Go past the end of line
 			if (!parser->ExpectEOL())
 			{
@@ -268,10 +268,10 @@ QTSS_Error HTTPRequest::parseURI(StringParser* parser)
 
 			if (queryString.Len)
 			{
-				if (fQueryString != nullptr)
+				if (fQueryString != NULL)
 				{
 					delete[] fQueryString;
-					fQueryString = nullptr;
+					fQueryString = NULL;
 				}
 
 				fQueryString = new char[queryString.Len + 1];
@@ -303,10 +303,10 @@ QTSS_Error HTTPRequest::parseURI(StringParser* parser)
 		return QTSS_BadArgument;
 	}
 
-	if (fRequestPath != nullptr)
+	if (fRequestPath != NULL)
 		delete[] fRequestPath;
 
-	fRequestPath = nullptr;
+	fRequestPath = NULL;
 
 	fRequestPath = new char[theBytesWritten + 1];
 	::memcpy(fRequestPath, relativeURIDecoded + 1, theBytesWritten);
@@ -408,7 +408,7 @@ StrPtrLen* HTTPRequest::GetHeaderValue(HTTPHeader inHeader)
 {
 	if (inHeader != httpIllegalHeader)
 		return &fFieldValues[inHeader];
-	return nullptr;
+	return NULL;
 }
 
 bool HTTPRequest::CreateResponseHeader(HTTPStatusCode statusCode, HTTPVersion version)
@@ -417,9 +417,9 @@ bool HTTPRequest::CreateResponseHeader(HTTPStatusCode statusCode, HTTPVersion ve
 
 	// If we are creating a second response for the same request, make sure and
 	// deallocate memory for old response and allocate fresh memory
-	if (fHTTPHeaderFormatter != nullptr)
+	if (fHTTPHeaderFormatter != NULL)
 	{
-		if (fHTTPHeader->Ptr != nullptr)
+		if (fHTTPHeader->Ptr != NULL)
 			delete fHTTPHeader->Ptr;
 		delete fHTTPHeader;
 		delete fHTTPHeaderFormatter;
@@ -432,7 +432,7 @@ bool HTTPRequest::CreateResponseHeader(HTTPStatusCode statusCode, HTTPVersion ve
 
 	//make a partial header for the given version and status code
 	putStatusLine(fHTTPHeaderFormatter, statusCode, version);
-	Assert(fSvrHeader.Ptr != nullptr);
+	Assert(fSvrHeader.Ptr != NULL);
 
 	AppendResponseHeader(httpServerHeader, &fSvrHeader);
 	fHTTPHeader->Len = fHTTPHeaderFormatter->GetCurrentOffset();
@@ -449,9 +449,9 @@ bool HTTPRequest::CreateRequestHeader(HTTPMethod method, HTTPVersion version)
 
 	// If we are creating a second response for the same request, make sure and
 	// deallocate memory for old response and allocate fresh memory
-	if (fHTTPHeaderFormatter != nullptr)
+	if (fHTTPHeaderFormatter != NULL)
 	{
-		if (fHTTPHeader->Ptr != nullptr)
+		if (fHTTPHeader->Ptr != NULL)
 			delete fHTTPHeader->Ptr;
 		delete fHTTPHeader;
 		delete fHTTPHeaderFormatter;
@@ -464,7 +464,7 @@ bool HTTPRequest::CreateRequestHeader(HTTPMethod method, HTTPVersion version)
 
 	//make a partial header for the given version and status code
 	putMethedLine(fHTTPHeaderFormatter, method, version);
-	Assert(fSvrHeader.Ptr != nullptr);
+	Assert(fSvrHeader.Ptr != NULL);
 
 	AppendResponseHeader(httpUserAgentHeader, &fSvrHeader);
 	fHTTPHeader->Len = fHTTPHeaderFormatter->GetCurrentOffset();
@@ -517,7 +517,7 @@ void HTTPRequest::AppendConnectionKeepAliveHeader() const
 
 void HTTPRequest::AppendDateAndExpiresFields() const
 {
-	Assert(OSThread::GetCurrent() != nullptr);
+	Assert(OSThread::GetCurrent() != NULL);
 	DateBuffer* theDateBuffer = OSThread::GetCurrent()->GetDateBuffer();
 	theDateBuffer->InexactUpdate(); // Update the date buffer to the current date & time
 	StrPtrLen theDate(theDateBuffer->GetDateBuffer(), DateBuffer::kDateBufferLen);
@@ -529,7 +529,7 @@ void HTTPRequest::AppendDateAndExpiresFields() const
 
 void HTTPRequest::AppendDateField() const
 {
-	Assert(OSThread::GetCurrent() != nullptr);
+	Assert(OSThread::GetCurrent() != NULL);
 	DateBuffer* theDateBuffer = OSThread::GetCurrent()->GetDateBuffer();
 	theDateBuffer->InexactUpdate(); // Update the date buffer to the current date & time
 	StrPtrLen theDate(theDateBuffer->GetDateBuffer(), DateBuffer::kDateBufferLen);
