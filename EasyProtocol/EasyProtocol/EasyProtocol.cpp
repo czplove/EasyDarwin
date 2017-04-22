@@ -7,7 +7,6 @@
 
 #include <EasyProtocol.h>
 #include <EasyUtil.h>
-#include <set>
 
 namespace EasyDarwin { namespace Protocol
 {
@@ -31,12 +30,12 @@ namespace EasyDarwin { namespace Protocol
 	}
 
 
-	EasyNVR::EasyNVR() : object_(nullptr)
+	EasyNVR::EasyNVR() : object_(NULL)
 	{
 	}
 
 	EasyNVR::EasyNVR(const string& serial, const string& name, const string& password, const string& tag, EasyDevices &channel)
-		: channels_(channel), object_(nullptr)
+		: channels_(channel), object_(NULL)
 	{
 		serial_ = serial;
 		name_ = name;
@@ -728,12 +727,10 @@ namespace EasyDarwin { namespace Protocol
 				Json::Value *proot = proTemp.GetRoot();
 				int size = (*proot)[EASY_TAG_ROOT][EASY_TAG_BODY][EASY_TAG_CHANNELS].size(); //数组大小 
 
-				set<string> channelSetTemp;
-				for (auto i = 0; i < size; ++i)
+				for (int i = 0; i < size; ++i)
 				{
-					auto& json_camera = (*proot)[EASY_TAG_ROOT][EASY_TAG_BODY][EASY_TAG_CHANNELS][i];
+					Json::Value& json_camera = (*proot)[EASY_TAG_ROOT][EASY_TAG_BODY][EASY_TAG_CHANNELS][i];
 					auto channel = json_camera[EASY_TAG_CHANNEL].asString();
-					channelSetTemp.emplace(channel);
 					auto name = json_camera[EASY_TAG_NAME].asString();
 					auto status = json_camera[EASY_TAG_STATUS].asString();
 
@@ -743,8 +740,6 @@ namespace EasyDarwin { namespace Protocol
 					if (channels_.find(channel) != channels_.end())//Already exist
 					{
 						channels_[channel].status_ = status;//change status_
-						channels_[channel].name_ = name;
-						channels_[channel].channel_ = channel;
 					}
 					else
 					{
@@ -755,19 +750,6 @@ namespace EasyDarwin { namespace Protocol
 						channels_[channel] = camera;
 					}
 				}
-
-				for (auto it = channels_.begin(); it != channels_.end();)
-				{
-					if (channelSetTemp.find(it->first) == channelSetTemp.end())
-					{
-						channels_.erase(it++);
-					}
-					else
-					{
-						++it;
-					}
-				}
-
 			}
 			return true;
 		} while (false);
