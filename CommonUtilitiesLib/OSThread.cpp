@@ -68,7 +68,7 @@
  //
  // OSThread.cp
  //
-void*   OSThread::sMainThreadData = nullptr;
+void*   OSThread::sMainThreadData = NULL;
 
 #ifdef __Win32__
 DWORD   OSThread::sThreadStorageIndex = 0;
@@ -94,7 +94,7 @@ void OSThread::Initialize()
 	sThreadStorageIndex = ::TlsAlloc();
 	Assert(sThreadStorageIndex >= 0);
 #elif __PTHREADS__
-	pthread_key_create(&OSThread::gMainKey, nullptr);
+	pthread_key_create(&OSThread::gMainKey, NULL);
 #ifdef _POSIX_THREAD_PRIORITY_SCHEDULING
 
 	//
@@ -112,7 +112,7 @@ void OSThread::Initialize()
 OSThread::OSThread()
 	: fStopRequested(false),
 	fJoined(false),
-	fThreadData(nullptr)
+	fThreadData(NULL)
 {
 }
 
@@ -125,20 +125,20 @@ void OSThread::Start()
 {
 #ifdef __Win32__
 	unsigned int theId = 0; // We don't care about the identifier
-	fThreadID = (HANDLE)_beginthreadex(nullptr,   // Inherit security
+	fThreadID = (HANDLE)_beginthreadex(NULL,   // Inherit security
 		0,      // Inherit stack size
 		_Entry, // Entry function
 		(void*)this,    // Entry arg
 		0,      // Begin executing immediately
 		&theId);
-	Assert(fThreadID != nullptr);
+	Assert(fThreadID != NULL);
 #elif __PTHREADS__
 	pthread_attr_t* theAttrP;
 #ifdef _POSIX_THREAD_PRIORITY_SCHEDULING
 	//theAttrP = &sThreadAttr;
 	theAttrP = 0;
 #else
-	theAttrP = nullptr;
+	theAttrP = NULL;
 #endif
 	int err = pthread_create((pthread_t*)&fThreadID, theAttrP, _Entry, (void*)this);
 	Assert(err == 0);
@@ -261,7 +261,7 @@ void* OSThread::_Entry(void *inThread)  //static
 #ifdef __Win32__
 	return 0;
 #else
-	return nullptr;
+	return NULL;
 #endif
 }
 
@@ -271,7 +271,7 @@ bool  OSThread::SwitchPersonality()
 	if (::strlen(sGroup) > 0)
 	{
 		struct group* gr = ::getgrnam(sGroup);
-		if (gr == nullptr || ::setgid(gr->gr_gid) == -1)
+		if (gr == NULL || ::setgid(gr->gr_gid) == -1)
 		{
 			//qtss_printf("thread %"   _U32BITARG_   " setgid  to group=%s FAILED \n", (UInt32) this, sGroup);
 			return false;
@@ -284,7 +284,7 @@ bool  OSThread::SwitchPersonality()
 	if (::strlen(sUser) > 0)
 	{
 		struct passwd* pw = ::getpwnam(sUser);
-		if (pw == nullptr || ::setuid(pw->pw_uid) == -1)
+		if (pw == NULL || ::setuid(pw->pw_uid) == -1)
 		{
 			//qtss_printf("thread %"   _U32BITARG_   " setuid  to user=%s FAILED \n", (UInt32) this, sUser);
 			return false;

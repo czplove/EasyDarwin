@@ -85,7 +85,7 @@ OSMutex OS::sStdLibOSMutex;
 
 #if DEBUG || __Win32__
 #include "OSMutex.h"
-static OSMutex* sLastMillisMutex = nullptr;
+static OSMutex* sLastMillisMutex = NULL;
 #endif
 
 void OS::Initialize()
@@ -106,7 +106,7 @@ void OS::Initialize()
 
 	sInitialMsec = OS::Milliseconds(); //Milliseconds uses sInitialMsec so this assignment is valid only once.
 
-	sMsecSince1970 = ::time(nullptr);  // POSIX time always returns seconds since 1970
+	sMsecSince1970 = ::time(NULL);  // POSIX time always returns seconds since 1970
 	sMsecSince1970 *= 1000;         // Convert to msec
 
 
@@ -163,7 +163,7 @@ SInt64 OS::Milliseconds()
 #if !defined(EASY_DEVICE)
 	int theErr = easy_gettimeofday(&t);
 #else
-	int theErr = ::gettimeofday(&t, nullptr);
+	int theErr = ::gettimeofday(&t, NULL);
 #endif
 	Assert(theErr == 0);
 
@@ -198,7 +198,7 @@ SInt64 OS::Microseconds()
 #if !defined(EASY_DEVICE)
 	int theErr = easy_gettimeofday(&t);
 #else
-	int theErr = ::gettimeofday(&t, nullptr);
+	int theErr = ::gettimeofday(&t, NULL);
 #endif
 	Assert(theErr == 0);
 
@@ -224,7 +224,7 @@ SInt32 OS::GetGMTOffset()
 
 	time_t clock = 0; //Make 'clock' initialized for valgrind
 	struct tm  *tmptr = localtime(&clock);
-	if (tmptr == nullptr)
+	if (tmptr == NULL)
 		return 0;
 
 	return tmptr->tm_gmtoff / 3600;//convert seconds to  hours before or after GMT
@@ -287,7 +287,7 @@ OS_Error OS::MakeDir(char* inPath)
 
 OS_Error OS::RecursiveMakeDir(char* inPath)
 {
-	Assert(inPath != nullptr);
+	Assert(inPath != NULL);
 
 	//iterate through the path, replacing '/' with '\0' as we go
 	char *thePathTraverser = inPath;
@@ -330,12 +330,12 @@ bool OS::ThreadSafe()
 	mib[1] = KERN_OSRELEASE;
 
 	UInt32 majorVers = 0;
-	int err = sysctl(mib, 2, releaseStr, &strLen, nullptr, 0);
+	int err = sysctl(mib, 2, releaseStr, &strLen, NULL, 0);
 	if (err == 0)
 	{
 		StrPtrLen rStr(releaseStr, strLen);
 		char* endMajor = rStr.FindString(".");
-		if (endMajor != nullptr) // truncate to an int value.
+		if (endMajor != NULL) // truncate to an int value.
 			*endMajor = 0;
 
 		if (::strlen(releaseStr) > 0) //convert to an int
@@ -366,7 +366,7 @@ UInt32 OS::GetNumProcessors()
 	int mib[2];
 	mib[0] = CTL_HW;
 	mib[1] = HW_NCPU;
-	(void) ::sysctl(mib, 2, &numCPUs, &len, nullptr, 0);
+	(void) ::sysctl(mib, 2, &numCPUs, &len, NULL, 0);
 	if (numCPUs < 1)
 		numCPUs = 1;
 	return (UInt32)numCPUs;
@@ -431,7 +431,7 @@ UInt32 OS::GetNumProcessors()
 
 			if (word.Equal("NumCPU")) // found a tag as first word in line
 			{
-				lineParser.GetThru(nullptr, '=');
+				lineParser.GetThru(NULL, '=');
 				lineParser.ConsumeWhitespace();  //skip over leading whitespace
 				lineParser.ConsumeUntilWhitespace(&word); //read the number of cpus
 				if (word.Len > 0)

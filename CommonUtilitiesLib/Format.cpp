@@ -192,7 +192,6 @@ void FormatOne(std::string& result, std::string::const_iterator& itFmt, const st
 	result.append(str.str());
 }
 
-#if 0
 std::string Format(const std::string& fmt, const boost::any& value)
 {
 	std::string result;
@@ -271,6 +270,42 @@ std::string Format(const std::string& fmt, const boost::any& value1, const boost
 	Format(result, fmt, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10);
 	return result;
 }
+
+std::string Format(const std::string& fmt, const boost::any& value1, const boost::any& value2, const boost::any& value3, const boost::any& value4, const boost::any& value5, const boost::any& value6, const boost::any& value7, const boost::any& value8, const boost::any& value9, const boost::any& value10, const boost::any& value11)
+{
+	std::string result;
+	Format(result, fmt, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11);
+	return result;
+}
+
+std::string Format(const std::string& fmt, const boost::any& value1, const boost::any& value2, const boost::any& value3, const boost::any& value4, const boost::any& value5, const boost::any& value6, const boost::any& value7, const boost::any& value8, const boost::any& value9, const boost::any& value10, const boost::any& value11, const boost::any& value12)
+{
+	std::string result;
+	Format(result, fmt, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11, value12);
+	return result;
+}
+
+std::string Format(const std::string& fmt, const boost::any& value1, const boost::any& value2, const boost::any& value3, const boost::any& value4, const boost::any& value5, const boost::any& value6, const boost::any& value7, const boost::any& value8, const boost::any& value9, const boost::any& value10, const boost::any& value11, const boost::any& value12, const boost::any& value13)
+{
+	std::string result;
+	Format(result, fmt, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11, value12, value13);
+	return result;
+}
+
+std::string Format(const std::string& fmt, const boost::any& value1, const boost::any& value2, const boost::any& value3, const boost::any& value4, const boost::any& value5, const boost::any& value6, const boost::any& value7, const boost::any& value8, const boost::any& value9, const boost::any& value10, const boost::any& value11, const boost::any& value12, const boost::any& value13, const boost::any& value14)
+{
+	std::string result;
+	Format(result, fmt, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, value14);
+	return result;
+}
+
+std::string Format(const std::string& fmt, const boost::any& value1, const boost::any& value2, const boost::any& value3, const boost::any& value4, const boost::any& value5, const boost::any& value6, const boost::any& value7, const boost::any& value8, const boost::any& value9, const boost::any& value10, const boost::any& value11, const boost::any& value12, const boost::any& value13, const boost::any& value14, const boost::any& value15)
+{
+	std::string result;
+	Format(result, fmt, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, value14, value15);
+	return result;
+}
+
 
 void Format(std::string& result, const std::string& fmt, const boost::any& value)
 {
@@ -396,7 +431,101 @@ void Format(std::string& result, const std::string& fmt, const boost::any& value
 	Format(result, fmt, args);
 }
 
-#endif
+void Format(std::string& result, const std::string& fmt, const boost::any& value1, const boost::any& value2, const boost::any& value3, const boost::any& value4, const boost::any& value5, const boost::any& value6, const boost::any& value7, const boost::any& value8, const boost::any& value9, const boost::any& value10, const boost::any& value11)
+{
+	std::vector<boost::any> args;
+	args.push_back(value1);
+	args.push_back(value2);
+	args.push_back(value3);
+	args.push_back(value4);
+	args.push_back(value5);
+	args.push_back(value6);
+	args.push_back(value7);
+	args.push_back(value8);
+	args.push_back(value9);
+	args.push_back(value10);
+	args.push_back(value11);
+	Format(result, fmt, args);
+}
+
+void Format(std::string& result, const std::string& fmt, const boost::any& value1, const boost::any& value2, const boost::any& value3, const boost::any& value4, const boost::any& value5, const boost::any& value6, const boost::any& value7, const boost::any& value8, const boost::any& value9, const boost::any& value10, const boost::any& value11, const boost::any& value12)
+{
+	std::vector<boost::any> args;
+	args.push_back(value1);
+	args.push_back(value2);
+	args.push_back(value3);
+	args.push_back(value4);
+	args.push_back(value5);
+	args.push_back(value6);
+	args.push_back(value7);
+	args.push_back(value8);
+	args.push_back(value9);
+	args.push_back(value10);
+	args.push_back(value11);
+	args.push_back(value12);
+	Format(result, fmt, args);
+}
+
+void Format(std::string& result, const std::string& fmt, const boost::any& value1, const boost::any& value2, const boost::any& value3, const boost::any& value4, const boost::any& value5, const boost::any& value6, const boost::any& value7, const boost::any& value8, const boost::any& value9, const boost::any& value10, const boost::any& value11, const boost::any& value12, const boost::any& value13)
+{
+	std::vector<boost::any> args;
+	args.push_back(value1);
+	args.push_back(value2);
+	args.push_back(value3);
+	args.push_back(value4);
+	args.push_back(value5);
+	args.push_back(value6);
+	args.push_back(value7);
+	args.push_back(value8);
+	args.push_back(value9);
+	args.push_back(value10);
+	args.push_back(value11);
+	args.push_back(value12);
+	args.push_back(value13);
+	Format(result, fmt, args);
+}
+
+void Format(std::string& result, const std::string& fmt, const boost::any& value1, const boost::any& value2, const boost::any& value3, const boost::any& value4, const boost::any& value5, const boost::any& value6, const boost::any& value7, const boost::any& value8, const boost::any& value9, const boost::any& value10, const boost::any& value11, const boost::any& value12, const boost::any& value13, const boost::any& value14)
+{
+	std::vector<boost::any> args;
+	args.push_back(value1);
+	args.push_back(value2);
+	args.push_back(value3);
+	args.push_back(value4);
+	args.push_back(value5);
+	args.push_back(value6);
+	args.push_back(value7);
+	args.push_back(value8);
+	args.push_back(value9);
+	args.push_back(value10);
+	args.push_back(value11);
+	args.push_back(value12);
+	args.push_back(value13);
+	args.push_back(value14);
+	Format(result, fmt, args);
+}
+
+void Format(std::string& result, const std::string& fmt, const boost::any& value1, const boost::any& value2, const boost::any& value3, const boost::any& value4, const boost::any& value5, const boost::any& value6, const boost::any& value7, const boost::any& value8, const boost::any& value9, const boost::any& value10, const boost::any& value11, const boost::any& value12, const boost::any& value13, const boost::any& value14, const boost::any& value15)
+{
+	std::vector<boost::any> args;
+	args.push_back(value1);
+	args.push_back(value2);
+	args.push_back(value3);
+	args.push_back(value4);
+	args.push_back(value5);
+	args.push_back(value6);
+	args.push_back(value7);
+	args.push_back(value8);
+	args.push_back(value9);
+	args.push_back(value10);
+	args.push_back(value11);
+	args.push_back(value12);
+	args.push_back(value13);
+	args.push_back(value14);
+	args.push_back(value15);
+	Format(result, fmt, args);
+}
+
 
 void Format(std::string& result, const char *fmt, const std::vector<boost::any>& values)
 {

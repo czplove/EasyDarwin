@@ -9,11 +9,12 @@ using namespace spdlog;
 class Logger final
 {
 public:
+	Logger() = default;
+	~Logger() = default;
+
 	static std::shared_ptr<spdlog::logger>& Instance();
 
 private:
-	Logger() = delete;
-	~Logger() = delete;
 	Logger(const Logger&) = delete;
 	Logger& operator =(const Logger&) = delete;
 

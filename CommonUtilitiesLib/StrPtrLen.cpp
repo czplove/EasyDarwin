@@ -103,10 +103,10 @@ char* StrPtrLen::GetAsCString() const
 
 bool StrPtrLen::Equal(const StrPtrLen& compare) const
 {
-	if (nullptr == compare.Ptr && nullptr == Ptr)
+	if (NULL == compare.Ptr && NULL == Ptr)
 		return true;
 
-	if ((nullptr == compare.Ptr) || (nullptr == Ptr))
+	if ((NULL == compare.Ptr) || (NULL == Ptr))
 		return false;
 
 	if ((compare.Len == Len) && (memcmp(compare.Ptr, Ptr, Len) == 0))
@@ -117,10 +117,10 @@ bool StrPtrLen::Equal(const StrPtrLen& compare) const
 
 bool StrPtrLen::Equal(const char* compare) const
 {
-	if (nullptr == compare && nullptr == Ptr)
+	if (NULL == compare && NULL == Ptr)
 		return true;
 
-	if ((nullptr == compare) || (nullptr == Ptr))
+	if ((NULL == compare) || (NULL == Ptr))
 		return false;
 
 	if ((::strlen(compare) == Len) && (memcmp(compare, Ptr, Len) == 0))
@@ -134,7 +134,7 @@ bool StrPtrLen::Equal(const char* compare) const
 bool StrPtrLen::NumEqualIgnoreCase(const char* compare, const UInt32 len) const
 {
 	// compare thru the first "len: bytes
-	Assert(compare != nullptr);
+	Assert(compare != NULL);
 
 	if (len <= Len)
 	{
@@ -148,7 +148,7 @@ bool StrPtrLen::NumEqualIgnoreCase(const char* compare, const UInt32 len) const
 
 bool StrPtrLen::EqualIgnoreCase(const char* compare, const UInt32 len) const
 {
-	Assert(compare != nullptr);
+	Assert(compare != NULL);
 	if (len == Len)
 	{
 		for (UInt32 x = 0; x < len; x++)
@@ -165,17 +165,17 @@ char* StrPtrLen::FindStringCase(char* queryCharStr, StrPtrLen* resultStr, bool c
 	// 
 
 	if (resultStr)
-		resultStr->Set(nullptr, 0);
+		resultStr->Set(NULL, 0);
 
-	Assert(nullptr != queryCharStr);
-	if (nullptr == queryCharStr) return nullptr;
-	if (nullptr == Ptr) return nullptr;
-	if (0 == Len) return nullptr;
+	Assert(NULL != queryCharStr);
+	if (NULL == queryCharStr) return NULL;
+	if (NULL == Ptr) return NULL;
+	if (0 == Len) return NULL;
 
 
 	StrPtrLen queryStr(queryCharStr);
-	char *editSource = nullptr;
-	char *resultChar = nullptr;
+	char *editSource = NULL;
+	char *resultChar = NULL;
 	char lastSourceChar = Ptr[Len - 1];
 
 	if (lastSourceChar != 0) // need to modify for termination. 
@@ -186,12 +186,12 @@ char* StrPtrLen::FindStringCase(char* queryCharStr, StrPtrLen* resultStr, bool c
 	}
 
 	char *queryString = queryCharStr;
-	char *dupSourceString = nullptr;
-	char *dupQueryString = nullptr;
+	char *dupSourceString = NULL;
+	char *dupQueryString = NULL;
 	char *sourceString = Ptr;
 	UInt32 foundLen = 0;
 
-	if (editSource != nullptr) // a copy of the source ptr and len 0 terminated
+	if (editSource != NULL) // a copy of the source ptr and len 0 terminated
 		sourceString = editSource;
 
 	if (!caseSensitive)
@@ -213,18 +213,18 @@ char* StrPtrLen::FindStringCase(char* queryCharStr, StrPtrLen* resultStr, bool c
 		resultChar = ::strstr(sourceString, queryString);
 	}
 
-	if (resultChar != nullptr) // get the start offset
+	if (resultChar != NULL) // get the start offset
 	{
 		foundLen = resultChar - sourceString;
 		resultChar = Ptr + foundLen;  // return a pointer in the source buffer
 		if (resultChar > (Ptr + Len)) // make sure it is in the buffer
-			resultChar = nullptr;
+			resultChar = NULL;
 	}
 
-	if (editSource != nullptr)
+	if (editSource != NULL)
 		delete[] editSource;
 
-	if (resultStr != nullptr && resultChar != nullptr)
+	if (resultStr != NULL && resultChar != NULL)
 		resultStr->Set(resultChar, queryStr.Len);
 
 #if STRPTRLENTESTING    
@@ -237,7 +237,7 @@ char* StrPtrLen::FindStringCase(char* queryCharStr, StrPtrLen* resultStr, bool c
 
 UInt32 StrPtrLen::RemoveWhitespace()
 {
-	if (Ptr == nullptr || Len == 0)
+	if (Ptr == NULL || Len == 0)
 		return 0;
 
 	char *EndPtr = Ptr + Len; // one past last char
@@ -264,7 +264,7 @@ UInt32 StrPtrLen::RemoveWhitespace()
 
 UInt32 StrPtrLen::TrimLeadingWhitespace()
 {
-	if (Ptr == nullptr || Len == 0)
+	if (Ptr == NULL || Len == 0)
 		return 0;
 
 	char *EndPtr = Ptr + Len; //one past last char
@@ -283,7 +283,7 @@ UInt32 StrPtrLen::TrimLeadingWhitespace()
 
 UInt32 StrPtrLen::TrimTrailingWhitespace()
 {
-	if (Ptr == nullptr || Len == 0)
+	if (Ptr == NULL || Len == 0)
 		return 0;
 
 	char *theCharPtr = Ptr + (Len - 1); // last char
@@ -315,7 +315,7 @@ void StrPtrLen::PrintStr()
 
 	}
 
-	if (thestr != nullptr)
+	if (thestr != NULL)
 	{
 		qtss_printf(thestr);
 		delete[]thestr;
@@ -325,18 +325,18 @@ void StrPtrLen::PrintStr()
 void StrPtrLen::PrintStr(char* appendStr)
 {
 	StrPtrLen::PrintStr();
-	if (appendStr != nullptr)
+	if (appendStr != NULL)
 		qtss_printf(appendStr);
 }
 
 void StrPtrLen::PrintStr(char* prependStr, char* appendStr)
 {
-	if (prependStr != nullptr)
+	if (prependStr != NULL)
 		qtss_printf(prependStr);
 
 	StrPtrLen::PrintStr();
 
-	if (appendStr != nullptr)
+	if (appendStr != NULL)
 		qtss_printf(appendStr);
 }
 
@@ -367,13 +367,13 @@ void StrPtrLen::PrintStrEOL(char* stopStr, char* appendStr)
 	}
 
 	SInt32 stopLen = 0;
-	if (stopStr != nullptr)
+	if (stopStr != NULL)
 		stopLen = ::strlen(stopStr);
 
 	if (stopLen > 0 && stopLen <= i)
 	{
 		char* stopPtr = ::strstr(thestr, stopStr);
-		if (stopPtr != nullptr)
+		if (stopPtr != NULL)
 		{
 			stopPtr += stopLen;
 			*stopPtr = 0;
@@ -382,8 +382,8 @@ void StrPtrLen::PrintStrEOL(char* stopStr, char* appendStr)
 	}
 
 	char * theStrLine = thestr;
-	char * nextLine = nullptr;
-	char * theChar = nullptr;
+	char * nextLine = NULL;
+	char * theChar = NULL;
 	static char *cr = "\\r";
 	static char *lf = "\\n\n";
 	SInt32 tempLen = i;
@@ -402,13 +402,13 @@ void StrPtrLen::PrintStrEOL(char* stopStr, char* appendStr)
 			nextLine = &theStrLine[i + 1];
 		}
 
-		if (nextLine != nullptr)
+		if (nextLine != NULL)
 		{
 			qtss_printf(theStrLine);
 			qtss_printf(theChar);
 
 			theStrLine = nextLine;
-			nextLine = nullptr;
+			nextLine = NULL;
 			tempLen -= (i + 1);
 			i = -1;
 		}
@@ -416,7 +416,7 @@ void StrPtrLen::PrintStrEOL(char* stopStr, char* appendStr)
 	qtss_printf(theStrLine);
 	delete[]thestr;
 
-	if (appendStr != nullptr)
+	if (appendStr != NULL)
 		qtss_printf(appendStr);
 
 }
@@ -505,7 +505,7 @@ bool  StrPtrLen::Test()
 		return false;
 	if (outResultStr.Len > 0)
 		return false;
-	if (outResultStr.Ptr != nullptr)
+	if (outResultStr.Ptr != NULL)
 		return false;
 
 	query.Set(test3);
@@ -513,7 +513,7 @@ bool  StrPtrLen::Test()
 		return false;
 	if (outResultStr.Len > 0)
 		return false;
-	if (outResultStr.Ptr != nullptr)
+	if (outResultStr.Ptr != NULL)
 		return false;
 
 	query.Set(test1);

@@ -79,7 +79,7 @@
 ///     std::string s1 = Format("The answer to life, the universe, and everything is %d", 42);
 ///     std::string s2 = Format("second: %[1]d, first: %[0]d", 1, 2);
 
-#if 0
+
 std::string Format(const std::string& fmt, const boost::any& value);
 std::string Format(const std::string& fmt, const boost::any& value1, const boost::any& value2);
 std::string Format(const std::string& fmt, const boost::any& value1, const boost::any& value2, const boost::any& value3);
@@ -90,6 +90,11 @@ std::string Format(const std::string& fmt, const boost::any& value1, const boost
 std::string Format(const std::string& fmt, const boost::any& value1, const boost::any& value2, const boost::any& value3, const boost::any& value4, const boost::any& value5, const boost::any& value6, const boost::any& value7, const boost::any& value8);
 std::string Format(const std::string& fmt, const boost::any& value1, const boost::any& value2, const boost::any& value3, const boost::any& value4, const boost::any& value5, const boost::any& value6, const boost::any& value7, const boost::any& value8, const boost::any& value9);
 std::string Format(const std::string& fmt, const boost::any& value1, const boost::any& value2, const boost::any& value3, const boost::any& value4, const boost::any& value5, const boost::any& value6, const boost::any& value7, const boost::any& value8, const boost::any& value9, const boost::any& value10);
+std::string Format(const std::string& fmt, const boost::any& value1, const boost::any& value2, const boost::any& value3, const boost::any& value4, const boost::any& value5, const boost::any& value6, const boost::any& value7, const boost::any& value8, const boost::any& value9, const boost::any& value10, const boost::any& value11);
+std::string Format(const std::string& fmt, const boost::any& value1, const boost::any& value2, const boost::any& value3, const boost::any& value4, const boost::any& value5, const boost::any& value6, const boost::any& value7, const boost::any& value8, const boost::any& value9, const boost::any& value10, const boost::any& value11, const boost::any& value12);
+std::string Format(const std::string& fmt, const boost::any& value1, const boost::any& value2, const boost::any& value3, const boost::any& value4, const boost::any& value5, const boost::any& value6, const boost::any& value7, const boost::any& value8, const boost::any& value9, const boost::any& value10, const boost::any& value11, const boost::any& value12, const boost::any& value13);
+std::string Format(const std::string& fmt, const boost::any& value1, const boost::any& value2, const boost::any& value3, const boost::any& value4, const boost::any& value5, const boost::any& value6, const boost::any& value7, const boost::any& value8, const boost::any& value9, const boost::any& value10, const boost::any& value11, const boost::any& value12, const boost::any& value13, const boost::any& value14);
+std::string Format(const std::string& fmt, const boost::any& value1, const boost::any& value2, const boost::any& value3, const boost::any& value4, const boost::any& value5, const boost::any& value6, const boost::any& value7, const boost::any& value8, const boost::any& value9, const boost::any& value10, const boost::any& value11, const boost::any& value12, const boost::any& value13, const boost::any& value14, const boost::any& value15);
 
 
 void Format(std::string& result, const std::string& fmt, const boost::any& value);
@@ -104,8 +109,11 @@ void Format(std::string& result, const std::string& fmt, const boost::any& value
 void Format(std::string& result, const std::string& fmt, const boost::any& value1, const boost::any& value2, const boost::any& value3, const boost::any& value4, const boost::any& value5, const boost::any& value6, const boost::any& value7, const boost::any& value8);
 void Format(std::string& result, const std::string& fmt, const boost::any& value1, const boost::any& value2, const boost::any& value3, const boost::any& value4, const boost::any& value5, const boost::any& value6, const boost::any& value7, const boost::any& value8, const boost::any& value9);
 void Format(std::string& result, const std::string& fmt, const boost::any& value1, const boost::any& value2, const boost::any& value3, const boost::any& value4, const boost::any& value5, const boost::any& value6, const boost::any& value7, const boost::any& value8, const boost::any& value9, const boost::any& value10);
-
-#endif
+void Format(std::string& result, const std::string& fmt, const boost::any& value1, const boost::any& value2, const boost::any& value3, const boost::any& value4, const boost::any& value5, const boost::any& value6, const boost::any& value7, const boost::any& value8, const boost::any& value9, const boost::any& value10, const boost::any& value11);
+void Format(std::string& result, const std::string& fmt, const boost::any& value1, const boost::any& value2, const boost::any& value3, const boost::any& value4, const boost::any& value5, const boost::any& value6, const boost::any& value7, const boost::any& value8, const boost::any& value9, const boost::any& value10, const boost::any& value11, const boost::any& value12);
+void Format(std::string& result, const std::string& fmt, const boost::any& value1, const boost::any& value2, const boost::any& value3, const boost::any& value4, const boost::any& value5, const boost::any& value6, const boost::any& value7, const boost::any& value8, const boost::any& value9, const boost::any& value10, const boost::any& value11, const boost::any& value12, const boost::any& value13);
+void Format(std::string& result, const std::string& fmt, const boost::any& value1, const boost::any& value2, const boost::any& value3, const boost::any& value4, const boost::any& value5, const boost::any& value6, const boost::any& value7, const boost::any& value8, const boost::any& value9, const boost::any& value10, const boost::any& value11, const boost::any& value12, const boost::any& value13, const boost::any& value14);
+void Format(std::string& result, const std::string& fmt, const boost::any& value1, const boost::any& value2, const boost::any& value3, const boost::any& value4, const boost::any& value5, const boost::any& value6, const boost::any& value7, const boost::any& value8, const boost::any& value9, const boost::any& value10, const boost::any& value11, const boost::any& value12, const boost::any& value13, const boost::any& value14, const boost::any& value15);
 
 
 void Format(std::string& result, const char *fmt, const std::vector<boost::any>& values);
@@ -116,6 +124,7 @@ void Format(std::string& result, const std::string& fmt, const std::vector<boost
 /// Supports a variable number of arguments and is used by
 /// all other variants of format().
 
+#if 0
 template <typename T, typename... Args>
 void Format(std::string &result, const std::string &fmt, T arg1, Args... args)
 /// Appends the formatted string to result.
@@ -139,3 +148,5 @@ template <typename FMT, typename T, typename... Args,
 	Format(result, fmt, values);
 	return result;
 }
+
+#endif //0
