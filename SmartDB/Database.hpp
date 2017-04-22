@@ -35,15 +35,15 @@ public:
 
     bool close()
     {
-        if (_db_handle == nullptr)
+        if (_db_handle == NULL)
         {
             return true;
         }
 
         sqlite3_finalize(_statement);
         _code = close_db_handle();
-        _statement = nullptr;
-        _db_handle = nullptr;
+        _statement = NULL;
+        _db_handle = NULL;
         return _code == SQLITE_OK;
     }
 
@@ -106,7 +106,7 @@ public:
 
     bool prepare(const std::string& sql)
     {
-        _code = sqlite3_prepare_v2(_db_handle, sql.c_str(), -1, &_statement, nullptr);
+        _code = sqlite3_prepare_v2(_db_handle, sql.c_str(), -1, &_statement, NULL);
         return _code == SQLITE_OK;
     }
 
@@ -169,19 +169,19 @@ public:
 
     bool begin()
     {
-        _code = sqlite3_exec(_db_handle, begin_str.c_str(), nullptr, nullptr, nullptr);
+        _code = sqlite3_exec(_db_handle, begin_str.c_str(), NULL, NULL, NULL);
         return _code == SQLITE_OK;
     }
 
     bool commit()
     {
-        _code = sqlite3_exec(_db_handle, commit_str.c_str(), nullptr, nullptr, nullptr);
+        _code = sqlite3_exec(_db_handle, commit_str.c_str(), NULL, NULL, NULL);
         return _code == SQLITE_OK;
     }
 
     bool rollback()
     {
-        _code = sqlite3_exec(_db_handle, rollback_str.c_str(), nullptr, nullptr, nullptr);
+        _code = sqlite3_exec(_db_handle, rollback_str.c_str(), NULL, NULL, NULL);
         return _code == SQLITE_OK;
     }
 
@@ -211,8 +211,8 @@ private:
         int ret = sqlite3_close(_db_handle);
         while (ret == SQLITE_BUSY)
         {
-            sqlite3_stmt* stmt = sqlite3_next_stmt(_db_handle, nullptr);
-            if (stmt == nullptr)
+            sqlite3_stmt* stmt = sqlite3_next_stmt(_db_handle, NULL);
+            if (stmt == NULL)
             {
                 break;
             }
@@ -237,8 +237,8 @@ private:
     }
 
 private:
-    sqlite3* _db_handle = nullptr;
-    sqlite3_stmt* _statement = nullptr;
+    sqlite3* _db_handle = NULL;
+    sqlite3_stmt* _statement = NULL;
     int _code = 0;
     std::vector<std::vector<db_variant>> _buf;
     std::vector<std::vector<db_variant>>::iterator _iter = _buf.end();

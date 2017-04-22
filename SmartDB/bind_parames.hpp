@@ -63,7 +63,7 @@ bind_value(sqlite3_stmt* statement, int index, const T& t)
 }
 
 template<typename T>
-typename std::enable_if<std::is_same<std::nullptr_t, T>::value, int>::type
+typename std::enable_if<std::is_same<std::NULL_t, T>::value, int>::type
 bind_value(sqlite3_stmt* statement, int index, const T&)
 {
     return sqlite3_bind_null(statement, index);

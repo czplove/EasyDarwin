@@ -14,12 +14,12 @@ namespace smartdb
 
 struct db_blob
 {
-    const char* buf = nullptr;
+    const char* buf = NULL;
     std::size_t size = 0;
 };
 
 using db_variant = 
-boost::variant<int, uint32_t, double, sqlite3_int64, char*, const char*, std::string, db_blob, std::nullptr_t>;
+boost::variant<int, uint32_t, double, sqlite3_int64, char*, const char*, std::string, db_blob, std::NULL_t>;
 
 }
 
