@@ -32,7 +32,7 @@ static UInt16			sRedisPort = 6379;
 static UInt16			sDefaultRedisPort = 6379;
 // Redis password
 static char*            sRedisPassword = nullptr;
-static char*            sDefaultRedisPassword = "admin";
+static char*            sDefaultRedisPassword = "EasyDSSEasyDarwinEasyCMSEasyCamera";
 
 static bool				sIfConSucess = false;
 static OSMutex			sMutex;
