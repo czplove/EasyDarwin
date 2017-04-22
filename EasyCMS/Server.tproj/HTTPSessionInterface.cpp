@@ -14,7 +14,7 @@
 #include <errno.h>
 #include "EasyUtil.h"
 
-std::atomic_uint HTTPSessionInterface::sSessionIndexCounter{ kFirstHTTPSessionID };
+unsigned int	HTTPSessionInterface::sSessionIndexCounter = kFirstHTTPSessionID;
 
 QTSSAttrInfoDict::AttrInfo HTTPSessionInterface::sAttributes[] =
 {

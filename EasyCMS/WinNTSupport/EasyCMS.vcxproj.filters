@@ -16,9 +16,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\APIModules\EasyRedisModule\EasyRedisModule.cpp">
-      <Filter>Source Files\API Modules\EasyRedisModule</Filter>
-    </ClCompile>
     <ClCompile Include="..\PrefsSourceLib\FilePrefsSource.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
@@ -100,13 +97,13 @@
     <ClCompile Include="..\PrefsSourceLib\XMLPrefsParser.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
+    <ClCompile Include="..\APIModules\EasyRedisModule\EasyRedisModule.cpp">
+      <Filter>Source Files\API Modules\EasyRedisModule</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\APIModules\EasyRedisModule\EasyRedisModule.h">
       <Filter>Source Files\API Modules\EasyRedisModule</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Server.tproj\SnapCleaner.h">
-      <Filter>Source Files\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

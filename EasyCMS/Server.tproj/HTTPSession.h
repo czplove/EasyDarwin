@@ -67,7 +67,6 @@ private:
 	static QTSS_Error execNetMsgCSRestartReqRESTful(const char* queryString);
 
 	QTSS_Error execNetMsgCSGetUsagesReqRESTful(const char* queryString);
-	QTSS_Error execNetMsgCSLoginReqRESTful(const char* queryString);
 
 	QTSS_Error dumpRequestData();
 
@@ -80,22 +79,24 @@ private:
 	OSMutex fReadMutex;
 	OSMutex fSendMutex;
 
-	enum class State
+	enum
 	{
-		kReadingRequest = 0,
-		kFilteringRequest = 1,
-		kPreprocessingRequest = 2,
-		kProcessingRequest = 3,
-		kSendingResponse = 4,
-		kCleaningUp = 5,
+		kReadingRequest = 0,		//读取报文
+		kFilteringRequest = 1,		//过滤报文
+		kPreprocessingRequest = 2,	//预处理报文
+		kProcessingRequest = 3,		//处理报文
+		kSendingResponse = 4,		//发送响应报文
+		kCleaningUp = 5,			//清空本次处理的报文内容
 
-		kReadingFirstRequest = 6,
-		kHaveCompleteMessage = 7
+		kReadingFirstRequest = 6,	//第一次读取Session报文，主要用来做Session协议区分（HTTP/TCP/RTSP等等）
+		kHaveCompleteMessage = 7	// 读取到完整的报文
 	};
 
-	State state_;
+	//UInt32 fCurrentModule;
+	UInt32 fState;
 
-	QTSS_ModuleState fModuleState;
+	//QTSS_RoleParams     fRoleParams;//module param blocks for roles.
+	QTSS_ModuleState    fModuleState;
 
 	string talkbackSession;
 

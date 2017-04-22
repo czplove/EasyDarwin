@@ -19,7 +19,7 @@
 #include "Task.h"
 #include "QTSS.h"
 #include "QTSSDictionary.h"
-#include <atomic>
+#include "atomic.h"
 #include <string>
 
 #include "OSRefTableEx.h"
@@ -128,8 +128,7 @@ protected:
     //UInt32				fTerminalType;	//÷’∂À¿‡–ÕARM°¢PC°¢Android°¢IOS
 
     bool              fLiveSession;
-    //unsigned int        fObjectHolders;
-	std::atomic_int		fObjectHolders;
+    unsigned int        fObjectHolders;
 
     UInt32              fSessionIndex;
     UInt32              fLocalAddr;
@@ -141,8 +140,7 @@ protected:
 
     bool				fAuthenticated;
 
-    //static unsigned int		sSessionIndexCounter;
-	static std::atomic_uint sSessionIndexCounter;
+    static unsigned int		sSessionIndexCounter;
 
     static QTSSAttrInfoDict::AttrInfo   sAttributes[];
 
