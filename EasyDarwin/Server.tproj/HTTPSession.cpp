@@ -20,6 +20,8 @@
 #include "EasyUtil.h"
 #include "Format.h"
 
+#include "SocketUtils.h"
+
 using namespace EasyDarwin::Protocol;
 using namespace std;
 
@@ -924,9 +926,13 @@ QTSS_Error HTTPSession::execNetMsgCSGetBaseConfigReqRESTful(const char* queryStr
 	(void)QTSS_GetValue(QTSServerInterface::GetServer()->GetPrefs(), qtssPrefsRTSPPorts, 0, static_cast<void*>(&port), &len);
 	body[EASY_TAG_CONFIG_RTSP_LAN_PORT] = EasyUtil::ToString(port);
 
-	char* lanip = nullptr;
-	(void)QTSS_GetValueAsString(QTSServerInterface::GetServer(), qtssSvrDefaultIPAddrStr, 0, &lanip);
-	QTSSCharArrayDeleter theWanIPStrDeleter(lanip);
+	char lanip[512] = { 0 };
+	for (UInt32 ipAddrIter = 0; ipAddrIter < SocketUtils::GetNumIPAddrs(); ipAddrIter++)
+	{
+		StrPtrLen* ipIter = SocketUtils::GetIPAddrStr(ipAddrIter);
+		::strncat(lanip, ipIter->Ptr, ipIter->Len);
+		strcat(lanip,"; ");
+	}
 	body[EASY_TAG_CONFIG_SERVICE_LAN_IP] = lanip;
 
 	body[EASY_TAG_CONFIG_RTSP_WAN_PORT] = EasyUtil::ToString(QTSServerInterface::GetServer()->GetPrefs()->GetRTSPWANPort());
