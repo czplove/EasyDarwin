@@ -129,6 +129,14 @@ EasyDarwin RTSP版本的流媒体服务器不支持点播，只有商用版本Ea
 
 ## FAQ ##
 
+### 0. web管理页面无法登陆 ###
+
+EasyDarwin web登陆采用的是nginx反向代理方式，需要在nginx/nginx.conf中配置proxy_pass，将接口代理转发到EasyDarwin的对应http端口进行处理，例如EasyDarwin的http接口端口为：10008，那nginx.conf中加入配置：
+
+     location /api {
+       proxy_pass http://127.0.0.1:10008;
+    }
+
 ### 1. RTSP推送到EasyDarwin出现404错误 ###
 	
 方法一：用EasyPusher做直播推送；
