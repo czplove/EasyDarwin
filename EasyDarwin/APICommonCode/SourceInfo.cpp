@@ -89,6 +89,8 @@ bool  SourceInfo::IsReflectable()
 
 bool  SourceInfo::IsReflectableIPAddr(UInt32 inIPAddr)
 {
+	//fix ffmpeg push rtsp stream setup error
+	return true;
     if (SocketUtils::IsMulticastIPAddr(inIPAddr) || SocketUtils::IsLocalIPAddr(inIPAddr))
         return true;
     return false;
