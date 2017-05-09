@@ -177,7 +177,7 @@
             <section class="content">
 
                 <script>
-                    var openurls = [ "/easyplayer.html", "/easypusher.html"];
+                    var openurls = ["/easyplayer.html", "/easypusher.html"];
                     var token = $.cookie("token") || "";
                     if (!token && $.inArray(location.pathname, openurls) < 0) {
                         top.location.href = "index.html";
@@ -288,13 +288,6 @@
                                         <label for="channel-snap-interval" class="col-sm-4 control-label">HTTP公网发布端口</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control" id="ServiceWanPort" name="ServiceWanPort" pattern="^[0-9]+$" required>
-                                            <span class="help-block with-errors"></span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="channel-snap-interval" class="col-sm-4 control-label">配套的RTMP服务器</label>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control" id="RTMPServer" name="RTMPServer" required>
                                             <span class="help-block with-errors"></span>
                                         </div>
                                     </div>
