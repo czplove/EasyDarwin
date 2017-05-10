@@ -54,28 +54,28 @@ static QTSS_Error RedisGetAssociatedDarwin(QTSS_GetAssociatedDarwin_Params* inPa
 
 class RedisReplyObjectDeleter
 {
-    public:
-		RedisReplyObjectDeleter() : fReply(NULL) {}
-        RedisReplyObjectDeleter(redisReply* reply) : fReply(reply)  {}
-        ~RedisReplyObjectDeleter() 
-		{ 
-			if (fReply)
-			{
-				freeReplyObject(fReply);
-			}
+public:
+	RedisReplyObjectDeleter() : fReply(NULL) {}
+	RedisReplyObjectDeleter(redisReply* reply) : fReply(reply) {}
+	~RedisReplyObjectDeleter()
+	{
+		if (fReply)
+		{
+			freeReplyObject(fReply);
 		}
-        
-        void ClearObject() { fReply = NULL; }
+	}
 
-        void SetObject(redisReply* reply) 
-        {
-            fReply = reply; 
-        }
-        redisReply* GetObject() { return fReply; }
-    
-    private:
-    
-        redisReply* fReply;
+	void ClearObject() { fReply = NULL; }
+
+	void SetObject(redisReply* reply)
+	{
+		fReply = reply;
+	}
+	redisReply* GetObject() { return fReply; }
+
+private:
+
+	redisReply* fReply;
 };
 
 QTSS_Error EasyRedisModule_Main(void* inPrivateArgs)
@@ -155,7 +155,7 @@ bool RedisConnect()
 	{
 		return true;
 	}
-	
+
 	bool theRet = false;
 	do
 	{
@@ -189,10 +189,10 @@ bool RedisConnect()
 
 		theRet = true;
 		sIfConSucess = true;
-	
+
 		printf("Connect Redis success\n");
 
-	}while(0);
+	} while (0);
 
 	if (!theRet && redisContext_)
 	{
@@ -223,7 +223,7 @@ QTSS_Error RedisTTL()
 		RedisReplyObjectDeleter replyDeleter(reply);
 		if (!reply)
 		{
-			theRet =  QTSS_NotConnected;
+			theRet = QTSS_NotConnected;
 			break;
 		}
 
@@ -261,7 +261,7 @@ QTSS_Error RedisTTL()
 			}
 		}
 
-	}while(0);
+	} while (0);
 
 	if (theRet != QTSS_NoErr)
 	{
@@ -319,7 +319,7 @@ QTSS_Error RedisSetDevice(Easy_DeviceInfo_Params* inParams)
 			theRet = QTSS_RequestFailed;
 		}
 
-	}while(0);
+	} while (0);
 
 	if (theRet != QTSS_NoErr)
 	{
@@ -362,7 +362,7 @@ QTSS_Error RedisDelDevice(Easy_DeviceInfo_Params* inParams)
 			theRet = QTSS_RequestFailed;
 		}
 
-	}while(0);
+	} while (0);
 
 	if (theRet != QTSS_NoErr)
 	{
@@ -383,164 +383,163 @@ QTSS_Error RedisGetAssociatedDarwin(QTSS_GetAssociatedDarwin_Params* inParams)
 
 	QTSS_Error theRet = QTSS_NoErr;
 
-do
-{
-	string exists = Format("exists %s:%s/%s", string(EASY_REDIS_LIVE), string(inParams->inSerial), string(inParams->inChannel));
-	auto reply = static_cast<redisReply*>(redisCommand(redisContext_, exists.c_str()));
-	RedisReplyObjectDeleter replyDeleter(reply);
-
-	if (!reply)
+	do
 	{
-		theRet = QTSS_NotConnected;
-		break;
-	}
+		string exists = Format("exists %s:%s/%s", string(EASY_REDIS_LIVE), string(inParams->inSerial), string(inParams->inChannel));
+		auto reply = static_cast<redisReply*>(redisCommand(redisContext_, exists.c_str()));
+		RedisReplyObjectDeleter replyDeleter(reply);
 
-	if (reply->integer == 1)
-	{
-		string strTemp = Format("hmget %s:%s/%s %s", string(EASY_REDIS_LIVE), string(inParams->inSerial),
-			string(inParams->inChannel), string(EASY_REDIS_EASYDARWIN));
-		auto replyHmget = static_cast<redisReply*>(redisCommand(redisContext_, strTemp.c_str()));
-		RedisReplyObjectDeleter replyHmgetDeleter(replyHmget);
-		if (!replyHmget)
-		{
-			theRet = QTSS_NotConnected;
-			break;
-		}
-		string easydarwin = Format("%s:", string(EASY_REDIS_EASYDARWIN));
-		easydarwin += replyHmget->element[0]->str;
-
-		strTemp = Format("hmget %s %s %s %s", easydarwin, string(EASY_REDIS_IP), string(EASY_REDIS_HTTP),
-			string(EASY_REDIS_RTMP));
-		auto replyHmgetEasyDarwin = static_cast<redisReply*>(redisCommand(redisContext_, strTemp.c_str()));
-		RedisReplyObjectDeleter replyHmgetEasyDarwinDeleter(replyHmgetEasyDarwin);
-		if (!replyHmgetEasyDarwin)
+		if (!reply)
 		{
 			theRet = QTSS_NotConnected;
 			break;
 		}
 
-		if (replyHmgetEasyDarwin->type == EASY_REDIS_REPLY_NIL)
+		if (reply->integer == 1)
 		{
-			theRet = QTSS_RequestFailed;
-			break;;
-		}
-
-		if (replyHmgetEasyDarwin->type == EASY_REDIS_REPLY_ARRAY && replyHmgetEasyDarwin->elements == 3)
-		{
-			bool ok = true;
-			for (int i = 0; i < replyHmgetEasyDarwin->elements; ++i)
+			string strTemp = Format("hmget %s:%s/%s %s", string(EASY_REDIS_LIVE), string(inParams->inSerial),
+				string(inParams->inChannel), string(EASY_REDIS_EASYDARWIN));
+			auto replyHmget = static_cast<redisReply*>(redisCommand(redisContext_, strTemp.c_str()));
+			RedisReplyObjectDeleter replyHmgetDeleter(replyHmget);
+			if (!replyHmget)
 			{
-				if (replyHmgetEasyDarwin->element[i]->type == EASY_REDIS_REPLY_NIL)
-				{
-					ok = ok && false;
-				}
-			}
-
-			if (ok)
-			{
-				string ip(replyHmgetEasyDarwin->element[0]->str);
-				string httpPort(replyHmgetEasyDarwin->element[1]->str);
-				string rtspPort(replyHmgetEasyDarwin->element[2]->str);
-				memcpy(inParams->outDssIP, ip.c_str(), ip.size());
-				memcpy(inParams->outHTTPPort, httpPort.c_str(), httpPort.size());
-				memcpy(inParams->outDssPort, rtspPort.c_str(), rtspPort.size());
-				inParams->isOn = true;
-			}
-			else
-			{
-				theRet = QTSS_RequestFailed;
+				theRet = QTSS_NotConnected;
 				break;
 			}
-		}
-	}
-	else
-	{
-		string keys = Format("keys %s:*", string(EASY_REDIS_EASYDARWIN));
-		auto replyKeys = static_cast<redisReply*>(redisCommand(redisContext_, keys.c_str()));
-		RedisReplyObjectDeleter replyKeysDeleter(replyKeys);
-		if (!replyKeys)
-		{
-			theRet = QTSS_NotConnected;
-			break;
-		}
+			string easydarwin = Format("%s:", string(EASY_REDIS_EASYDARWIN));
+			easydarwin += replyHmget->element[0]->str;
 
-		if (replyKeys->elements > 0)
-		{
-			int eleIndex = -1, eleLoad = 0;
-			string eleIP,eleHTTP,eleRTMP;
-			for (size_t i = 0; i < replyKeys->elements; ++i)
+			strTemp = Format("hmget %s %s %s %s", easydarwin, string(EASY_REDIS_IP), string(EASY_REDIS_HTTP),
+				string(EASY_REDIS_RTSP));
+			auto replyHmgetEasyDarwin = static_cast<redisReply*>(redisCommand(redisContext_, strTemp.c_str()));
+			RedisReplyObjectDeleter replyHmgetEasyDarwinDeleter(replyHmgetEasyDarwin);
+			if (!replyHmgetEasyDarwin)
 			{
-				auto replyTemp = replyKeys->element[i];
-				if (replyTemp->type == EASY_REDIS_REPLY_NIL)
+				theRet = QTSS_NotConnected;
+				break;
+			}
+
+			if (replyHmgetEasyDarwin->type == EASY_REDIS_REPLY_NIL)
+			{
+				theRet = QTSS_RequestFailed;
+				break;;
+			}
+
+			if (replyHmgetEasyDarwin->type == EASY_REDIS_REPLY_ARRAY && replyHmgetEasyDarwin->elements == 3)
+			{
+				bool ok = true;
+				for (int i = 0; i < replyHmgetEasyDarwin->elements; ++i)
 				{
-					continue;
+					if (replyHmgetEasyDarwin->element[i]->type == EASY_REDIS_REPLY_NIL)
+					{
+						ok = ok && false;
+					}
 				}
 
-				string strTemp = Format("hmget %s %s %s %s %s ", string(replyTemp->str), string(EASY_REDIS_LOAD), string(EASY_REDIS_IP),
-					string(EASY_REDIS_HTTP), string(EASY_REDIS_RTSP));
-				auto replyHmget = static_cast<redisReply*>(redisCommand(redisContext_, strTemp.c_str()));
-				RedisReplyObjectDeleter replyHmgetDeleter(replyHmget);
-
-				if (!replyHmget)
+				if (ok)
 				{
-					theRet = QTSS_NotConnected;
-					break;
-				}
-
-				if (replyHmget->type == EASY_REDIS_REPLY_NIL)
-				{
-					continue;
-				}
-
-				auto loadReply = replyHmget->element[0];
-				auto ipReply = replyHmget->element[1];
-				auto httpReply = replyHmget->element[2];
-				auto rtspReply = replyHmget->element[3];
-
-				auto load = stoi(loadReply->str);
-				string ip(ipReply->str);
-				string http(httpReply->str);
-				string rtmp(rtspReply->str);
-
-				if (eleIndex == -1)
-				{
-					eleIndex = i;
-					eleLoad = load;
-					strncpy(inParams->outDssIP, ip.c_str(), ip.size());
-					strncpy(inParams->outHTTPPort, http.c_str(), http.size());
-					strncpy(inParams->outDssPort, rtmp.c_str(), rtmp.size());
+					string ip(replyHmgetEasyDarwin->element[0]->str);
+					string httpPort(replyHmgetEasyDarwin->element[1]->str);
+					string rtspPort(replyHmgetEasyDarwin->element[2]->str);
+					memcpy(inParams->outDssIP, ip.c_str(), ip.size());
+					memcpy(inParams->outHTTPPort, httpPort.c_str(), httpPort.size());
+					memcpy(inParams->outDssPort, rtspPort.c_str(), rtspPort.size());
+					inParams->isOn = true;
 				}
 				else
 				{
-					if (load < eleLoad)//find better
+					theRet = QTSS_RequestFailed;
+					break;
+				}
+			}
+		}
+		else
+		{
+			string keys = Format("keys %s:*", string(EASY_REDIS_EASYDARWIN));
+			auto replyKeys = static_cast<redisReply*>(redisCommand(redisContext_, keys.c_str()));
+			RedisReplyObjectDeleter replyKeysDeleter(replyKeys);
+			if (!replyKeys)
+			{
+				theRet = QTSS_NotConnected;
+				break;
+			}
+
+			if (replyKeys->elements > 0)
+			{
+				int eleIndex = -1, eleLoad = 0;
+				for (size_t i = 0; i < replyKeys->elements; ++i)
+				{
+					auto replyTemp = replyKeys->element[i];
+					if (replyTemp->type == EASY_REDIS_REPLY_NIL)
+					{
+						continue;
+					}
+
+					string strTemp = Format("hmget %s %s %s %s %s ", string(replyTemp->str), string(EASY_REDIS_LOAD), string(EASY_REDIS_IP),
+						string(EASY_REDIS_HTTP), string(EASY_REDIS_RTSP));
+					auto replyHmget = static_cast<redisReply*>(redisCommand(redisContext_, strTemp.c_str()));
+					RedisReplyObjectDeleter replyHmgetDeleter(replyHmget);
+
+					if (!replyHmget)
+					{
+						theRet = QTSS_NotConnected;
+						break;
+					}
+
+					if (replyHmget->type == EASY_REDIS_REPLY_NIL)
+					{
+						continue;
+					}
+
+					auto loadReply = replyHmget->element[0];
+					auto ipReply = replyHmget->element[1];
+					auto httpReply = replyHmget->element[2];
+					auto rtspReply = replyHmget->element[3];
+
+					auto load = stoi(loadReply->str);
+					string ip(ipReply->str);
+					string http(httpReply->str);
+					string rtsp(rtspReply->str);
+
+					if (eleIndex == -1)
 					{
 						eleIndex = i;
 						eleLoad = load;
 						strncpy(inParams->outDssIP, ip.c_str(), ip.size());
 						strncpy(inParams->outHTTPPort, http.c_str(), http.size());
-						strncpy(inParams->outDssPort, rtmp.c_str(), rtmp.size());
+						strncpy(inParams->outDssPort, rtsp.c_str(), rtsp.size());
+					}
+					else
+					{
+						if (load < eleLoad)//find better
+						{
+							eleIndex = i;
+							eleLoad = load;
+							strncpy(inParams->outDssIP, ip.c_str(), ip.size());
+							strncpy(inParams->outHTTPPort, http.c_str(), http.size());
+							strncpy(inParams->outDssPort, rtsp.c_str(), rtsp.size());
+						}
 					}
 				}
-			}
 
-			if (eleIndex == -1)//no one live
+				if (eleIndex == -1)//no one live
+				{
+					theRet = QTSS_Unimplemented;
+					break;
+				}
+				else
+				{
+					inParams->isOn = false;
+				}
+			}
+			else
 			{
 				theRet = QTSS_Unimplemented;
 				break;
 			}
-			else
-			{
-				inParams->isOn = false;
-			}
 		}
-		else
-		{
-			theRet = QTSS_Unimplemented;
-			break;
-		}
-	}
 
-}while(0);
+	} while (0);
 
 	if (theRet != QTSS_NoErr)
 	{
@@ -553,7 +552,7 @@ do
 static void RedisErrorHandler()
 {
 	sIfConSucess = false;
-	if(redisContext_)
+	if (redisContext_)
 	{
 		printf("Connection error: %s\n", redisContext_->errstr);
 		redisFree(redisContext_);
