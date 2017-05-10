@@ -51,8 +51,10 @@ static QTSS_AttributeID         sCantJoinMulticastGroupErr = qtssIllegalAttrID;
 
 // PREFS
 static UInt32                   sDefaultOverBufferInSec = 1;
+static UInt32					sDefaultRTPReflectorThresholdMsec = 2000;
+
 static UInt32                   sDefaultBucketDelayInMsec = 73;
-static bool                   sDefaultUsePacketReceiveTime = false;
+static bool						sDefaultUsePacketReceiveTime = false;
 static UInt32                   sDefaultMaxFuturePacketTimeSec = 60;
 static UInt32                   sDefaultFirstPacketOffsetMsec = 500;
 
@@ -64,10 +66,10 @@ UInt32                          ReflectorStream::sMaxPacketAgeMSec = 20000;
 UInt32                          ReflectorStream::sMaxFuturePacketSec = 60; // max packet future time
 UInt32                          ReflectorStream::sOverBufferInSec = 10;
 UInt32                          ReflectorStream::sBucketDelayInMsec = 73;
-bool                          ReflectorStream::sUsePacketReceiveTime = false;
+bool							ReflectorStream::sUsePacketReceiveTime = false;
 UInt32                          ReflectorStream::sFirstPacketOffsetMsec = 500;
 
-UInt32                          ReflectorStream::sRelocatePacketAgeMSec = 3000;
+UInt32                          ReflectorStream::sRelocatePacketAgeMSec = 1000;
 
 void ReflectorStream::Register()
 {
@@ -90,6 +92,10 @@ void ReflectorStream::Initialize(QTSS_ModulePrefsObject inPrefs)
 
 	QTSSModuleUtils::GetAttribute(inPrefs, "reflector_buffer_size_sec", qtssAttrDataTypeUInt32,
 		&ReflectorStream::sOverBufferInSec, &sDefaultOverBufferInSec, sizeof(sDefaultOverBufferInSec));
+
+	
+	QTSSModuleUtils::GetAttribute(inPrefs, "rtp_reflector_threshold_msec", qtssAttrDataTypeUInt32,
+		&ReflectorStream::sRelocatePacketAgeMSec, &sDefaultRTPReflectorThresholdMsec, sizeof(sDefaultRTPReflectorThresholdMsec));
 
 	QTSSModuleUtils::GetAttribute(inPrefs, "reflector_use_in_packet_receive_time", qtssAttrDataTypeBool16,
 		&ReflectorStream::sUsePacketReceiveTime, &sDefaultUsePacketReceiveTime, sizeof(sDefaultUsePacketReceiveTime));
@@ -1297,7 +1303,7 @@ OSQueueElem* ReflectorSender::NeedRelocateBookMark(OSQueueElem* elem)
 
 	packetDelay = theCurrentTime - thePacket->fTimeArrived;
 
-	if ((packetDelay > currentMaxPacketDelay) && IsKeyFrameFirstPacket(thePacket))//or IsFrameFirstPacket
+	if ((packetDelay > currentMaxPacketDelay) /*&& IsFrameFirstPacket(thePacket)*/)//or IsFrameFirstPacket
 	{
 		if (fKeyFrameStartPacketElementPointer)
 		{
