@@ -97,6 +97,9 @@ void ReflectorStream::Initialize(QTSS_ModulePrefsObject inPrefs)
 	QTSSModuleUtils::GetAttribute(inPrefs, "rtp_reflector_threshold_msec", qtssAttrDataTypeUInt32,
 		&ReflectorStream::sRelocatePacketAgeMSec, &sDefaultRTPReflectorThresholdMsec, sizeof(sDefaultRTPReflectorThresholdMsec));
 
+	if(sRelocatePacketAgeMSec < 1000)
+		sRelocatePacketAgeMSec = 1000;
+
 	QTSSModuleUtils::GetAttribute(inPrefs, "reflector_use_in_packet_receive_time", qtssAttrDataTypeBool16,
 		&ReflectorStream::sUsePacketReceiveTime, &sDefaultUsePacketReceiveTime, sizeof(sDefaultUsePacketReceiveTime));
 
