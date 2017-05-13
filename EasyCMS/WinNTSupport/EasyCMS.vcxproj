@@ -241,7 +241,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>ws2_32.lib;wsock32.lib;winmm.lib;avcodec.lib;avformat.lib;avutil.lib;swresample.lib;swscale.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>..\WinNTSupport\Release\EasyCMS.exe</OutputFile>
+      <OutputFile>..\WinNTSupport\x64\Release\EasyCMS.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>../../Lib;../Lib;../../Lib/FFmpeg/x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>.\Release/DarwinStreamingServer.pdb</ProgramDatabaseFile>
