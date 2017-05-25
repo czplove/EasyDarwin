@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="97">
+<configurationDescriptor version="100">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="APICommonCode"
                    displayName="APICommonCode"
@@ -366,7 +366,7 @@
             <pElem>../CommonUtilitiesLib/${CND_CONF}</pElem>
             <pElem>../EasyProtocol/EasyProtocol/${CND_CONF}</pElem>
             <pElem>../EasyProtocol/jsoncpp/${CND_CONF}</pElem>
-            <pElem>../Lib/i386</pElem>
+            <pElem>../Lib/boost/i386</pElem>
             <pElem>../EasyRedisClient/${CND_CONF}</pElem>
           </linkerAddLib>
           <commandLine>-lCommonUtilitiesLib -ldl -lpthread -lEasyProtocol -ljsoncpp -lboost_system -lboost_thread -lrt -leasyredisclient -lz -lbz2</commandLine>
@@ -573,7 +573,7 @@
             <pElem>../CommonUtilitiesLib/${CND_CONF}</pElem>
             <pElem>../EasyProtocol/EasyProtocol/${CND_CONF}</pElem>
             <pElem>../EasyProtocol/jsoncpp/${CND_CONF}</pElem>
-            <pElem>../Lib/x64</pElem>
+            <pElem>../Lib/boost/x64</pElem>
             <pElem>../EasyRedisClient/${CND_CONF}</pElem>
           </linkerAddLib>
           <commandLine>-lCommonUtilitiesLib -ldl -lpthread -lEasyProtocol -ljsoncpp -lboost_system -lboost_thread -lrt -leasyredisclient</commandLine>
