@@ -306,10 +306,21 @@
                         btns += "</div>";
                         return btns;
                     }
+                    var currentParma = "";
 
                     function onBeforeLoad(param) {
-                        var start = (param.page - 1) * param.rows;
-                        var end = param.page * param.rows;
+                        if (currentParma == "") {
+                            setInterval(function() {
+                                loadLives();
+                            }, 3000);
+                        }
+                        currentParma = param;
+                        loadLives();
+                    }
+
+                    function loadLives() {
+                        var start = (currentParma.page - 1) * currentParma.rows;
+                        var end = currentParma.page * currentParma.rows;
                         $.ajax("/api/v1/getrtsplivesessions", {
                             cache: false
                         }).then(function(data) {
