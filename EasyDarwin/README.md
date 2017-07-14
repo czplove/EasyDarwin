@@ -125,7 +125,7 @@ EasyDarwin RTSP版本的流媒体服务器不支持点播，只有商用版本Ea
 
 ### 直播转发 ###
 
-直接通过标准RTSP/RTP推送流程（ANNOUNCE/SETUP/PLAY/RTP）向EasyDarwin推送音视频数据进行转发和分发，例如rtsp_port配置为8554，那我们可以直接用[**EasyDarwin EasyPusher**](https://github.com/EasyDarwin/EasyPusher "EasyPusher")或者**live555 DarwinInjector**向8554端口进行直播推送，推送后，我们可以通过  **rtsp://[ip]:[http\_service\_port]/api/v1/getrtsplivesessions**  接口获取当前正在进行RTSP直播的列表；
+直接通过标准RTSP/RTP推送流程（ANNOUNCE/SETUP/PLAY/RTP）向EasyDarwin推送音视频数据进行转发和分发，例如rtsp_port配置为8554，那我们可以直接用[**EasyDarwin EasyPusher**](https://github.com/EasyDarwin/EasyPusher "EasyPusher")或者**live555 DarwinInjector**向8554端口进行直播推送，推送后，我们可以通过  **http://[ip]:[http\_service\_port]/api/v1/getrtsplivesessions**  接口获取当前正在进行RTSP直播的列表；
 
 ## FAQ ##
 
