@@ -314,6 +314,7 @@ void SocketUtils::Initialize(bool lookupDNSName)
 
 	}
 #ifdef __Win32__
+    shutdown(tempSocket, SD_BOTH);
 	::closesocket(tempSocket);
 #elif defined(USE_SIOCGIFNUM)
 	delete[] ifc.ifc_buf;

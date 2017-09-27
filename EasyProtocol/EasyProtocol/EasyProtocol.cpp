@@ -60,7 +60,7 @@ namespace EasyDarwin { namespace Protocol
 		if (appType == EASY_APP_TYPE_NVR)
 		{
 			SetBodyValue(EASY_TAG_CHANNEL_COUNT, nvr.channels_.size());
-			for (auto it = nvr.channels_.begin(); it != nvr.channels_.end(); ++it)
+			for (EasyDevices::iterator it = nvr.channels_.begin(); it != nvr.channels_.end(); ++it)
 			{
 				Json::Value value;
 				value[EASY_TAG_CHANNEL] = it->second.channel_;
@@ -103,7 +103,7 @@ namespace EasyDarwin { namespace Protocol
 		SetHeaderValue(EASY_TAG_ERROR_NUM, error);
 		SetHeaderValue(EASY_TAG_ERROR_STRING, GetErrorString(error));
 
-		for (auto it = body.begin(); it != body.end(); ++it)
+		for (EasyJsonValue::iterator it = body.begin(); it != body.end(); ++it)
 		{
 			SetBodyValue(it->first.c_str(), boost::apply_visitor(EasyJsonValueVisitor(), it->second));
 		}
@@ -121,7 +121,7 @@ namespace EasyDarwin { namespace Protocol
 	{
 		SetHeaderValue(EASY_TAG_CSEQ, cseq);
 
-		for (auto it = body.begin(); it != body.end(); ++it)
+		for (EasyJsonValue::iterator it = body.begin(); it != body.end(); ++it)
 		{
 			SetBodyValue(it->first.c_str(), boost::apply_visitor(EasyJsonValueVisitor(), it->second));
 		}
@@ -141,7 +141,7 @@ namespace EasyDarwin { namespace Protocol
 		SetHeaderValue(EASY_TAG_ERROR_NUM, error);
 		SetHeaderValue(EASY_TAG_ERROR_STRING, GetErrorString(error));
 
-		for (auto it = body.begin(); it != body.end(); ++it)
+		for (EasyJsonValue::iterator it = body.begin(); it != body.end(); ++it)
 		{
 			SetBodyValue(it->first.c_str(), boost::apply_visitor(EasyJsonValueVisitor(), it->second));
 		}
@@ -153,7 +153,7 @@ namespace EasyDarwin { namespace Protocol
 	{
 		SetHeaderValue(EASY_TAG_CSEQ, cseq);
 
-		for (auto it = body.begin(); it != body.end(); ++it)
+		for (EasyJsonValue::iterator it = body.begin(); it != body.end(); ++it)
 		{
 			SetBodyValue(it->first.c_str(), boost::apply_visitor(EasyJsonValueVisitor(), it->second));
 		}
@@ -197,7 +197,7 @@ namespace EasyDarwin { namespace Protocol
 		SetHeaderValue(EASY_TAG_ERROR_NUM, error);
 		SetHeaderValue(EASY_TAG_ERROR_STRING, GetErrorString(error));
 
-		for (auto it = body.begin(); it != body.end(); ++it)
+		for (EasyJsonValue::iterator it = body.begin(); it != body.end(); ++it)
 		{
 			SetBodyValue(it->first.c_str(), boost::apply_visitor(EasyJsonValueVisitor(), it->second));
 		}
@@ -262,7 +262,7 @@ namespace EasyDarwin { namespace Protocol
 		SetHeaderValue(EASY_TAG_ERROR_STRING, GetErrorString(error));
 
 		SetBodyValue(EASY_TAG_DEVICE_COUNT, devices.size());
-		for (auto it = devices.begin(); it != devices.end(); ++it)
+		for (EasyDevices::iterator it = devices.begin(); it != devices.end(); ++it)
 		{
 			Json::Value value;
 			value[EASY_TAG_SERIAL] = it->second.serial_;
@@ -300,7 +300,7 @@ namespace EasyDarwin { namespace Protocol
 
 		SetBodyValue(EASY_TAG_SERIAL, device_serial);
 		SetBodyValue(EASY_TAG_CHANNEL_COUNT, cameras.size());
-		for (auto it = cameras.begin(); it != cameras.end(); ++it)
+		for (EasyDevices::iterator it = cameras.begin(); it != cameras.end(); ++it)
 		{
 			Json::Value value;
 			value[EASY_TAG_SERIAL] = it->second.serial_;
@@ -334,7 +334,7 @@ namespace EasyDarwin { namespace Protocol
 		SetHeaderValue(EASY_TAG_ERROR_NUM, error);
 		SetHeaderValue(EASY_TAG_ERROR_STRING, GetErrorString(error));
 
-		for (auto it = body.begin(); it != body.end(); ++it)
+		for (EasyJsonValue::iterator it = body.begin(); it != body.end(); ++it)
 		{
 			SetBodyValue(it->first.c_str(), boost::apply_visitor(EasyJsonValueVisitor(), it->second));
 		}
@@ -352,7 +352,7 @@ namespace EasyDarwin { namespace Protocol
 		SetHeaderValue(EASY_TAG_ERROR_NUM, error);
 		SetHeaderValue(EASY_TAG_ERROR_STRING, GetErrorString(error));
 
-		for (auto it = body.begin(); it != body.end(); ++it)
+		for (EasyJsonValue::iterator it = body.begin(); it != body.end(); ++it)
 		{
 			SetBodyValue(it->first.c_str(), boost::apply_visitor(EasyJsonValueVisitor(), it->second));
 		}
@@ -368,7 +368,7 @@ namespace EasyDarwin { namespace Protocol
 	{
 		SetHeaderValue(EASY_TAG_CSEQ, cseq);
 
-		for (auto it = body.begin(); it != body.end(); ++it)
+		for (EasyJsonValue::iterator it = body.begin(); it != body.end(); ++it)
 		{
 			SetBodyValue(it->first.c_str(), boost::apply_visitor(EasyJsonValueVisitor(), it->second));
 		}
@@ -386,7 +386,7 @@ namespace EasyDarwin { namespace Protocol
 		SetHeaderValue(EASY_TAG_ERROR_NUM, error);
 		SetHeaderValue(EASY_TAG_ERROR_STRING, GetErrorString(error));
 
-		for (auto it = body.begin(); it != body.end(); ++it)
+		for (EasyJsonValue::iterator it = body.begin(); it != body.end(); ++it)
 		{
 			SetBodyValue(it->first.c_str(), boost::apply_visitor(EasyJsonValueVisitor(), it->second));
 		}
@@ -402,7 +402,7 @@ namespace EasyDarwin { namespace Protocol
 	{
 		SetHeaderValue(EASY_TAG_CSEQ, cseq);
 
-		for (auto it = body.begin(); it != body.end(); ++it)
+		for (EasyJsonValue::iterator it = body.begin(); it != body.end(); ++it)
 		{
 			SetBodyValue(it->first.c_str(), boost::apply_visitor(EasyJsonValueVisitor(), it->second));
 		}
@@ -420,7 +420,7 @@ namespace EasyDarwin { namespace Protocol
 		SetHeaderValue(EASY_TAG_ERROR_NUM, error);
 		SetHeaderValue(EASY_TAG_ERROR_STRING, GetErrorString(error));
 
-		for (auto it = body.begin(); it != body.end(); ++it)
+		for (EasyJsonValue::iterator it = body.begin(); it != body.end(); ++it)
 		{
 			SetBodyValue(it->first.c_str(), boost::apply_visitor(EasyJsonValueVisitor(), it->second));
 		}
@@ -436,7 +436,7 @@ namespace EasyDarwin { namespace Protocol
 	{
 		SetHeaderValue(EASY_TAG_CSEQ, cseq);
 
-		for (auto it = body.begin(); it != body.end(); ++it)
+		for (EasyJsonValue::iterator it = body.begin(); it != body.end(); ++it)
 		{
 			SetBodyValue(it->first.c_str(), boost::apply_visitor(EasyJsonValueVisitor(), it->second));
 		}
@@ -454,7 +454,7 @@ namespace EasyDarwin { namespace Protocol
 		SetHeaderValue(EASY_TAG_ERROR_NUM, error);
 		SetHeaderValue(EASY_TAG_ERROR_STRING, GetErrorString(error));
 
-		for (auto it = body.begin(); it != body.end(); ++it)
+		for (EasyJsonValue::iterator it = body.begin(); it != body.end(); ++it)
 		{
 			SetBodyValue(it->first.c_str(), boost::apply_visitor(EasyJsonValueVisitor(), it->second));
 		}
@@ -470,7 +470,7 @@ namespace EasyDarwin { namespace Protocol
 	{
 		SetHeaderValue(EASY_TAG_CSEQ, cseq);
 
-		for (auto it = body.begin(); it != body.end(); ++it)
+		for (EasyJsonValue::iterator it = body.begin(); it != body.end(); ++it)
 		{
 			SetBodyValue(it->first.c_str(), boost::apply_visitor(EasyJsonValueVisitor(), it->second));
 		}
@@ -488,7 +488,7 @@ namespace EasyDarwin { namespace Protocol
 		SetHeaderValue(EASY_TAG_ERROR_NUM, error);
 		SetHeaderValue(EASY_TAG_ERROR_STRING, GetErrorString(error));
 
-		for (auto it = body.begin(); it != body.end(); ++it)
+		for (EasyJsonValue::iterator it = body.begin(); it != body.end(); ++it)
 		{
 			SetBodyValue(it->first.c_str(), boost::apply_visitor(EasyJsonValueVisitor(), it->second));
 		}
@@ -504,7 +504,7 @@ namespace EasyDarwin { namespace Protocol
 	{
 		SetHeaderValue(EASY_TAG_CSEQ, cseq);
 
-		for (auto it = body.begin(); it != body.end(); ++it)
+		for (EasyJsonValue::iterator it = body.begin(); it != body.end(); ++it)
 		{
 			SetBodyValue(it->first.c_str(), boost::apply_visitor(EasyJsonValueVisitor(), it->second));
 		}
@@ -522,7 +522,7 @@ namespace EasyDarwin { namespace Protocol
 		SetHeaderValue(EASY_TAG_ERROR_NUM, error);
 		SetHeaderValue(EASY_TAG_ERROR_STRING, GetErrorString(error));
 
-		for (auto it = body.begin(); it != body.end(); ++it)
+		for (EasyJsonValue::iterator it = body.begin(); it != body.end(); ++it)
 		{
 			SetBodyValue(it->first.c_str(), boost::apply_visitor(EasyJsonValueVisitor(), it->second));
 		}
@@ -538,7 +538,7 @@ namespace EasyDarwin { namespace Protocol
 	{
 		SetHeaderValue(EASY_TAG_CSEQ, cseq);
 
-		for (auto it = body.begin(); it != body.end(); ++it)
+		for (EasyJsonValue::iterator it = body.begin(); it != body.end(); ++it)
 		{
 			SetBodyValue(it->first.c_str(), boost::apply_visitor(EasyJsonValueVisitor(), it->second));
 		}
@@ -556,7 +556,7 @@ namespace EasyDarwin { namespace Protocol
 		SetHeaderValue(EASY_TAG_ERROR_NUM, error);
 		SetHeaderValue(EASY_TAG_ERROR_STRING, GetErrorString(error));
 
-		for (auto it = body.begin(); it != body.end(); ++it)
+		for (EasyJsonValue::iterator it = body.begin(); it != body.end(); ++it)
 		{
 			SetBodyValue(it->first.c_str(), boost::apply_visitor(EasyJsonValueVisitor(), it->second));
 		}
@@ -572,7 +572,7 @@ namespace EasyDarwin { namespace Protocol
 	{
 		SetHeaderValue(EASY_TAG_CSEQ, cseq);
 
-		for (auto it = body.begin(); it != body.end(); ++it)
+		for (EasyJsonValue::iterator it = body.begin(); it != body.end(); ++it)
 		{
 			SetBodyValue(it->first.c_str(), boost::apply_visitor(EasyJsonValueVisitor(), it->second));
 		}
@@ -590,7 +590,7 @@ namespace EasyDarwin { namespace Protocol
 		SetHeaderValue(EASY_TAG_ERROR_NUM, error);
 		SetHeaderValue(EASY_TAG_ERROR_STRING, GetErrorString(error));
 
-		for (auto it = body.begin(); it != body.end(); ++it)
+		for (EasyJsonValue::iterator it = body.begin(); it != body.end(); ++it)
 		{
 			SetBodyValue(it->first.c_str(), boost::apply_visitor(EasyJsonValueVisitor(), it->second));
 		}
@@ -653,7 +653,7 @@ namespace EasyDarwin { namespace Protocol
 
 	void EasyProtocolACK::SetHead(EasyJsonValue& header)
 	{
-		for (auto it = header.begin(); it != header.end(); ++it)
+		for (EasyJsonValue::iterator it = header.begin(); it != header.end(); ++it)
 		{
 			SetHeaderValue(it->first.c_str(), boost::apply_visitor(EasyJsonValueVisitor(), it->second));
 		}
@@ -661,7 +661,7 @@ namespace EasyDarwin { namespace Protocol
 
 	void EasyProtocolACK::SetBody(EasyJsonValue& body)
 	{
-		for (auto it = body.begin(); it != body.end(); ++it)
+		for (EasyJsonValue::iterator it = body.begin(); it != body.end(); ++it)
 		{
 			SetBodyValue(it->first.c_str(), boost::apply_visitor(EasyJsonValueVisitor(), it->second));
 		}
@@ -730,9 +730,9 @@ namespace EasyDarwin { namespace Protocol
 				for (int i = 0; i < size; ++i)
 				{
 					Json::Value& json_camera = (*proot)[EASY_TAG_ROOT][EASY_TAG_BODY][EASY_TAG_CHANNELS][i];
-					auto channel = json_camera[EASY_TAG_CHANNEL].asString();
-					auto name = json_camera[EASY_TAG_NAME].asString();
-					auto status = json_camera[EASY_TAG_STATUS].asString();
+					string channel = json_camera[EASY_TAG_CHANNEL].asString();
+					string name = json_camera[EASY_TAG_NAME].asString();
+					string status = json_camera[EASY_TAG_STATUS].asString();
 
 					//channels_.push_back(camera);
 					//如果已经存在，则只修改status_属性，否则插入到map中。这样对于1个线程写，多个线程读不用加锁，因为不会出现不可预知的中间值。  
@@ -765,7 +765,7 @@ namespace EasyDarwin { namespace Protocol
 		}
 		else//否则就要保留到对应的摄像头属性里
 		{
-			for (auto it = channels_.begin(); it != channels_.end(); ++it)
+			for (EasyDevices::iterator it = channels_.begin(); it != channels_.end(); ++it)
 			{
 				if (it->second.channel_ == strChannel)
 					it->second.snapJpgPath_ = strJpgPath;

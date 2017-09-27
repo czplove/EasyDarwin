@@ -344,6 +344,7 @@ RTPStream::~RTPStream()
 	if (fMonitorSocket != 0)
 	{
 #ifdef __Win32__
+        shutdown(fMonitorSocket, SD_BOTH);
 		::closesocket(fMonitorSocket);
 #else   
 		close(fMonitorSocket);
@@ -776,7 +777,7 @@ QTSS_Error  RTPStream::InterleavedWrite(void* inBuffer, UInt32 inLen, UInt32* ou
 		return EAGAIN;
 	}
 
-	OSMutexLocker   locker(fSession->GetRTSPSessionMutex());
+	//OSMutexLocker   locker(fSession->GetRTSPSessionMutex());
 
 	//char blahblah[2048];
 

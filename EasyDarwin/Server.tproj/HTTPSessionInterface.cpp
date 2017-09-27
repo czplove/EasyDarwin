@@ -92,8 +92,8 @@ HTTPSessionInterface::HTTPSessionInterface()
 	fTimeoutTask.SetTask(this);
 	fSocket.SetTask(this);
 
-	//fSessionIndex = (UInt32)atomic_add(&sSessionIndexCounter, 1);
-	fSessionIndex = ++sSessionIndexCounter;
+	fSessionIndex = (UInt32)atomic_add(&sSessionIndexCounter, 1);
+	//fSessionIndex = ++sSessionIndexCounter;
 	this->SetVal(easyHTTPSesID, &fSessionIndex, sizeof(fSessionIndex));
 
 	this->SetVal(easyHTTPSesEventCntxt, &fOutputSocketP, sizeof(fOutputSocketP));
@@ -118,13 +118,16 @@ void HTTPSessionInterface::DecrementObjectHolderCount()
 
 	//#if __Win32__
 	//maybe don't need this special case but for now on Win32 we do it the old way since the killEvent code hasn't been verified on Windows.
-	this->Signal(Task::kReadEvent);//have the object wakeup in case it can go away.
+	//this->Signal(Task::kReadEvent);//have the object wakeup in case it can go away.
 	//atomic_sub(&fObjectHolders, 1);
-	--fObjectHolders;
+	//--fObjectHolders;
 	//#else
 	//    if (0 == atomic_sub(&fObjectHolders, 1))
 	//        this->Signal(Task::kKillEvent);
 	//#endif
+
+    if (0 == atomic_sub(&fObjectHolders, 1))
+        this->Signal(Task::kKillEvent);
 
 }
 

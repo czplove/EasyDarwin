@@ -132,6 +132,13 @@ RTPSession::~RTPSession()
 
 	}
 
+    // Note that this function relies on the session mutex being grabbed, because
+    // this fRTSPSession pointer could otherwise be being used simultaneously by
+    // an RTP stream.
+    if (fRTSPSession != NULL)
+        fRTSPSession->DecrementObjectHolderCount();
+    fRTSPSession = NULL;
+
 	//we better not be in the RTPSessionMap anymore!
 #if DEBUG
 /* does not compile???
@@ -397,17 +404,11 @@ UInt32 RTPSession::PowerOf2Floor(UInt32 inNumToFloor)
 
 void RTPSession::Teardown()
 {
-	OSMutexLocker locker(this->GetRTSPSessionMutex());
+	//OSMutexLocker locker(this->GetRTSPSessionMutex());
 	// ourselves with it right now.
 
-	// Note that this function relies on the session mutex being grabbed, because
-	// this fRTSPSession pointer could otherwise be being used simultaneously by
-	// an RTP stream.
-	if (fRTSPSession != NULL)
-		fRTSPSession->DecrementObjectHolderCount();
-	fRTSPSession = NULL;
-	fState = qtssPausedState;
-	this->Signal(Task::kKillEvent);
+    fState = qtssPausedState;
+    this->Signal(Task::kKillEvent);
 }
 
 void RTPSession::SendPlayResponse(RTSPRequestInterface* request, UInt32 inFlags)

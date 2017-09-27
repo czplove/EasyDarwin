@@ -52,6 +52,7 @@ private:
 
 	HTTPRequest*        fRequest;
 	OSMutex             fReadMutex;
+    OSMutex             fSendMutex;
 
 	enum
 	{

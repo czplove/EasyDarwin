@@ -48,9 +48,9 @@
 static bool sCloseOnWrite = true;
 
  QTSSRollingLog::QTSSRollingLog() :     
-    fLog(nullptr), 
+    fLog(NULL), 
     fLogCreateTime(-1),
-    fLogFullPath(nullptr),
+    fLogFullPath(NULL),
     fAppendDotLog(true),
     fLogging(true)
 {
@@ -73,7 +73,7 @@ void QTSSRollingLog::SetCloseOnWrite(bool closeOnWrite)
 
 bool  QTSSRollingLog::IsLogEnabled() 
 { 
-    return sCloseOnWrite || (fLog != nullptr); 
+    return sCloseOnWrite || (fLog != NULL); 
 }
 
 void QTSSRollingLog::WriteToLog(char* inLogData, bool allowLogToRoll)
@@ -83,13 +83,13 @@ void QTSSRollingLog::WriteToLog(char* inLogData, bool allowLogToRoll)
     if (fLogging == false)
         return;
         
-    if (sCloseOnWrite && fLog == nullptr)
+    if (sCloseOnWrite && fLog == NULL)
         this->EnableLog(fAppendDotLog ); //re-open log file before we write
     
     if (allowLogToRoll)
         (void)this->CheckRollLog();
         
-    if (fLog != nullptr)
+    if (fLog != NULL)
     {
         qtss_fprintf(fLog, "%s", inLogData);
         ::fflush(fLog);
@@ -106,7 +106,7 @@ bool QTSSRollingLog::RollLog()
     //returns false if an error occurred, true otherwise
 
     //close the old file.
-    if (fLog != nullptr)
+    if (fLog != NULL)
         this->CloseLog();
         
     if (fLogging == false)
@@ -122,21 +122,21 @@ bool QTSSRollingLog::RollLog()
 
 char* QTSSRollingLog::GetLogPath(char *extension)
 {
-    char *thePath = nullptr;
+    char *thePath = NULL;
     
     OSCharArrayDeleter logDir(this->GetLogDir()); //The string passed into this function is a copy
     OSCharArrayDeleter logName(this->GetLogName());  //The string passed into this function is a copy
     
-    ResizeableStringFormatter formatPath(nullptr,0); //allocate the buffer
+    ResizeableStringFormatter formatPath(NULL,0); //allocate the buffer
     formatPath.PutFilePath(logDir, logName);
     
-    if ( extension != nullptr)
+    if ( extension != NULL)
         formatPath.Put(extension);
         
     formatPath.PutTerminator();
     thePath = formatPath.GetBufPtr();
     
-    formatPath.Set(nullptr,0); //don't delete buffer we are returning the path as  a result
+    formatPath.Set(NULL,0); //don't delete buffer we are returning the path as  a result
     
     return thePath;
 }
@@ -156,7 +156,7 @@ void QTSSRollingLog::EnableLog( bool appendDotLog )
 
     char *extension = ".log";
     if (!appendDotLog)
-        extension = nullptr;
+        extension = NULL;
         
     delete[] fLogFullPath;
     fLogFullPath = this->GetLogPath(extension);
@@ -173,7 +173,7 @@ void QTSSRollingLog::EnableLog( bool appendDotLog )
     }
  
     fLog = ::fopen(fLogFullPath, "a+");//open for "append"
-    if (nullptr != fLog)
+    if (NULL != fLog)
     { 
         if (!logExists) //the file is new, write a log header with the create time of the file.
         {    fLogCreateTime = this->WriteLogHeader(fLog);
@@ -193,25 +193,25 @@ void QTSSRollingLog::CloseLog( bool leaveEnabled )
     if (leaveEnabled)
         sCloseOnWrite = true;
 
-    if (fLog != nullptr)
+    if (fLog != NULL)
     {
         ::fclose(fLog);
-        fLog = nullptr;
+        fLog = NULL;
     }
 }
 
 //returns false if some error has occurred
 bool QTSSRollingLog::FormatDate(char *ioDateBuffer, bool logTimeInGMT)
 {
-    Assert(nullptr != ioDateBuffer);
+    Assert(NULL != ioDateBuffer);
     
     //use ansi routines for getting the date.
-    time_t calendarTime = ::time(nullptr);
+    time_t calendarTime = ::time(NULL);
     Assert(-1 != calendarTime);
     if (-1 == calendarTime)
         return false;
         
-    struct tm* theTime = nullptr;
+    struct tm* theTime = NULL;
     struct tm  timeResult;
     
     if (logTimeInGMT)
@@ -219,9 +219,9 @@ bool QTSSRollingLog::FormatDate(char *ioDateBuffer, bool logTimeInGMT)
     else
         theTime = qtss_localtime(&calendarTime, &timeResult);
     
-    Assert(nullptr != theTime);
+    Assert(NULL != theTime);
     
-    if (nullptr == theTime)
+    if (NULL == theTime)
         return false;
         
     // date time needs to look like this for extended log file format: 2001-03-16 23:34:54
@@ -237,7 +237,7 @@ bool QTSSRollingLog::FormatDate(char *ioDateBuffer, bool logTimeInGMT)
 bool QTSSRollingLog::CheckRollLog()
 {
     //returns false if an error occurred, true otherwise
-    if (fLog == nullptr)
+    if (fLog == NULL)
         return true;
     
     //first check to see if log rolling should happen because of a date interval.
@@ -256,7 +256,7 @@ bool QTSSRollingLog::CheckRollLog()
         QTSSRollingLog::ResetToMidnight(&fLogCreateTime, &logCreateTimeMidnight);
         Assert(logCreateTimeMidnight != -1);
         
-        time_t calendarTime = ::time(nullptr);
+        time_t calendarTime = ::time(NULL);
 
         Assert(-1 != calendarTime);
         if (-1 != calendarTime)
@@ -380,15 +380,15 @@ time_t QTSSRollingLog::WriteLogHeader(FILE* inFile)
     //in a format that is easy to parse through whenever we open the file again.
     //This is necessary to support log rolling based on a time interval, and POSIX doesn't
     //support a create date in files.
-    time_t calendarTime = ::time(nullptr);
+    time_t calendarTime = ::time(NULL);
     Assert(-1 != calendarTime);
     if (-1 == calendarTime)
         return -1;
 
     struct tm  timeResult;
     struct tm* theLocalTime = qtss_localtime(&calendarTime, &timeResult);
-    Assert(nullptr != theLocalTime);
-    if (nullptr == theLocalTime)
+    Assert(NULL != theLocalTime);
+    if (NULL == theLocalTime)
         return -1;
     
     //
@@ -427,7 +427,7 @@ time_t QTSSRollingLog::ReadLogHeader(FILE* inFile)
     const UInt32 kMaxHeaderLength = 500;
     char theFirstLine[kMaxHeaderLength];
     
-    if (nullptr == ::fgets(theFirstLine, kMaxHeaderLength, inFile))
+    if (NULL == ::fgets(theFirstLine, kMaxHeaderLength, inFile))
     {
         ::fseek(inFile, 0, SEEK_END);
         return -1;
@@ -471,15 +471,15 @@ time_t QTSSRollingLog::ReadLogHeader(FILE* inFile)
 
 #if 0
     //use ansi routines for getting the date.
-    time_t calendarTime = ::time(nullptr);
+    time_t calendarTime = ::time(NULL);
     Assert(-1 != calendarTime);
     if (-1 == calendarTime)
         return false;
         
     struct tm  timeResult;
     struct tm* theLocalTime = qtss_localtime(&calendarTime, &timeResult);
-    Assert(nullptr != theLocalTime);
-    if (nullptr == theLocalTime)
+    Assert(NULL != theLocalTime);
+    if (NULL == theLocalTime)
         return false;
 #endif
 
@@ -501,7 +501,7 @@ SInt64 QTSSRollingLog::Run()
     
     UInt32 theRollInterval = (this->GetRollIntervalInDays())  * 60 * 60 * 24;
     
-    if((fLogCreateTime != -1) && (fLog != nullptr))
+    if((fLogCreateTime != -1) && (fLog != NULL))
     {
         time_t logRollTimeMidnight = -1;
         this->ResetToMidnight(&fLogCreateTime, &logRollTimeMidnight);
@@ -509,7 +509,7 @@ SInt64 QTSSRollingLog::Run()
         
         if(theRollInterval != 0)
         {
-            time_t calendarTime = ::time(nullptr);
+            time_t calendarTime = ::time(NULL);
             Assert(-1 != calendarTime);
             double theExactInterval = ::difftime(calendarTime, logRollTimeMidnight);
             if(theExactInterval > 0) {
@@ -532,7 +532,7 @@ void QTSSRollingLog::ResetToMidnight(time_t* inTimePtr, time_t* outTimePtr)
     
     struct tm  timeResult;
     struct tm* theLocalTime = qtss_localtime(inTimePtr, &timeResult);
-    Assert(theLocalTime != nullptr);
+    Assert(theLocalTime != NULL);
 
     theLocalTime->tm_hour = 0;
     theLocalTime->tm_min = 0;

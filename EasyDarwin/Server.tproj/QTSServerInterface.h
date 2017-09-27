@@ -112,8 +112,8 @@ public:
 	//total rtp packets sent by the server
 	void            IncrementTotalPackets()
 	{
-		//(void)atomic_add(&fPeriodicRTPPackets, 1);
-		++fPeriodicRTPPackets;
+		(void)atomic_add(&fPeriodicRTPPackets, 1);
+		//++fPeriodicRTPPackets;
 	}
 	//total rtp bytes reported as lost by the clients
 	void            IncrementTotalRTPPacketsLost(UInt32 packets)
@@ -125,22 +125,22 @@ public:
 	void            IncrementTotalRTPSessions()
 	{
 		OSMutexLocker locker(&fMutex); fNumRTPSessions++; fTotalRTPSessions++;
-		UInt32 numModules = QTSServerInterface::GetNumModulesInRole(QTSSModule::kRedisSetRTSPLoadRole);
+        /*UInt32 numModules = QTSServerInterface::GetNumModulesInRole(QTSSModule::kRedisSetRTSPLoadRole);
 		for (UInt32 currentModule = 0; currentModule < numModules; currentModule++)
 		{
 			QTSSModule* theModule = QTSServerInterface::GetModule(QTSSModule::kRedisSetRTSPLoadRole, currentModule);
 			(void)theModule->CallDispatch(Easy_RedisSetRTSPLoad_Role, NULL);
-		}
+		}*/
 	}
 	void            AlterCurrentRTPSessionCount(SInt32 inDifference)
 	{
 		OSMutexLocker locker(&fMutex); fNumRTPSessions += inDifference;
-		UInt32 numModules = QTSServerInterface::GetNumModulesInRole(QTSSModule::kRedisSetRTSPLoadRole);
+        /*UInt32 numModules = QTSServerInterface::GetNumModulesInRole(QTSSModule::kRedisSetRTSPLoadRole);
 		for (UInt32 currentModule = 0; currentModule < numModules; currentModule++)
 		{
 			QTSSModule* theModule = QTSServerInterface::GetModule(QTSSModule::kRedisSetRTSPLoadRole, currentModule);
 			(void)theModule->CallDispatch(Easy_RedisSetRTSPLoad_Role, NULL);
-		}
+		}*/
 	}
 
 

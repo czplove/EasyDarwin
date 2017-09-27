@@ -1095,7 +1095,7 @@ void ReflectorSender::ReflectPackets(SInt64* ioWakeupTime, OSQueue* inFreeQueue)
 				if (false == theOutput->IsPlaying())
 					continue;
 				{
-					OSMutexLocker locker(&theOutput->fMutex);
+					//OSMutexLocker locker(&theOutput->fMutex);
 					OSQueueElem* packetElem = theOutput->GetBookMarkedPacket(&fPacketQueue);
 					if (packetElem == NULL) // should only be a new output
 					{

@@ -64,7 +64,7 @@ void*   QTSSCallbacks::QTSS_New(FourCharCode /*inMemoryIdentifier*/, UInt32 inSi
 	//return OSMemory::New(inSize, inMemoryIdentifier, false);
 	//return OSMemory::New(inSize);
 
-	auto temp = new int[inSize];
+	int* temp = new int[inSize];
 	return temp;
 }
 
@@ -1010,7 +1010,7 @@ void* QTSSCallbacks::Easy_GetRTSPPushSessions()
 
 //void *QTSSCallbacks::Easy_GetRTSPRecordSessions(char* inSessionName, UInt64 startTime, UInt64 endTime) 
 //{
-//	return nullptr;
+//	return NULL;
 	//char * rootdir = RTSPRecordSession::getNetRecordRootPath();
 
 	//EasyMsgSCRecordList ack;

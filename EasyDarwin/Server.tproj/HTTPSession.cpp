@@ -37,7 +37,7 @@ using namespace std;
 
 HTTPSession::HTTPSession()
 	: HTTPSessionInterface(),
-	fRequest(nullptr),
+	fRequest(NULL),
 	fReadMutex(),
 	fCurrentModule(0),
 	fState(kReadingFirstRequest)
@@ -48,10 +48,10 @@ HTTPSession::HTTPSession()
 
 	// Setup the QTSS param block, as none of these fields will change through the course of this session.
 	fRoleParams.rtspRequestParams.inRTSPSession = this;
-	fRoleParams.rtspRequestParams.inRTSPRequest = nullptr;
-	fRoleParams.rtspRequestParams.inClientSession = nullptr;
+	fRoleParams.rtspRequestParams.inRTSPRequest = NULL;
+	fRoleParams.rtspRequestParams.inClientSession = NULL;
 
-	fModuleState.curModule = nullptr;
+	fModuleState.curModule = NULL;
 	fModuleState.curTask = this;
 	fModuleState.curRole = 0;
 	fModuleState.globalLockRequested = false;
@@ -85,7 +85,7 @@ SInt64 HTTPSession::Run()
 	EventFlags events = this->GetEvents();
 	QTSS_Error err = QTSS_NoErr;
 	// Some callbacks look for this struct in the thread object
-	OSThreadDataSetter theSetter(&fModuleState, nullptr);
+	OSThreadDataSetter theSetter(&fModuleState, NULL);
 
 	if (events & Task::kKillEvent)
 		fLiveSession = false;
@@ -165,7 +165,7 @@ SInt64 HTTPSession::Run()
 			{
 				Assert(fInputStream.GetRequestBuffer());
 
-				Assert(fRequest == nullptr);
+				Assert(fRequest == NULL);
 				fRequest = new HTTPRequest(&QTSServerInterface::GetServerHeader(), fInputStream.GetRequestBuffer());
 
 				//在这里，我们已经读取了一个完整的Request，并准备进行请求的处理，直到响应报文发出
@@ -247,7 +247,7 @@ SInt64 HTTPSession::Run()
 		case kSendingResponse:
 			{
 				//响应报文发送，确保完全发送
-				Assert(fRequest != nullptr);
+				Assert(fRequest != NULL);
 
 				//发送响应报文
 				err = fOutputStream.Flush();
@@ -311,6 +311,8 @@ SInt64 HTTPSession::Run()
 
 QTSS_Error HTTPSession::SendHTTPPacket(StrPtrLen* contentXML, bool connectionClose, bool decrement)
 {
+    OSMutexLocker lock(&fSendMutex);
+
 	HTTPRequest httpAck(&QTSServerInterface::GetServerHeader(), httpResponseType);
 	httpAck.CreateResponseHeader(contentXML->Len ? httpOK : httpNotImplemented);
 	if (contentXML->Len)
@@ -318,6 +320,9 @@ QTSS_Error HTTPSession::SendHTTPPacket(StrPtrLen* contentXML, bool connectionClo
 
 	if (connectionClose)
 		httpAck.AppendConnectionCloseHeader();
+
+    StrPtrLen type("application/json");
+    httpAck.AppendResponseHeader(httpContentTypeHeader, &type);
 
 	char respHeader[2048] = { 0 };
 	StrPtrLen* ackPtr = httpAck.GetCompleteHTTPHeader();
@@ -333,10 +338,6 @@ QTSS_Error HTTPSession::SendHTTPPacket(StrPtrLen* contentXML, bool connectionClo
 		pOutputStream->Flush();
 	}
 
-	//将对HTTPSession的引用减少一
-	if (fObjectHolders && decrement)
-		DecrementObjectHolderCount();
-
 	if (connectionClose)
 		this->Signal(Task::kKillEvent);
 
@@ -350,7 +351,7 @@ QTSS_Error HTTPSession::SetupRequest()
 	if (theErr != QTSS_NoErr)
 		return QTSS_BadArgument;
 
-	if (fRequest->GetRequestPath() != nullptr)
+	if (fRequest->GetRequestPath() != NULL)
 	{
 		string sRequest(fRequest->GetRequestPath());
 
@@ -425,7 +426,7 @@ QTSS_Error HTTPSession::SetupRequest()
 	StrPtrLen* lengthPtr = fRequest->GetHeaderValue(httpContentLengthHeader);
 	StringParser theContentLenParser(lengthPtr);
 	theContentLenParser.ConsumeWhitespace();
-	UInt32 content_length = theContentLenParser.ConsumeInteger(nullptr);
+	UInt32 content_length = theContentLenParser.ConsumeInteger(NULL);
 
 	if (content_length)
 	{
@@ -434,7 +435,7 @@ QTSS_Error HTTPSession::SetupRequest()
 		// the request body, and the current offset in that buffer. If these attributes exist,
 		// then we've already been here for this request. If they don't exist, add them.
 		UInt32 theBufferOffset = 0;
-		char* theRequestBody = nullptr;
+		char* theRequestBody = NULL;
 		UInt32 theLen = sizeof(theRequestBody);
 		theErr = QTSS_GetValue(this, easyHTTPSesContentBody, 0, &theRequestBody, &theLen);
 
@@ -506,7 +507,7 @@ QTSS_Error HTTPSession::SetupRequest()
 
 		UInt32 offset = 0;
 		(void)QTSS_SetValue(this, easyHTTPSesContentBodyOffset, 0, &offset, sizeof(offset));
-		char* content = nullptr;
+		char* content = NULL;
 		(void)QTSS_SetValue(this, easyHTTPSesContentBody, 0, &content, 0);
 
 	}
@@ -518,13 +519,13 @@ QTSS_Error HTTPSession::SetupRequest()
 
 void HTTPSession::CleanupRequest()
 {
-	if (fRequest != nullptr)
+	if (fRequest != NULL)
 	{
-		// nullptr out any references to the current request
+		// NULL out any references to the current request
 		delete fRequest;
-		fRequest = nullptr;
-		fRoleParams.rtspRequestParams.inRTSPRequest = nullptr;
-		fRoleParams.rtspRequestParams.inRTSPHeaders = nullptr;
+		fRequest = NULL;
+		fRoleParams.rtspRequestParams.inRTSPRequest = NULL;
+		fRoleParams.rtspRequestParams.inRTSPHeaders = NULL;
 	}
 
 	fSessionMutex.Unlock();
@@ -557,7 +558,7 @@ QTSS_Error HTTPSession::dumpRequestData()
 
 	QTSS_Error theErr = QTSS_NoErr;
 	while (theErr == QTSS_NoErr)
-		theErr = this->Read(theDumpBuffer, QTSS_MAX_REQUEST_BUFFER_SIZE, nullptr);
+		theErr = this->Read(theDumpBuffer, QTSS_MAX_REQUEST_BUFFER_SIZE, NULL);
 
 	return theErr;
 }
@@ -569,7 +570,7 @@ QTSS_Error HTTPSession::execNetMsgCSGetRTSPLiveSessionsRESTful(const char* query
 	if (QTSServerInterface::GetServer()->GetPrefs()->CloudPlatformEnabled())
 	{
 		//printf("if cloud platform enabled,we will check platform login token");
-		auto cokieTemp = fRequest->GetHeaderValue(httpCookieHeader);
+		StrPtrLen* cokieTemp = fRequest->GetHeaderValue(httpCookieHeader);
 		//if (!hasLogin(cokieTemp))
 		//{
 		//	return EASY_ERROR_CLIENT_UNAUTHORIZED;
@@ -612,7 +613,7 @@ QTSS_Error HTTPSession::execNetMsgCSGetRTSPRecordSessionsRESTful(const char* que
 	QTSS_Error theErr = QTSS_NoErr;
 
 	string queryTemp;
-	if (queryString != nullptr)
+	if (queryString != NULL)
 	{
 		queryTemp = EasyUtil::Urldecode(queryString);
 	}
@@ -761,7 +762,7 @@ QTSS_Error HTTPSession::execNetMsgCSGetServerVersionReqRESTful(const char* query
 	if (QTSServerInterface::GetServer()->GetPrefs()->CloudPlatformEnabled())
 	{
 		//printf("if cloud platform enabled,we will check platform login token");
-		auto cokieTemp = fRequest->GetHeaderValue(httpCookieHeader);
+		StrPtrLen* cokieTemp = fRequest->GetHeaderValue(httpCookieHeader);
 		//if (!hasLogin(cokieTemp))
 		//{
 		//	return EASY_ERROR_CLIENT_UNAUTHORIZED;
@@ -776,7 +777,7 @@ QTSS_Error HTTPSession::execNetMsgCSGetServerVersionReqRESTful(const char* query
 	header[EASY_TAG_ERROR_NUM] = EASY_ERROR_SUCCESS_OK;
 	header[EASY_TAG_ERROR_STRING] = EasyProtocol::GetErrorString(EASY_ERROR_SUCCESS_OK);
 
-	char* serverHeader = nullptr;
+	char* serverHeader = NULL;
 	(void)QTSS_GetValueAsString(QTSServerInterface::GetServer(), qtssSvrRTSPServerHeader, 0, &serverHeader);
 	QTSSCharArrayDeleter theFullPathStrDeleter(serverHeader);
 	body[EASY_TAG_SERVER_HEADER] = serverHeader;
@@ -812,7 +813,7 @@ QTSS_Error HTTPSession::execNetMsgCSLoginReqRESTful(const char* queryString)
 	if (QTSServerInterface::GetServer()->GetPrefs()->CloudPlatformEnabled())
 	{
 		//printf("if cloud platform enabled,we will check platform login token");
-		auto cokieTemp = fRequest->GetHeaderValue(httpCookieHeader);
+		StrPtrLen* cokieTemp = fRequest->GetHeaderValue(httpCookieHeader);
 		//if (!hasLogin(cokieTemp))
 		//{
 		//	return EASY_ERROR_CLIENT_UNAUTHORIZED;
@@ -820,7 +821,7 @@ QTSS_Error HTTPSession::execNetMsgCSLoginReqRESTful(const char* queryString)
 	}
 
 	string queryTemp;
-	if (queryString != nullptr)
+	if (queryString != NULL)
 	{
 		queryTemp = EasyUtil::Urldecode(queryString);
 	}
@@ -875,7 +876,7 @@ QTSS_Error HTTPSession::execNetMsgCSLogoutReqRESTful(const char* queryString)
 	if (QTSServerInterface::GetServer()->GetPrefs()->CloudPlatformEnabled())
 	{
 		//printf("if cloud platform enabled,we will check platform login token");
-		auto cokieTemp = fRequest->GetHeaderValue(httpCookieHeader);
+		StrPtrLen* cokieTemp = fRequest->GetHeaderValue(httpCookieHeader);
 		//if (!hasLogin(cokieTemp))
 		//{
 		//	return EASY_ERROR_CLIENT_UNAUTHORIZED;
@@ -903,10 +904,32 @@ QTSS_Error HTTPSession::execNetMsgCSLogoutReqRESTful(const char* queryString)
 
 QTSS_Error HTTPSession::execNetMsgCSGetBaseConfigReqRESTful(const char* queryString)
 {
+    QTSS_RoleParams theParams;
+    theParams.easyStreamInfoParams.inStreamName = "alex";
+    theParams.easyStreamInfoParams.inChannel = 1;
+    theParams.easyStreamInfoParams.inNumOutputs = 1;
+    theParams.easyStreamInfoParams.inAction = easyRedisActionSet;
+    UInt32 numModules = QTSServerInterface::GetNumModulesInRole(QTSSModule::kRedisUpdateStreamInfoRole);
+    for (UInt32 currentModule = 0; currentModule < numModules; currentModule++)
+    {
+        QTSSModule* theModule = QTSServerInterface::GetModule(QTSSModule::kRedisUpdateStreamInfoRole, currentModule);
+        (void)theModule->CallDispatch(Easy_RedisUpdateStreamInfo_Role, &theParams);
+    }
+
+    QTSS_RoleParams theParams2;
+    theParams2.easyStreamInfoParams.inStreamName = "alex";
+    theParams2.easyStreamInfoParams.inChannel = 1;
+    UInt32 numModules2 = QTSServerInterface::GetNumModulesInRole(QTSSModule::kEasyCMSFreeStreamRole);
+    for (UInt32 currentModule = 0; currentModule < numModules2; currentModule++)
+    {
+        QTSSModule* theModule = QTSServerInterface::GetModule(QTSSModule::kEasyCMSFreeStreamRole, currentModule);
+        (void)theModule->CallDispatch(Easy_CMSFreeStream_Role, &theParams2);
+    }
+
 	if(QTSServerInterface::GetServer()->GetPrefs()->CloudPlatformEnabled())
 	{
 		//printf("if cloud platform enabled,we will check platform login token");
-		auto cokieTemp = fRequest->GetHeaderValue(httpCookieHeader);
+		StrPtrLen* cokieTemp = fRequest->GetHeaderValue(httpCookieHeader);
 		//if (!hasLogin(cokieTemp))
 		//{
 		//	return EASY_ERROR_CLIENT_UNAUTHORIZED;
@@ -957,7 +980,7 @@ QTSS_Error HTTPSession::execNetMsgCSSetBaseConfigReqRESTful(const char* queryStr
 	if (QTSServerInterface::GetServer()->GetPrefs()->CloudPlatformEnabled())
 	{
 		//printf("if cloud platform enabled,we will check platform login token");
-		auto cokieTemp = fRequest->GetHeaderValue(httpCookieHeader);
+        StrPtrLen* cokieTemp = fRequest->GetHeaderValue(httpCookieHeader);
 		//if (!hasLogin(cokieTemp))
 		//{
 		//	return EASY_ERROR_CLIENT_UNAUTHORIZED;
@@ -1037,7 +1060,7 @@ QTSS_Error HTTPSession::execNetMsgCSRestartServiceRESTful(const char* queryStrin
 	if (QTSServerInterface::GetServer()->GetPrefs()->CloudPlatformEnabled())
 	{
 		//printf("if cloud platform enabled,we will check platform login token");
-		auto cokieTemp = fRequest->GetHeaderValue(httpCookieHeader);
+        StrPtrLen* cokieTemp = fRequest->GetHeaderValue(httpCookieHeader);
 		//if (!hasLogin(cokieTemp))
 		//{
 		//	return EASY_ERROR_CLIENT_UNAUTHORIZED;
@@ -1056,7 +1079,7 @@ QTSS_Error HTTPSession::execNetMsgCSGetDeviceStreamReqRESTful(const char* queryS
 	if (QTSServerInterface::GetServer()->GetPrefs()->CloudPlatformEnabled())
 	{
 		//printf("if cloud platform enabled,we will check platform login token");
-		auto cokieTemp = fRequest->GetHeaderValue(httpCookieHeader);
+        StrPtrLen* cokieTemp = fRequest->GetHeaderValue(httpCookieHeader);
 		//if (!hasLogin(cokieTemp))
 		//{
 		//	return EASY_ERROR_CLIENT_UNAUTHORIZED;
@@ -1116,19 +1139,10 @@ QTSS_Error HTTPSession::execNetMsgCSGetDeviceStreamReqRESTful(const char* queryS
 			break;
 		}
 
-		StrPtrLen chProtocolPtr(const_cast<char*>(chProtocol));
-		streamType = HTTPProtocol::GetStreamType(&chProtocolPtr);
-
-		if (streamType == easyIllegalStreamType)
-		{
-			theErr = EASY_ERROR_CLIENT_BAD_REQUEST;
-			break;
-		}
-
 		QTSS_RoleParams params;
 		params.easyGetDeviceStreamParams.inDevice = const_cast<char*>(chSerial);
 		params.easyGetDeviceStreamParams.inChannel = theChannelNum;
-		params.easyGetDeviceStreamParams.inStreamType = streamType;
+		params.easyGetDeviceStreamParams.inStreamType = easyRTSPType;
 		params.easyGetDeviceStreamParams.outUrl = outURL;
 		params.easyGetDeviceStreamParams.outIsReady = false;
 
@@ -1158,7 +1172,7 @@ QTSS_Error HTTPSession::execNetMsgCSGetDeviceStreamReqRESTful(const char* queryS
 	if (theErr == EASY_ERROR_SUCCESS_OK)
 	{
 		body[EASY_TAG_URL] = outURL;
-		body[EASY_TAG_PROTOCOL] = HTTPProtocol::GetStreamTypeStream(streamType)->Ptr;
+		body[EASY_TAG_PROTOCOL] = "RTSP";
 		body[EASY_TAG_IS_READY] = outIsReady;
 	}
 
@@ -1177,7 +1191,7 @@ QTSS_Error HTTPSession::execNetMsgCSLiveDeviceStreamReqRESTful(const char * quer
 	if (QTSServerInterface::GetServer()->GetPrefs()->CloudPlatformEnabled())
 	{
 		//printf("if cloud platform enabled,we will check platform login token");
-		auto cokieTemp = fRequest->GetHeaderValue(httpCookieHeader);
+        StrPtrLen* cokieTemp = fRequest->GetHeaderValue(httpCookieHeader);
 		//if (!hasLogin(cokieTemp))
 		//{
 		//	return EASY_ERROR_CLIENT_UNAUTHORIZED;
@@ -1233,7 +1247,7 @@ QTSS_Error HTTPSession::execNetMsgCSLiveDeviceStreamReqRESTful(const char * quer
 		params.easyGetDeviceStreamParams.inDevice = const_cast<char*>(chSerial);
 		params.easyGetDeviceStreamParams.inChannel = theChannelNum;
 		params.easyGetDeviceStreamParams.inStreamType = streamType;
-		params.easyGetDeviceStreamParams.outUrl = nullptr;
+		params.easyGetDeviceStreamParams.outUrl = NULL;
 		params.easyGetDeviceStreamParams.outIsReady = false;
 
 		UInt32 numModules = QTSServerInterface::GetNumModulesInRole(QTSSModule::kLiveDeviceStreamRole);

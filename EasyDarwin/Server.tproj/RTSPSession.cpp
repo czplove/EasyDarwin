@@ -108,7 +108,7 @@ static StrPtrLen    sAuthQop("auth");
 static StrPtrLen    sEmptyStr("");
 
 // static class member  initialized in RTSPSession ctor
-OSRefTable* RTSPSession::sHTTPProxyTunnelMap = nullptr;
+OSRefTable* RTSPSession::sHTTPProxyTunnelMap = NULL;
 
 char        RTSPSession::sHTTPResponseHeaderBuf[kMaxHTTPResponseLen];
 StrPtrLen   RTSPSession::sHTTPResponseHeaderPtr(sHTTPResponseHeaderBuf, kMaxHTTPResponseLen);
@@ -137,8 +137,8 @@ void RTSPSession::Initialize()
 
 RTSPSession::RTSPSession(bool doReportHTTPConnectionAddress)
 	: RTSPSessionInterface(),
-	fRequest(nullptr),
-	fRTPSession(nullptr),
+	fRequest(NULL),
+	fRTPSession(NULL),
 	fReadMutex(),
 	fHTTPMethod(kHTTPMethodInit),
 	fWasHTTPRequest(false),
@@ -151,16 +151,16 @@ RTSPSession::RTSPSession(bool doReportHTTPConnectionAddress)
 	this->SetTaskName("RTSPSession");
 
 	// must guarantee this map is present
-	Assert(sHTTPProxyTunnelMap != nullptr);
+	Assert(sHTTPProxyTunnelMap != NULL);
 
 	QTSServerInterface::GetServer()->AlterCurrentRTSPSessionCount(1);
 
 	// Setup the QTSS param block, as none of these fields will change through the course of this session.
 	fRoleParams.rtspRequestParams.inRTSPSession = this;
-	fRoleParams.rtspRequestParams.inRTSPRequest = nullptr;
-	fRoleParams.rtspRequestParams.inClientSession = nullptr;
+	fRoleParams.rtspRequestParams.inRTSPRequest = NULL;
+	fRoleParams.rtspRequestParams.inClientSession = NULL;
 
-	fModuleState.curModule = nullptr;
+	fModuleState.curModule = NULL;
 	fModuleState.curTask = this;
 	fModuleState.curRole = 0;
 	fModuleState.globalLockRequested = false;
@@ -209,7 +209,7 @@ RTSPSession::~RTSPSession()
 	if (fRequest)
 	{
 		delete fRequest;
-		fRequest = nullptr;
+		fRequest = NULL;
 	}
 }
 
@@ -217,12 +217,12 @@ SInt64 RTSPSession::Run()
 {
 	EventFlags events = this->GetEvents();
 	QTSS_Error err = QTSS_NoErr;
-	QTSSModule* theModule = nullptr;
+	QTSSModule* theModule = NULL;
 	UInt32 numModules = 0;
 	Assert(fLastRTPSessionIDPtr.Ptr == &fLastRTPSessionID[0]);
 
 	// Some callbacks look for this struct in the thread object
-	OSThreadDataSetter theSetter(&fModuleState, nullptr);
+	OSThreadDataSetter theSetter(&fModuleState, NULL);
 
 	//check for a timeout or a kill. If so, just consider the session dead
 	if ((events & Task::kTimeoutEvent) || (events & Task::kKillEvent))
@@ -369,7 +369,7 @@ SInt64 RTSPSession::Run()
 
 				Assert(fInputStream.GetRequestBuffer());
 
-				if (fRequest == nullptr)
+				if (fRequest == NULL)
 				{
 					//                    printf("RTSPRequest size########## %d\n",sizeof(RTSPRequest));
 					fRequest = new RTSPRequest(this);
@@ -438,8 +438,8 @@ SInt64 RTSPSession::Run()
 
 				//
 				// In case a module wants to replace the request
-				char* theReplacedRequest = nullptr;
-				char* oldReplacedRequest = nullptr;
+				char* theReplacedRequest = NULL;
+				char* oldReplacedRequest = NULL;
 
 				// Setup the filter param block
 				QTSS_RoleParams theFilterParams;
@@ -477,14 +477,14 @@ SInt64 RTSPSession::Run()
 					//
 					// Check to see if this module has replaced the request. If so, check
 					// to see if there is an old replacement that we should delete
-					if (theReplacedRequest != nullptr)
+					if (theReplacedRequest != NULL)
 					{
-						if (oldReplacedRequest != nullptr)
+						if (oldReplacedRequest != NULL)
 							delete[] oldReplacedRequest;
 
 						fRequest->SetVal(qtssRTSPReqFullRequest, theReplacedRequest, ::strlen(theReplacedRequest));
 						oldReplacedRequest = theReplacedRequest;
-						theReplacedRequest = nullptr;
+						theReplacedRequest = NULL;
 					}
 				}
 
@@ -522,7 +522,7 @@ SInt64 RTSPSession::Run()
 				{
 					// Manipulation of the RTPSession from the point of view of
 					// a module is guaranteed to be atomic by the API.
-					Assert(fRTPSession != nullptr);
+					Assert(fRTPSession != NULL);
 					OSMutexLocker   locker(fRTPSession->GetSessionMutex());
 
 					for (; (fCurrentModule < numModules) && ((!fRequest->HasResponseBeenSent()) || fModuleState.eventRequested); fCurrentModule++)
@@ -595,7 +595,7 @@ SInt64 RTSPSession::Run()
 				bool      wasHandled = false;
 
 				StrPtrLenDel prefRealm(QTSServerInterface::GetServer()->GetPrefs()->GetAuthorizationRealm());
-				if (prefRealm.Ptr != nullptr)
+				if (prefRealm.Ptr != NULL)
 				{
 					fRequest->SetValue(qtssRTSPReqURLRealm, 0, prefRealm.Ptr, prefRealm.Len, kDontObeyReadOnly);
 				}
@@ -611,7 +611,7 @@ SInt64 RTSPSession::Run()
 						break;
 					}
 
-					void* theSession = nullptr;
+					void* theSession = NULL;
 					UInt32 theLen = sizeof(theSession);
 					if (QTSS_NoErr == fRTPSession->GetValue(sClientBroadcastSessionAttr, 0, &theSession, &theLen))
 					{
@@ -650,7 +650,7 @@ SInt64 RTSPSession::Run()
 				fRequest->SetAuthHandled(handled);
 
 				StrPtrLen* lastUsedDigestChallengePtr = this->GetValue(qtssRTSPSesLastDigestChallenge);
-				if (lastUsedDigestChallengePtr != nullptr)
+				if (lastUsedDigestChallengePtr != NULL)
 					(void) fRequest->SetValue(qtssRTSPReqDigestChallenge, (UInt32)0, (void *)lastUsedDigestChallengePtr->Ptr, lastUsedDigestChallengePtr->Len, QTSSDictionary::kDontObeyReadOnly);
 
 
@@ -674,7 +674,7 @@ SInt64 RTSPSession::Run()
 
 
 					theModule = QTSServerInterface::GetModule(QTSSModule::kRTSPAthnRole, fCurrentModule);
-					if (nullptr == theModule)
+					if (NULL == theModule)
 						continue;
 
 					if (__RTSP_AUTH_DEBUG__)
@@ -736,7 +736,7 @@ SInt64 RTSPSession::Run()
 
 				// Manipulation of the RTPSession from the point of view of
 				// a module is guaranteed to be atomic by the API.
-				Assert(fRTPSession != nullptr);
+				Assert(fRTPSession != NULL);
 				OSMutexLocker   locker(fRTPSession->GetSessionMutex());
 
 				fRequest->SetAllowed(allowed);
@@ -758,7 +758,7 @@ SInt64 RTSPSession::Run()
 					}
 
 					theModule = QTSServerInterface::GetModule(QTSSModule::kRTSPAuthRole, fCurrentModule);
-					if (nullptr == theModule)
+					if (NULL == theModule)
 						continue;
 
 					if (__RTSP_AUTH_DEBUG__)
@@ -870,7 +870,7 @@ SInt64 RTSPSession::Run()
 				{
 					// Manipulation of the RTPSession from the point of view of
 					// a module is guarenteed to be atomic by the API.
-					Assert(fRTPSession != nullptr);
+					Assert(fRTPSession != NULL);
 					OSMutexLocker   locker(fRTPSession->GetSessionMutex());
 
 					for (; (fCurrentModule < numModules) && ((!fRequest->HasResponseBeenSent()) || fModuleState.eventRequested); fCurrentModule++)
@@ -889,7 +889,7 @@ SInt64 RTSPSession::Run()
 
 						// The way the API is set up currently, the first module that adds a stream
 						// to the session is responsible for sending RTP packets for the session.
-						if (fRTPSession->HasAnRTPStream() && (fRTPSession->GetPacketSendingModule() == nullptr))
+						if (fRTPSession->HasAnRTPStream() && (fRTPSession->GetPacketSendingModule() == NULL))
 							fRTPSession->SetPacketSendingModule(theModule);
 
 						if (fModuleState.globalLockRequested) // call this request back locked
@@ -924,7 +924,7 @@ SInt64 RTSPSession::Run()
 				{
 					// Manipulation of the RTPSession from the point of view of
 					// a module is guarenteed to be atomic by the API.
-					Assert(fRTPSession != nullptr);
+					Assert(fRTPSession != NULL);
 					OSMutexLocker   locker(fRTPSession->GetSessionMutex());
 
 					if (fModuleState.globalLockRequested)
@@ -938,7 +938,7 @@ SInt64 RTSPSession::Run()
 					fModuleState.isGlobalLocked = false;
 
 					// Do the same check as above for the preprocessor
-					if (fRTPSession->HasAnRTPStream() && fRTPSession->GetPacketSendingModule() == nullptr)
+					if (fRTPSession->HasAnRTPStream() && fRTPSession->GetPacketSendingModule() == NULL)
 						fRTPSession->SetPacketSendingModule(theModule);
 
 					if (fModuleState.globalLockRequested) // call this request back locked
@@ -980,7 +980,7 @@ SInt64 RTSPSession::Run()
 				//if this is not a keepalive request, we should kill the session NOW
 				fLiveSession = fRequest->GetResponseKeepAlive();
 
-				if (fRTPSession != nullptr)
+				if (fRTPSession != NULL)
 				{
 					// Invoke postprocessor modules only if there is an RTP session. We do NOT want
 					// postprocessors running when filters or syntax errors have occurred in the request!
@@ -1041,7 +1041,7 @@ SInt64 RTSPSession::Run()
 			{
 				// Sending the RTSP response consists of making sure the
 				// RTSP request output buffer is completely flushed to the socket.
-				Assert(fRequest != nullptr);
+				Assert(fRequest != NULL);
 
 				// If x-dynamic-rate header is sent with a value of 1, send OPTIONS request
 				if ((fRequest->GetMethod() == qtssSetupMethod) && (fRequest->GetStatus() == qtssSuccessOK)
@@ -1111,12 +1111,12 @@ SInt64 RTSPSession::Run()
 	if (!IsLiveSession() && fObjectHolders > 0) {
 		OSRefTable* theMap = QTSServerInterface::GetServer()->GetRTPSessionMap();
 		OSRef* theRef = theMap->Resolve(&fLastRTPSessionIDPtr);
-		if (theRef != nullptr) {
+		if (theRef != NULL) {
 			fRTPSession = (RTPSession*)theRef->GetObject();
 			if (fRTPSession) fRTPSession->Teardown();
 			while (theRef->GetRefCount() > 0)
 				theMap->Release(fRTPSession->GetRef());
-			fRTPSession = nullptr;
+			fRTPSession = NULL;
 		}
 	}
 
@@ -1396,15 +1396,15 @@ QTSS_Error RTSPSession::PreFilterForHTTPProxyTunnel()
 
 	// This function attempts to register our Ref into the map. If there is another
 	// session with a matching magic number, it resolves it and returns that Ref.
-	// If it returns nullptr, something bad has happened, and we should just kill the session.
+	// If it returns NULL, something bad has happened, and we should just kill the session.
 
 	OSRef* rtspSessionRef = this->RegisterRTSPSessionIntoHTTPProxyTunnelMap(theOtherSessionType);
 
 	// Something went wrong (usually we get here because there is a session with this magic
 	// number, and that session is currently doing something
-	if (rtspSessionRef == nullptr)
+	if (rtspSessionRef == NULL)
 	{
-		HTTP_TRACE("RegisterRTSPSessionIntoHTTPProxyTunnelMap returned nullptr. Abort.\n");
+		HTTP_TRACE("RegisterRTSPSessionIntoHTTPProxyTunnelMap returned NULL. Abort.\n");
 		return QTSS_RequestFailed;
 	}
 
@@ -1470,11 +1470,11 @@ OSRef* RTSPSession::RegisterRTSPSessionIntoHTTPProxyTunnelMap(QTSS_RTSPSessionTy
 	// This function attempts to register the current session's fProxyRef into the map, and
 	// 1) returns the current session's fProxyRef if registration was successful
 	// 2) returns another session's fProxyRef if it has the same magic number and is the right sessionType
-	// 3) returns nullptr if there is a session with the same magic # but it couldn't be resolved.
+	// 3) returns NULL if there is a session with the same magic # but it couldn't be resolved.
 
 	OSMutexLocker locker(sHTTPProxyTunnelMap->GetMutex());
 	OSRef* theRef = sHTTPProxyTunnelMap->RegisterOrResolve(&fProxyRef);
-	if (theRef == nullptr)
+	if (theRef == NULL)
 		return &fProxyRef;
 
 	RTSPSession* rtspSession = (RTSPSession*)theRef->GetObject();
@@ -1484,7 +1484,7 @@ OSRef* RTSPSession::RegisterRTSPSessionIntoHTTPProxyTunnelMap(QTSS_RTSPSessionTy
 	if (theRef->GetRefCount() > 1 || rtspSession->fSessionType != inSessionType)
 	{
 		sHTTPProxyTunnelMap->Release(theRef);
-		theRef = nullptr;
+		theRef = NULL;
 	}
 	return theRef;
 }
@@ -1527,9 +1527,9 @@ void RTSPSession::CheckAuthentication() {
 		}
 
 		delete[] userPasswdStr;    // deleting allocated memory
-		userPasswdStr = nullptr;
+		userPasswdStr = NULL;
 		delete[] reqPasswdStr;
-		reqPasswdStr = nullptr;        // deleting allocated memory
+		reqPasswdStr = NULL;        // deleting allocated memory
 	}
 	else if (scheme == qtssAuthDigest) {
 		// For digest authentication, md5 digest comparison
@@ -1626,7 +1626,7 @@ void RTSPSession::CheckAuthentication() {
 	}
 
 	// If authenticaton failed, set qtssUserName in the qtssRTSPReqUserProfile attribute
-	// to nullptr and clear out the password and any groups that have been set.
+	// to NULL and clear out the password and any groups that have been set.
 	if (!fRequest->GetAuthHandled())
 	{
 		if ((!authenticated) || (authenticated && (fRequest->GetStale()))) {
@@ -1641,7 +1641,7 @@ void RTSPSession::CheckAuthentication() {
 bool RTSPSession::ParseOptionsResponse()
 {
 	StringParser parser(fRequest->GetValue(qtssRTSPReqFullRequest));
-	Assert(fRequest->GetValue(qtssRTSPReqFullRequest)->Ptr != nullptr);
+	Assert(fRequest->GetValue(qtssRTSPReqFullRequest)->Ptr != NULL);
 	static StrPtrLen sRTSPStr("RTSP", 4);
 	StrPtrLen theProtocol;
 	parser.ConsumeLength(&theProtocol, 4);
@@ -1662,7 +1662,7 @@ void RTSPSession::SetupRequest()
 	OSRefTable* theMap = QTSServerInterface::GetServer()->GetRTPSessionMap();
 	theErr = this->FindRTPSession(theMap);
 
-	if (fRTPSession != nullptr)
+	if (fRTPSession != NULL)
 	{
 		OSMutexLocker locker(fRTPSession->GetMutex());
 
@@ -1674,7 +1674,7 @@ void RTSPSession::SetupRequest()
 
 	}
 	QTSS_RTSPStatusCode statusCode = qtssSuccessOK;
-	char *body = nullptr;
+	char *body = NULL;
 	UInt32 bodySizeBytes = 0;
 
 	// If this is an OPTIONS request, don't even bother letting modules see it. Just
@@ -1682,7 +1682,7 @@ void RTSPSession::SetupRequest()
 	if (fRequest->GetMethod() == qtssOptionsMethod)// OPTIONSÇëÇó
 	{
 		StrPtrLen* cSeqPtr = fRequest->GetHeaderDictionary()->GetValue(qtssCSeqHeader);
-		if (cSeqPtr == nullptr || cSeqPtr->Len == 0)
+		if (cSeqPtr == NULL || cSeqPtr->Len == 0)
 		{
 			statusCode = qtssClientBadRequest;
 			fRequest->SetValue(qtssRTSPReqStatusCode, 0, &statusCode, sizeof(statusCode));
@@ -1706,8 +1706,8 @@ void RTSPSession::SetupRequest()
 		fRequest->SendHeader();
 
 		// now write the body if there is one
-		if (bodySizeBytes > 0 && body != nullptr)
-			fRequest->Write(body, bodySizeBytes, nullptr, 0);
+		if (bodySizeBytes > 0 && body != NULL)
+			fRequest->Write(body, bodySizeBytes, NULL, 0);
 
 		return;
 	}
@@ -1719,7 +1719,7 @@ void RTSPSession::SetupRequest()
 
 		// Check that it has the CSeq header
 		StrPtrLen* cSeqPtr = fRequest->GetHeaderDictionary()->GetValue(qtssCSeqHeader);
-		if (cSeqPtr == nullptr || cSeqPtr->Len == 0) // keep session
+		if (cSeqPtr == NULL || cSeqPtr->Len == 0) // keep session
 		{
 			statusCode = qtssClientBadRequest;
 			fRequest->SetValue(qtssRTSPReqStatusCode, 0, &statusCode, sizeof(statusCode));
@@ -1729,7 +1729,7 @@ void RTSPSession::SetupRequest()
 
 
 		// If the RTPSession doesn't exist, return error
-		if (fRTPSession == nullptr) // keep session
+		if (fRTPSession == NULL) // keep session
 		{
 			statusCode = qtssClientSessionNotFound;
 			fRequest->SetValue(qtssRTSPReqStatusCode, 0, &statusCode, sizeof(statusCode));
@@ -1761,7 +1761,7 @@ void RTSPSession::SetupRequest()
 	}
 
 	// If we don't have an RTP session yet, create one...
-	if (fRTPSession == nullptr)
+	if (fRTPSession == NULL)
 	{
 		theErr = this->CreateNewRTPSession(theMap);
 		if (theErr != QTSS_NoErr)
@@ -1789,7 +1789,7 @@ void RTSPSession::SetupRequest()
 		return;
 	}
 
-	Assert(fRTPSession != nullptr); // At this point, we must have one!
+	Assert(fRTPSession != NULL); // At this point, we must have one!
 	fRoleParams.rtspRequestParams.inClientSession = fRTPSession;
 
 	// Setup Authorization params;
@@ -1798,15 +1798,15 @@ void RTSPSession::SetupRequest()
 
 void RTSPSession::CleanupRequest()
 {
-	if (fRTPSession != nullptr)
+	if (fRTPSession != NULL)
 	{
 		// Release the ref.
 		OSRefTable* theMap = QTSServerInterface::GetServer()->GetRTPSessionMap();
 		theMap->Release(fRTPSession->GetRef());
 
-		// nullptr out any references to this RTP session
-		fRTPSession = nullptr;
-		fRoleParams.rtspRequestParams.inClientSession = nullptr;
+		// NULL out any references to this RTP session
+		fRTPSession = NULL;
+		fRoleParams.rtspRequestParams.inClientSession = NULL;
 	}
 
 	if (this->IsLiveSession() == false) //clear out the ID so it can't be re-used.
@@ -1815,7 +1815,7 @@ void RTSPSession::CleanupRequest()
 		fLastRTPSessionIDPtr.Set(fLastRTPSessionID, 0);
 	}
 
-	if (fRequest != nullptr)
+	if (fRequest != NULL)
 	{
 		// Check to see if a filter module has replaced the request. If so, delete
 		// their request now.
@@ -1825,11 +1825,11 @@ void RTSPSession::CleanupRequest()
 				delete[] fRequest->GetValue(qtssRTSPReqFullRequest)->Ptr;
 		}
 
-		// nullptr out any references to the current request
+		// NULL out any references to the current request
 		//delete fRequest;
-		//fRequest = nullptr;
-		fRoleParams.rtspRequestParams.inRTSPRequest = nullptr;
-		fRoleParams.rtspRequestParams.inRTSPHeaders = nullptr;
+		//fRequest = NULL;
+		fRoleParams.rtspRequestParams.inRTSPRequest = NULL;
+		fRoleParams.rtspRequestParams.inRTSPHeaders = NULL;
 	}
 
 	fSessionMutex.Unlock();
@@ -1847,20 +1847,20 @@ QTSS_Error  RTSPSession::FindRTPSession(OSRefTable* inRefTable)
 	// in the RTSP request, and if there isn't one there, in the RTSP session object itself.
 
 	StrPtrLen* theSessionID = fRequest->GetHeaderDictionary()->GetValue(qtssSessionHeader);
-	if (theSessionID != nullptr && theSessionID->Len > 0)
+	if (theSessionID != NULL && theSessionID->Len > 0)
 	{
 		OSRef* theRef = inRefTable->Resolve(theSessionID);
 
-		if (theRef != nullptr)
+		if (theRef != NULL)
 			fRTPSession = (RTPSession*)theRef->GetObject();
 
 	}
 
 	// If there wasn't a session ID in the headers, look for one in the RTSP session itself
-	if ((theSessionID == nullptr || theSessionID->Len == 0) && fLastRTPSessionIDPtr.Len > 0)
+	if ((theSessionID == NULL || theSessionID->Len == 0) && fLastRTPSessionIDPtr.Len > 0)
 	{
 		OSRef* theRef = inRefTable->Resolve(&fLastRTPSessionIDPtr);
-		if (theRef != nullptr)
+		if (theRef != NULL)
 			fRTPSession = (RTPSession*)theRef->GetObject();
 	}
 
@@ -1881,7 +1881,7 @@ QTSS_Error  RTSPSession::CreateNewRTPSession(OSRefTable* inRefTable)
 		return theErr;
 
 	// Create the RTPSession object
-	Assert(fRTPSession == nullptr);
+	Assert(fRTPSession == NULL);
 	fRTPSession = new RTPSession();
 
 	{
@@ -1913,7 +1913,7 @@ QTSS_Error  RTSPSession::CreateNewRTPSession(OSRefTable* inRefTable)
 	// make sure to resolve the RTPSession object out of the map, even though
 	// we don't actually need to pointer.
 	OSRef* theRef = inRefTable->Resolve(&fLastRTPSessionIDPtr);
-	Assert(theRef != nullptr);
+	Assert(theRef != NULL);
 
 	return QTSS_NoErr;
 }
@@ -1922,29 +1922,29 @@ void RTSPSession::SetupClientSessionAttrs()
 {
 	// get and pass presentation url
 	StrPtrLen* theValue = fRequest->GetValue(qtssRTSPReqURI);
-	Assert(theValue != nullptr);
+	Assert(theValue != NULL);
 	(void)fRTPSession->SetValue(qtssCliSesPresentationURL, 0, theValue->Ptr, theValue->Len, QTSSDictionary::kDontObeyReadOnly);
 
 	// get and pass full request url
 	theValue = fRequest->GetValue(qtssRTSPReqAbsoluteURL);
-	Assert(theValue != nullptr);
+	Assert(theValue != NULL);
 	(void)fRTPSession->SetValue(qtssCliSesFullURL, 0, theValue->Ptr, theValue->Len, QTSSDictionary::kDontObeyReadOnly);
 
 	// get and pass request host name
 	theValue = fRequest->GetHeaderDictionary()->GetValue(qtssHostHeader);
-	Assert(theValue != nullptr);
+	Assert(theValue != NULL);
 	(void)fRTPSession->SetValue(qtssCliSesHostName, 0, theValue->Ptr, theValue->Len, QTSSDictionary::kDontObeyReadOnly);
 
 	// get and pass user agent header
 	theValue = fRequest->GetHeaderDictionary()->GetValue(qtssUserAgentHeader);
-	Assert(theValue != nullptr);
+	Assert(theValue != NULL);
 	(void)fRTPSession->SetValue(qtssCliSesFirstUserAgent, 0, theValue->Ptr, theValue->Len, QTSSDictionary::kDontObeyReadOnly);
 
 	// get and pass CGI params
 	if (fRequest->GetMethod() == qtssDescribeMethod)
 	{
 		theValue = fRequest->GetValue(qtssRTSPReqQueryString);
-		Assert(theValue != nullptr);
+		Assert(theValue != NULL);
 		(void)fRTPSession->SetValue(qtssCliSesReqQueryString, 0, theValue->Ptr, theValue->Len, QTSSDictionary::kDontObeyReadOnly);
 	}
 
@@ -2081,7 +2081,7 @@ void RTSPSession::SaveRequestAuthorizationParams(RTSPRequest *theRTSPRequest)
 {
 	// Set the RTSP session's copy of the user name
 	StrPtrLen* tempPtr = theRTSPRequest->GetValue(qtssRTSPReqUserName);
-	Assert(tempPtr != nullptr);
+	Assert(tempPtr != NULL);
 	if (tempPtr)
 	{
 		(void)this->SetValue(qtssRTSPSesLastUserName, 0, tempPtr->Ptr, tempPtr->Len, QTSSDictionary::kDontObeyReadOnly);
@@ -2090,7 +2090,7 @@ void RTSPSession::SaveRequestAuthorizationParams(RTSPRequest *theRTSPRequest)
 
 	// Same thing... user password
 	tempPtr = theRTSPRequest->GetValue(qtssRTSPReqUserPassword);
-	Assert(tempPtr != nullptr);
+	Assert(tempPtr != NULL);
 	if (tempPtr)
 	{
 		(void)this->SetValue(qtssRTSPSesLastUserPassword, 0, tempPtr->Ptr, tempPtr->Len, QTSSDictionary::kDontObeyReadOnly);
@@ -2123,7 +2123,7 @@ QTSS_Error RTSPSession::DumpRequestData()
 
 	QTSS_Error theErr = QTSS_NoErr;
 	while (theErr == QTSS_NoErr)
-		theErr = this->Read(theDumpBuffer, 2048, nullptr);
+		theErr = this->Read(theDumpBuffer, 2048, NULL);
 
 	return theErr;
 }
@@ -2135,20 +2135,20 @@ void RTSPSession::HandleIncomingDataPacket()
 	UInt8   packetChannel = (UInt8)fInputStream.GetRequestBuffer()->Ptr[1];
 	StrPtrLen* theSessionID = this->GetSessionIDForChannelNum(packetChannel);
 
-	if (theSessionID == nullptr)
+	if (theSessionID == NULL)
 	{
 		Assert(0);
-		return;
+		//return;
 		theSessionID = &fLastRTPSessionIDPtr;
 	}
 
 	OSRefTable* theMap = QTSServerInterface::GetServer()->GetRTPSessionMap();
 	OSRef* theRef = theMap->Resolve(theSessionID);
 
-	if (theRef != nullptr)
+	if (theRef != NULL)
 		fRTPSession = (RTPSession*)theRef->GetObject();
 
-	if (fRTPSession == nullptr)
+	if (fRTPSession == NULL)
 		return;
 
 	StrPtrLen packetWithoutHeaders(fInputStream.GetRequestBuffer()->Ptr + 4, fInputStream.GetRequestBuffer()->Len - 4);

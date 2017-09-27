@@ -141,8 +141,8 @@ RTPSessionInterface::RTPSessionInterface()
 
 	fTimeoutTask.SetTask(this);
 	fTimeout = QTSServerInterface::GetServer()->GetPrefs()->GetRTPSessionTimeoutInSecs() * 1000;
-	//fUniqueID = (UInt32)atomic_add(&sRTPSessionIDCounter, 1);
-	fUniqueID = ++sRTPSessionIDCounter;
+	fUniqueID = (UInt32)atomic_add(&sRTPSessionIDCounter, 1);
+	//fUniqueID = ++sRTPSessionIDCounter;
 
 	// fQualityUpdate is a counter the starting value is the unique ID so every session starts at a different position
 	fQualityUpdate = fUniqueID;

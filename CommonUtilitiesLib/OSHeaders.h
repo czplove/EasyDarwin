@@ -37,7 +37,7 @@
     #define FALSE 0
 #endif
 
-
+#define FD_SETSIZE 1024
 
 /* Platform-specific components */
 #if __MacOSX__

@@ -72,14 +72,14 @@ public:
 
 	static string ToLower(const string& inStr)
 	{
-		auto result = inStr;
+		string result = inStr;
 		boost::to_lower(result);
 		return result;
 	}
 
 	static string ToUpper(const string& inStr)
 	{
-		auto result = inStr;
+		string result = inStr;
 		boost::to_upper(result);
 		return result;
 	}

@@ -16,9 +16,9 @@
 #include "EasyCMSSession.h"
 
 // STATIC DATA
-static QTSS_PrefsObject				sServerPrefs = nullptr;
-static QTSS_ServerObject			sServer = nullptr;
-static QTSS_ModulePrefsObject		sEasyCMSModulePrefs = nullptr;
+static QTSS_PrefsObject				sServerPrefs = NULL;
+static QTSS_ServerObject			sServer = NULL;
+static QTSS_ModulePrefsObject		sEasyCMSModulePrefs = NULL;
 
 // FUNCTION PROTOTYPES
 static QTSS_Error EasyCMSModuleDispatch(QTSS_Role inRole, QTSS_RoleParamPtr inParams);
@@ -98,9 +98,9 @@ QTSS_Error FreeStream_EasyCMSModule(Easy_StreamInfo_Params* inParams)
 {
 	QTSS_Error theErr = QTSS_NoErr;
 
-	if (inParams->inStreamName != nullptr)
+	if (inParams->inStreamName != NULL)
 	{
-		auto pCMSSession = new EasyCMSSession();
+        EasyCMSSession* pCMSSession = new EasyCMSSession;
 		theErr = pCMSSession->FreeStream(inParams->inStreamName, inParams->inChannel);
 		if (theErr == QTSS_NoErr)
 			pCMSSession->Signal(Task::kStartEvent);

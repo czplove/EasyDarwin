@@ -29,7 +29,7 @@ struct stat {
         blkcnt_t   st_blocks;     //∏√Œƒº˛À˘’ºµƒ¥≈≈ÃøÈ
       };
  */
-SearchFileDir *SearchFileDir::m_sSearchFileDir = nullptr;
+SearchFileDir *SearchFileDir::m_sSearchFileDir = NULL;
 SearchFileDir::SearchFileDir()
 {
 
@@ -181,7 +181,7 @@ bool SearchFileDir::searchFileList(const string &dirName,vector<FileAttributeInf
 			{
 				string name = fileInfo.name;
 
-				for (auto iter = machList.begin(); iter != machList.end();iter++)
+				for (vector<string>::iterator iter = machList.begin(); iter != machList.end();iter++)
 				{
 					int r_count = name.rfind(*iter);
 					if (r_count != -1 && r_count == name.size() - iter->size())
@@ -214,7 +214,7 @@ bool SearchFileDir::searchFileList(const string &dirName,vector<FileAttributeInf
 		return false;
 	}
 
-	while((ent = readdir(pDir)) != nullptr)
+	while((ent = readdir(pDir)) != NULL)
 	{
 		if(ent->d_type & DT_DIR)
 		{
@@ -230,7 +230,7 @@ bool SearchFileDir::searchFileList(const string &dirName,vector<FileAttributeInf
 		}
 		else if(!onlyDir)
 		{
-			for (auto iter = machList.begin(); iter != machList.end();iter++)
+			for (vector<string>::iterator iter = machList.begin(); iter != machList.end();iter++)
 			{
 				if (find_Last_mach(ent->d_name,*iter))
 				{
@@ -259,7 +259,7 @@ bool SearchFileDir::searchFileList(const string &dirName,vector<FileAttributeInf
 bool SearchFileDir::isRootPath(string path)
 {
 	path = getRealPath(path);
-	for (auto iter = _rootPathList.begin() ; iter != _rootPathList.end() ; iter ++)
+	for (vector<FileAttributeInfo>::iterator iter = _rootPathList.begin() ; iter != _rootPathList.end() ; iter ++)
 	{
 		if (iter->fileName == path)
 		{
@@ -366,7 +366,7 @@ void SearchFileDir::clearPath(const string &path)
     machList.push_back("");
     SearchFileDir::getInstance()->searchFileList(path, list, machList);
     
-    for (auto iter = list.begin(); iter != list.end(); iter ++) {
+    for (vector<FileAttributeInfo>::iterator iter = list.begin(); iter != list.end(); iter ++) {
         string name = path + "/" + iter->fileName;
         remove(name.c_str());
     }

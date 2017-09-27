@@ -39,7 +39,7 @@ void CSdpCache::setSdpMap(char* path, char* context)
 
 char* CSdpCache::getSdpMap(char* path)
 {
-	auto it = sdpmap.find(string(path));
+    unordered_map<string, SdpCache>::iterator it = sdpmap.find(string(path));
 	if (it == sdpmap.end())
 	{
 		return NULL;
@@ -50,7 +50,7 @@ char* CSdpCache::getSdpMap(char* path)
 
 bool CSdpCache::eraseSdpMap(char* path)
 {
-	auto it = sdpmap.find(string(path));
+    unordered_map<string, SdpCache>::iterator it = sdpmap.find(string(path));
 	if (it == sdpmap.end())
 	{
 		return true;
@@ -63,7 +63,7 @@ unsigned long long CSdpCache::getSdpCacheDate(char *path)
 {
 	unsigned long long date = 0;
 	int length = 0;
-	auto it = sdpmap.find(string(path));
+    unordered_map<string, SdpCache>::iterator it = sdpmap.find(string(path));
 	if (it == sdpmap.end())
 	{
 		return 0;
@@ -76,7 +76,7 @@ unsigned long long CSdpCache::getSdpCacheDate(char *path)
 int CSdpCache::getSdpCacheLen(char* path)
 {
 	int length = 0;
-	auto it = sdpmap.find(string(path));
+    unordered_map<string, SdpCache>::iterator it = sdpmap.find(string(path));
 	if (it == sdpmap.end())
 	{
 		return 0;

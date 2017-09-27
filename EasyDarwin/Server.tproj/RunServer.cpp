@@ -77,7 +77,7 @@ QTSS_ServerState StartServer(XMLPrefsParser* inPrefsSource, PrefsSource* inMessa
 	OSThread::Initialize();
 
 	Socket::Initialize();
-	SocketUtils::Initialize(!inDontFork);
+	SocketUtils::Initialize(inDontFork);
 
 #if !MACOSXEVENTQUEUE
 
@@ -124,29 +124,36 @@ QTSS_ServerState StartServer(XMLPrefsParser* inPrefsSource, PrefsSource* inMessa
 
 		if (OS::ThreadSafe())
 		{
-			numShortTaskThreads = sServer->GetPrefs()->GetNumThreads(); // whatever the prefs say
-			if (numShortTaskThreads == 0) {
-				numProcessors = OS::GetNumProcessors();
-				// 1 worker thread per processor, up to 2 threads.
-				// Note: Limiting the number of worker threads to 2 on a MacOS X system with > 2 cores
-				//     results in better performance on those systems, as of MacOS X 10.5.  Future
-				//     improvements should make this limit unnecessary.
-				if (numProcessors > 2)
-					numShortTaskThreads = 2;
-				else
-					numShortTaskThreads = numProcessors;
-			}
+			//numShortTaskThreads = sServer->GetPrefs()->GetNumThreads(); // whatever the prefs say
+			//if (numShortTaskThreads == 0) {
+			//	numProcessors = OS::GetNumProcessors();
+			//	// 1 worker thread per processor, up to 2 threads.
+			//	// Note: Limiting the number of worker threads to 2 on a MacOS X system with > 2 cores
+			//	//     results in better performance on those systems, as of MacOS X 10.5.  Future
+			//	//     improvements should make this limit unnecessary.
+			//	if (numProcessors > 2)
+			//		numShortTaskThreads = 2;
+			//	else
+			//		numShortTaskThreads = numProcessors;
+			//}
 
-			numBlockingThreads = sServer->GetPrefs()->GetNumBlockingThreads(); // whatever the prefs say
-			if (numBlockingThreads == 0)
-				numBlockingThreads = 1;
+			//numBlockingThreads = sServer->GetPrefs()->GetNumBlockingThreads(); // whatever the prefs say
+			//if (numBlockingThreads == 0)
+			//	numBlockingThreads = 1;
+
+            numProcessors = OS::GetNumProcessors();
+            if (numProcessors == 0)
+                numProcessors = 4;
+
+            numShortTaskThreads = numProcessors;
+            numBlockingThreads = numProcessors;
 
 		}
-		if (numShortTaskThreads == 0)
-			numShortTaskThreads = 1;
+        if (numShortTaskThreads == 0)
+            numShortTaskThreads = 2;
 
-		if (numBlockingThreads == 0)
-			numBlockingThreads = 1;
+        if (numBlockingThreads == 0)
+            numBlockingThreads = 2;
 
 		numThreads = numShortTaskThreads + numBlockingThreads;
 		//qtss_printf("Add threads shortask=%lu blocking=%lu\n",numShortTaskThreads, numBlockingThreads);

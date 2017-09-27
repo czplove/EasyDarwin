@@ -267,6 +267,7 @@
     <ClCompile Include="..\..\SafeStdLib\InternalStdLib.cpp" />
     <ClCompile Include="..\APIModules\EasyCMSModule\EasyCMSModule.cpp" />
     <ClCompile Include="..\APIModules\EasyCMSModule\EasyCMSSession.cpp" />
+    <ClCompile Include="..\APIModules\EasyRedisModule\EasyRedisHandler.cpp" />
     <ClCompile Include="..\APIModules\EasyRedisModule\EasyRedisModule.cpp" />
     <ClCompile Include="..\APIModules\QTSSAccessLogModule\QTSSAccessLogModule.cpp">
       <BrowseInformation Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</BrowseInformation>
@@ -351,6 +352,7 @@
     <ClInclude Include="..\..\RTSPUtilitiesLib\RTSPProtocol.h" />
     <ClInclude Include="..\APIModules\EasyCMSModule\EasyCMSModule.h" />
     <ClInclude Include="..\APIModules\EasyCMSModule\EasyCMSSession.h" />
+    <ClInclude Include="..\APIModules\EasyRedisModule\EasyRedisHandler.h" />
     <ClInclude Include="..\APIModules\EasyRedisModule\EasyRedisModule.h" />
     <ClInclude Include="..\Server.tproj\HTTPSession.h" />
     <ClInclude Include="..\Server.tproj\HTTPSessionInterface.h" />

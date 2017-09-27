@@ -49,7 +49,7 @@
 
 
 
-OS_Error TCPListenerSocket::listen(UInt32 queueLength)
+OS_Error TCPListenerSocket::Listen(UInt32 queueLength)
 {
 	if (fFileDesc == EventContext::kInvalidFileDesc)
 		return EBADF;
@@ -79,7 +79,7 @@ OS_Error TCPListenerSocket::Initialize(UInt32 addr, UInt16 port)
 		// can be used for incoming broadcast data. This could force the server
 		// to run out of memory faster if it gets bogged down, but it is unavoidable.
 		this->SetSocketRcvBufSize(512 * 1024);
-		err = this->listen(kListenQueueLength);
+		err = this->Listen(kListenQueueLength);
 		AssertV(err == 0, OSThread::GetErrno());
 		if (err != 0) break;
 
@@ -143,7 +143,12 @@ void TCPListenerSocket::ProcessEvent(int /*eventBits*/)
 			theTask = this->GetSessionTask(&theSocket);
 			if (theTask == NULL)
 			{
-				close(osSocket);
+#ifdef WIN32
+                shutdown(osSocket, SD_BOTH);
+                ::closesocket(osSocket);
+#else
+                close(osSocket);
+#endif // WIN32
 			}
 			else
 			{
@@ -160,7 +165,12 @@ void TCPListenerSocket::ProcessEvent(int /*eventBits*/)
 	theTask = this->GetSessionTask(&theSocket);
 	if (theTask == NULL)
 	{    //this should be a disconnect. do an ioctl call?
-		close(osSocket);
+#ifdef WIN32
+        shutdown(osSocket, SD_BOTH);
+        ::closesocket(osSocket);
+#else
+        close(osSocket);
+#endif // WIN32
 		if (theSocket)
 			theSocket->fState &= ~kConnected; // turn off connected state
 	}

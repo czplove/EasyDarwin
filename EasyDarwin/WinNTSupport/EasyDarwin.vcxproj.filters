@@ -217,6 +217,9 @@
     <ClCompile Include="..\FileBrowserUtils\SearchFileDir.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\APIModules\EasyRedisModule\EasyRedisHandler.cpp">
+      <Filter>Source Files\API Modules\EasyRedisModule</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\APIModules\EasyCMSModule\EasyCMSModule.h">
@@ -242,6 +245,9 @@
     </ClInclude>
     <ClInclude Include="..\..\RTSPUtilitiesLib\RTSPProtocol.h">
       <Filter>Source Files\RTSPUtilitiesLib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\APIModules\EasyRedisModule\EasyRedisHandler.h">
+      <Filter>Source Files\API Modules\EasyRedisModule</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

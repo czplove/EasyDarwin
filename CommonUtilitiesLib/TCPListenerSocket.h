@@ -77,7 +77,7 @@ private:
 	};
 
 	virtual void ProcessEvent(int eventBits);
-	OS_Error    listen(UInt32 queueLength);
+	OS_Error    Listen(UInt32 queueLength);
 
 	UInt32          fAddr;
 	UInt16          fPort;

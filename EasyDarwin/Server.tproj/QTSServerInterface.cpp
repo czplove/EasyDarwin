@@ -374,7 +374,7 @@ SInt64 RTPStatsUpdaterTask::Run()
 	// because the fPeriodicRTPBytes variable is being manipulated from within an
 	// atomic_add. On PowerPC, assignments are atomic, so the assignment below is ok.
 	// On a non-PowerPC platform, the following would be thread safe:
-	//unsigned int periodicBytes = atomic_add(&theServer->fPeriodicRTPBytes, 0);-----------
+	//unsigned int periodicBytes = atomic_add(&theServer->fPeriodicRTPBytes, 0);
 	unsigned int periodicBytes = theServer->fPeriodicRTPBytes;
 	(void)atomic_sub(&theServer->fPeriodicRTPBytes, periodicBytes);
 	theServer->fTotalRTPBytes += periodicBytes;
