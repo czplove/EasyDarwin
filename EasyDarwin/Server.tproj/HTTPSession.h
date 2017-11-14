@@ -19,10 +19,10 @@ public:
 	virtual ~HTTPSession();
 
 	//Send HTTPPacket
-	QTSS_Error SendHTTPPacket(StrPtrLen* contentXML, bool connectionClose, bool decrement) override;
+	QTSS_Error SendHTTPPacket(StrPtrLen* contentXML, bool connectionClose, bool decrement);
 
 private:
-	SInt64 Run() override;
+	SInt64 Run();
 
 	// Does request prep & request cleanup, respectively
 	QTSS_Error SetupRequest();

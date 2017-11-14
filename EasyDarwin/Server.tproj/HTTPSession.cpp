@@ -998,7 +998,7 @@ QTSS_Error HTTPSession::execNetMsgCSSetBaseConfigReqRESTful(const char* queryStr
 	const char* chRTSPLanPort = parList.DoFindCGIValueForParam(EASY_TAG_CONFIG_RTSP_LAN_PORT);
 	if (chRTSPLanPort)
 	{
-		UInt16 uRTSPLanPort = stoi(chRTSPLanPort);
+		UInt16 uRTSPLanPort = atoi(chRTSPLanPort);
 		(void)QTSS_SetValue(QTSServerInterface::GetServer()->GetPrefs(), qtssPrefsRTSPPorts, 0, &uRTSPLanPort, sizeof(uRTSPLanPort));
 	}
 
@@ -1006,7 +1006,7 @@ QTSS_Error HTTPSession::execNetMsgCSSetBaseConfigReqRESTful(const char* queryStr
 	const char*	chRTSPWanPort = parList.DoFindCGIValueForParam(EASY_TAG_CONFIG_RTSP_WAN_PORT);
 	if (chRTSPWanPort)
 	{
-		UInt16 uRTSPWanPort = stoi(chRTSPWanPort);
+		UInt16 uRTSPWanPort = atoi(chRTSPWanPort);
 		(void)QTSS_SetValue(QTSServerInterface::GetServer()->GetPrefs(), easyPrefsRTSPWANPort, 0, &uRTSPWanPort, sizeof(uRTSPWanPort));
 	}
 
@@ -1025,7 +1025,7 @@ QTSS_Error HTTPSession::execNetMsgCSSetBaseConfigReqRESTful(const char* queryStr
 	const char* chHTTPLanPort = parList.DoFindCGIValueForParam(EASY_TAG_CONFIG_SERVICE_LAN_PORT);
 	if (chHTTPLanPort)
 	{
-		UInt16 uHTTPLanPort = stoi(chHTTPLanPort);
+		UInt16 uHTTPLanPort = atoi(chHTTPLanPort);
 		(void)QTSS_SetValue(QTSServerInterface::GetServer()->GetPrefs(), easyPrefsHTTPServiceLanPort, 0, &uHTTPLanPort, sizeof(uHTTPLanPort));
 	}
 
@@ -1033,7 +1033,7 @@ QTSS_Error HTTPSession::execNetMsgCSSetBaseConfigReqRESTful(const char* queryStr
 	const char*	chHTTPWanPort = parList.DoFindCGIValueForParam(EASY_TAG_CONFIG_SERVICE_WAN_PORT);
 	if (chHTTPWanPort)
 	{
-		UInt16 uHTTPWanPort = stoi(chHTTPWanPort);
+		UInt16 uHTTPWanPort = atoi(chHTTPWanPort);
 		(void)QTSS_SetValue(QTSServerInterface::GetServer()->GetPrefs(), easyPrefsHTTPServiceWanPort, 0, &uHTTPWanPort, sizeof(uHTTPWanPort));
 	}
 
@@ -1125,7 +1125,7 @@ QTSS_Error HTTPSession::execNetMsgCSGetDeviceStreamReqRESTful(const char* queryS
 		{
 			try
 			{
-				theChannelNum = stoi(chChannel);
+				theChannelNum = atoi(chChannel);
 			}
 			catch(...)
 			{
@@ -1225,7 +1225,7 @@ QTSS_Error HTTPSession::execNetMsgCSLiveDeviceStreamReqRESTful(const char * quer
 		const char* chChannel = parList.DoFindCGIValueForParam(EASY_TAG_CHANNEL);
 		if (chChannel)
 		{
-			theChannelNum = stoi(chChannel);
+			theChannelNum = atoi(chChannel);
 		}
 
 		if (!chProtocol)

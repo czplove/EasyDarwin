@@ -46,7 +46,7 @@ class FileBlockBuffer
 {
 
 public:
-	FileBlockBuffer() : fArrayIndex(-1), fBufferSize(0), fBufferFillSize(0), fDataBuffer(nullptr), fDummy(0) {}
+	FileBlockBuffer() : fArrayIndex(-1), fBufferSize(0), fBufferFillSize(0), fDataBuffer(NULL), fDummy(0) {}
 	~FileBlockBuffer();
 	void AllocateBuffer(UInt32 buffSize);
 	void TestBuffer();
@@ -111,8 +111,8 @@ class FileMap
 {
 
 public:
-	FileMap() :fFileMapArray(nullptr), fDataBufferSize(0), fMapArraySize(0), fNumBuffSizeUnits(0) {}
-	~FileMap() { fFileMapArray = nullptr; }
+	FileMap() :fFileMapArray(NULL), fDataBufferSize(0), fMapArraySize(0), fNumBuffSizeUnits(0) {}
+	~FileMap() { fFileMapArray = NULL; }
 	void    AllocateBufferMap(UInt32 inUnitSizeInK, UInt32 inNumBuffSizeUnits, UInt32 inBufferIncCount, UInt32 inMaxBitRateBuffSizeInBlocks, UInt64 fileLen, UInt32 inBitRate);
 	char*   GetBuffer(SInt64 bufIndex, bool* outIsEmptyBuff);
 	void    TestBuffer(SInt32 bufIndex) const
@@ -128,7 +128,7 @@ public:
 	void    IncMaxBuffers() { fBlockPool.IncMaxBuffers(); }
 	void    DecMaxBuffers() { fBlockPool.DecMaxBuffers(); }
 	bool  Initialized() const
-	{ return fFileMapArray == nullptr ? false : true; }
+	{ return fFileMapArray == NULL ? false : true; }
 	void    Clean();
 	void    DeleteMap();
 	void    DeleteOldBuffs();
@@ -158,7 +158,7 @@ public:
 	{
 
 #if READ_LOG 
-		fFileLog = nullptr;
+		fFileLog = NULL;
 		fTrackID = 0;
 		fFilePath[0] = 0;
 #endif
@@ -170,7 +170,7 @@ public:
 		Set(inPath);
 
 #if READ_LOG 
-		fFileLog = nullptr;
+		fFileLog = NULL;
 		fTrackID = 0;
 		fFilePath[0] = 0;
 #endif      
@@ -189,15 +189,15 @@ public:
 	//following position in the file
 	void            Advise(UInt64 advisePos, UInt32 adviseAmt);
 
-	OS_Error    Read(void* inBuffer, UInt32 inLength, UInt32* outRcvLen = nullptr)
+	OS_Error    Read(void* inBuffer, UInt32 inLength, UInt32* outRcvLen = NULL)
 	{
 		return ReadFromDisk(inBuffer, inLength, outRcvLen);
 	}
 
-	OS_Error    Read(UInt64 inPosition, void* inBuffer, UInt32 inLength, UInt32* outRcvLen = nullptr);
-	OS_Error    ReadFromDisk(void* inBuffer, UInt32 inLength, UInt32* outRcvLen = nullptr);
-	OS_Error    ReadFromCache(UInt64 inPosition, void* inBuffer, UInt32 inLength, UInt32* outRcvLen = nullptr);
-	OS_Error    ReadFromPos(UInt64 inPosition, void* inBuffer, UInt32 inLength, UInt32* outRcvLen = nullptr);
+	OS_Error    Read(UInt64 inPosition, void* inBuffer, UInt32 inLength, UInt32* outRcvLen = NULL);
+	OS_Error    ReadFromDisk(void* inBuffer, UInt32 inLength, UInt32* outRcvLen = NULL);
+	OS_Error    ReadFromCache(UInt64 inPosition, void* inBuffer, UInt32 inLength, UInt32* outRcvLen =NULL);
+	OS_Error    ReadFromPos(UInt64 inPosition, void* inBuffer, UInt32 inLength, UInt32* outRcvLen = NULL);
 	void        EnableFileCache(bool enabled) { OSMutexLocker locker(&fMutex); fCacheEnabled = enabled; }
 	bool      GetCacheEnabled() const
 	{ return fCacheEnabled; }

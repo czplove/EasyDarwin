@@ -68,7 +68,7 @@ public:
 	}
 	void Add(T* entry)
 	{
-		Assert(entry->fNextHashEntry == nullptr);
+		Assert(entry->fNextHashEntry == NULL);
 		K key(entry);
 		UInt32 theIndex = ComputeIndex(key.GetHashKey());
 		entry->fNextHashEntry = fHashTable[theIndex];
@@ -80,7 +80,7 @@ public:
 		K key(entry);
 		UInt32 theIndex = ComputeIndex(key.GetHashKey());
 		T* elem = fHashTable[theIndex];
-		T* last = nullptr;
+		T* last = NULL;
 		while (elem && elem != entry)
 		{
 			last = elem;
@@ -94,7 +94,7 @@ public:
 				last->fNextHashEntry = elem->fNextHashEntry;
 			else
 				fHashTable[theIndex] = elem->fNextHashEntry;
-			elem->fNextHashEntry = nullptr;
+			elem->fNextHashEntry = NULL;
 			fNumEntries--;
 		}
 	}
@@ -164,7 +164,7 @@ public:
 	}
 	bool IsDone()
 	{
-		return(fCurrent == nullptr);
+		return(fCurrent == NULL);
 	}
 	T* GetCurrent() { return fCurrent; }
 

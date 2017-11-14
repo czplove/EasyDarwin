@@ -62,7 +62,7 @@ class OSRef
 {
 public:
 
-	OSRef() : fObjectP(nullptr), fRefCount(0), fHashValue(0), fNextHashEntry(nullptr)
+	OSRef() : fObjectP(NULL), fRefCount(0), fHashValue(0), fNextHashEntry(NULL)
 	{
 #if DEBUG
 		fInATable = false;
@@ -70,7 +70,7 @@ public:
 #endif          
 	}
 	OSRef(const StrPtrLen& inString, void* inObjectP)
-		: fRefCount(0), fNextHashEntry(nullptr)
+		: fRefCount(0), fNextHashEntry(NULL)
 	{
 		Set(inString, inObjectP);
 	}

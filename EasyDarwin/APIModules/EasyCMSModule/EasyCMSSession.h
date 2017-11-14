@@ -71,7 +71,7 @@ public:
 
 private:
 
-	SInt64 Run() override;
+	SInt64 Run();
 
 	char*	fStreamName;
 	UInt32	fChannelNum;

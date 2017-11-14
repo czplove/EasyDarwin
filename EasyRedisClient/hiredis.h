@@ -135,6 +135,10 @@ enum redisConnectionType {
     REDIS_CONN_UNIX,
 };
 
+#ifdef unix
+#undef unix
+#endif
+
 /* Context for a connection to Redis */
 typedef struct redisContext {
     int err; /* Error flags, 0 when there is no error */

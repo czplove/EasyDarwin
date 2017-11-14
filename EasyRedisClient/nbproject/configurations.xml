@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="97">
+<configurationDescriptor version="100">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="f1" displayName="hiredis" projectFiles="true">
       <itemPath>async.c</itemPath>
@@ -160,12 +160,10 @@
         <cTool>
           <developmentMode>5</developmentMode>
           <architecture>2</architecture>
-          <commandLine>-std=c99</commandLine>
         </cTool>
         <ccTool>
           <developmentMode>5</developmentMode>
           <architecture>2</architecture>
-          <standard>8</standard>
           <incDir>
             <pElem>../EasyProtocol/Include</pElem>
           </incDir>

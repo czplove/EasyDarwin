@@ -46,8 +46,8 @@ class StringParser
 public:
 
 	StringParser(StrPtrLen* inStream)
-		: fStartGet(inStream == nullptr ? nullptr : inStream->Ptr),
-		fEndGet(inStream == nullptr ? nullptr : inStream->Ptr + inStream->Len),
+		: fStartGet(inStream == NULL ? NULL : inStream->Ptr),
+		fEndGet(inStream == NULL ? NULL : inStream->Ptr + inStream->Len),
 		fCurLineNumber(1),
 		fStream(inStream)
 	{
@@ -78,7 +78,7 @@ public:
 	bool          ExpectEOL();
 
 	//Returns the next word
-	void            ConsumeWord(StrPtrLen* outString = nullptr)
+	void            ConsumeWord(StrPtrLen* outString = NULL)
 	{
 		ConsumeUntil(outString, sNonWordMask);
 	}
@@ -87,14 +87,14 @@ public:
 	void            ConsumeUntil(StrPtrLen* outString, char inStopChar);
 
 	//Returns whatever integer is currently in the stream
-	UInt32          ConsumeInteger(StrPtrLen* outString = nullptr);
+	UInt32          ConsumeInteger(StrPtrLen* outString = NULL);
 	Float32         ConsumeFloat();
 	Float32         ConsumeNPT();
 
 	//Keeps on going until non-whitespace
 	void            ConsumeWhitespace()
 	{
-		ConsumeUntil(nullptr, sWhitespaceMask);
+		ConsumeUntil(NULL, sWhitespaceMask);
 	}
 
 	//Assumes 'stop' is a 255-char array of booleans. Set this array
@@ -105,12 +105,12 @@ public:
 
 	//+ rt 8.19.99
 	//returns whatever is avaliable until non-whitespace
-	void            ConsumeUntilWhitespace(StrPtrLen* spl = nullptr)
+	void            ConsumeUntilWhitespace(StrPtrLen* spl = NULL)
 	{
 		ConsumeUntil(spl, sEOLWhitespaceMask);
 	}
 
-	void            ConsumeUntilDigit(StrPtrLen* spl = nullptr)
+	void            ConsumeUntilDigit(StrPtrLen* spl = NULL)
 	{
 		ConsumeUntil(spl, sDigitMask);
 	}
@@ -186,11 +186,11 @@ bool StringParser::GetThruEOL(StrPtrLen* outString)
 
 bool StringParser::ParserIsEmpty(StrPtrLen* outString)
 {
-	if (nullptr == fStartGet || nullptr == fEndGet)
+	if (NULL == fStartGet || NULL == fEndGet)
 	{
-		if (nullptr != outString)
+		if (NULL != outString)
 		{
-			outString->Ptr = nullptr;
+			outString->Ptr = NULL;
 			outString->Len = 0;
 		}
 

@@ -12,7 +12,7 @@
 #ifndef __OSMAPEX__H__
 #define __OSMAPEX__H__
 
-#include <unordered_map>
+#include <map>
 #include <string>
 #include "OSMutex.h"//»¥³â²Ù×÷
 //#include <iostream>
@@ -29,7 +29,7 @@ struct strMapData
 	strMapData() :m_AllExist(0), m_LastingTime(0) {}
 	strMapData(SInt64 LastingTime, char AllExist = 0) :m_AllExist(AllExist), m_LastingTime(LastingTime) {}
 };
-typedef unordered_map<string, strMapData> MapType;
+typedef map<string, strMapData> MapType;
 
 class OSMapEx
 {

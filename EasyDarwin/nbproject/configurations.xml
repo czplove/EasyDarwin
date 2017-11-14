@@ -28,6 +28,8 @@
         <logicalFolder name="EasyRedisModule"
                        displayName="EasyRedisModule"
                        projectFiles="true">
+          <itemPath>APIModules/EasyRedisModule/EasyRedisHandler.cpp</itemPath>
+          <itemPath>APIModules/EasyRedisModule/EasyRedisHandler.h</itemPath>
           <itemPath>APIModules/EasyRedisModule/EasyRedisModule.cpp</itemPath>
           <itemPath>APIModules/EasyRedisModule/EasyRedisModule.h</itemPath>
         </logicalFolder>
@@ -462,6 +464,16 @@
             flavor2="0">
       </item>
       <item path="APIModules/EasyCMSModule/EasyCMSSession.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="APIModules/EasyRedisModule/EasyRedisHandler.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="APIModules/EasyRedisModule/EasyRedisHandler.h"
             ex="false"
             tool="3"
             flavor2="0">
@@ -1149,6 +1161,16 @@
             tool="3"
             flavor2="0">
       </item>
+      <item path="APIModules/EasyRedisModule/EasyRedisHandler.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="APIModules/EasyRedisModule/EasyRedisHandler.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
       <item path="APIModules/EasyRedisModule/EasyRedisModule.cpp"
             ex="false"
             tool="1"
@@ -1831,6 +1853,16 @@
             tool="3"
             flavor2="0">
       </item>
+      <item path="APIModules/EasyRedisModule/EasyRedisHandler.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="APIModules/EasyRedisModule/EasyRedisHandler.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
       <item path="APIModules/EasyRedisModule/EasyRedisModule.cpp"
             ex="false"
             tool="1"
@@ -2399,7 +2431,7 @@
           <incFile>
             <pElem>../Include/PlatformHeader.h</pElem>
           </incFile>
-          <commandLine>-pipe -Wall -Wno-format-y2k -std=c++11</commandLine>
+          <commandLine>-pipe -Wall -Wno-format-y2k</commandLine>
           <preprocessorList>
             <Elem>DSS_USE_API_CALLBACKS</Elem>
             <Elem>_REENTRANT</Elem>
@@ -2508,6 +2540,16 @@
             flavor2="0">
       </item>
       <item path="APIModules/EasyCMSModule/EasyCMSSession.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="APIModules/EasyRedisModule/EasyRedisHandler.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="APIModules/EasyRedisModule/EasyRedisHandler.h"
             ex="false"
             tool="3"
             flavor2="0">

@@ -752,7 +752,7 @@ ReflectorSession* DoSessionSetup(QTSS_StandardRTSP_Params* inParams, QTSS_Attrib
 	const char* chnNum = parList.DoFindCGIValueForParam(EASY_TAG_CHANNEL);
 	if (chnNum)
 	{
-		theChannelNum = stoi(chnNum);
+		theChannelNum = atoi(chnNum);
 	}
 
 	StrPtrLen theFullPath(theFileNameStr);
@@ -931,7 +931,7 @@ QTSS_Error DoAnnounce(QTSS_StandardRTSP_Params* inParams)
 	const char* chnNum = parList.DoFindCGIValueForParam(EASY_TAG_CHANNEL);
 	if (chnNum)
 	{
-		theChannelNum = stoi(chnNum);
+		theChannelNum = atoi(chnNum);
 	}
 
 	char theStreamName[QTSS_MAX_NAME_LENGTH] = { 0 };

@@ -8,7 +8,7 @@
 #define	EASY_PROTOCOL_H
 
 #include <EasyProtocolBase.h>
-#include <unordered_map>
+#include <map>
 #include <boost/variant.hpp>
 #include <boost/lexical_cast.hpp>
 #include <list>
@@ -36,10 +36,10 @@ namespace EasyDarwin { namespace Protocol
 		string snapJpgPath_;//最新的快照路径
 	};
 
-	typedef unordered_map<string, EasyDevice> EasyDevices;		//摄像头表，改为map.方便查找。key为channel_，value为EasyDevice
+	typedef map<string, EasyDevice> EasyDevices;		//摄像头表，改为map.方便查找。key为channel_，value为EasyDevice
 
 	typedef boost::variant<int, float, string> value_t;
-	typedef unordered_map<string, value_t> EasyJsonValue;	//key为string,value可以是int、float、string的一种
+	typedef map<string, value_t> EasyJsonValue;	//key为string,value可以是int、float、string的一种
 	typedef void* EasyObject;
 
 	class EasyJsonValueVisitor : public boost::static_visitor<string>
