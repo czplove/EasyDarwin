@@ -1034,7 +1034,7 @@ void ReflectorSender::ReflectPackets(SInt64* ioWakeupTime, OSQueue* inFreeQueue)
 	//make sure to reset these state variables
 	fHasNewPackets = false;
 
-	fNextTimeToRun = 1000;	// init to 1 secs
+	fNextTimeToRun = 200;	// init to 1 secs
 
 	if (fWriteFlag == qtssWriteFlagsIsRTCP)
 		fNextTimeToRun = 1000;
