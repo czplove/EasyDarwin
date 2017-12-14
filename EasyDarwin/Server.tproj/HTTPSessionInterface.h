@@ -17,6 +17,7 @@
 #include "Task.h"
 #include "QTSS.h"
 #include "QTSSDictionary.h"
+#include <atomic.h>
 
 class HTTPSessionInterface : public QTSSDictionary, public Task
 {
@@ -31,7 +32,7 @@ public:
 
 	void RefreshTimeout() { fTimeoutTask.RefreshTimeout(); }
 
-	void IncrementObjectHolderCount() { ++fObjectHolders; }
+	void IncrementObjectHolderCount() { (void)atomic_add(&fObjectHolders, 1); }
 	void DecrementObjectHolderCount();
 
 	RTSPRequestStream*  GetInputStream() { return &fInputStream; }

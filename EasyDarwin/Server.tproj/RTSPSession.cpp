@@ -1107,7 +1107,7 @@ SInt64 RTSPSession::Run()
 
     //printf("RTSPSession fObjectHolders:%d !\n", fObjectHolders.load());
 
-	//fObjectHolders--  
+//	atomic_sub(&fObjectHolders, 1); 
 	if (!IsLiveSession() && fObjectHolders > 0) {
 		OSRefTable* theMap = QTSServerInterface::GetServer()->GetRTPSessionMap();
 		OSRef* theRef = theMap->Resolve(&fLastRTPSessionIDPtr);

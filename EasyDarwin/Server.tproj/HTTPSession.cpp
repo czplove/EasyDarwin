@@ -87,14 +87,8 @@ SInt64 HTTPSession::Run()
 	// Some callbacks look for this struct in the thread object
 	OSThreadDataSetter theSetter(&fModuleState, NULL);
 
-	if (events & Task::kKillEvent)
+	if ((events & Task::kTimeoutEvent) || (events & Task::kKillEvent))
 		fLiveSession = false;
-
-	if (events & Task::kTimeoutEvent)
-	{
-		// Session³¬Ê±,ÊÍ·ÅSession 
-		return -1;
-	}
 
 	while (this->IsLiveSession())
 	{

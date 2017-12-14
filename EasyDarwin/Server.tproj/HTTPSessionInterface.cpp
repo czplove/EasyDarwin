@@ -126,8 +126,17 @@ void HTTPSessionInterface::DecrementObjectHolderCount()
 	//        this->Signal(Task::kKillEvent);
 	//#endif
 
+//    if (0 == atomic_sub(&fObjectHolders, 1))
+  //      this->Signal(Task::kKillEvent);
+
+	#if __Win32__
+        //maybe don't need this special case but for now on Win32 we do it the old way since the killEvent code hasn't been verified on Windows.
+    this->Signal(Task::kReadEvent);//have the object wakeup in case it can go away.
+    atomic_sub(&fObjectHolders, 1);
+#else
     if (0 == atomic_sub(&fObjectHolders, 1))
         this->Signal(Task::kKillEvent);
+#endif
 
 }
 

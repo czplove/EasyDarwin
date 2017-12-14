@@ -65,7 +65,7 @@ public:
 	// object holders is > 0, the RTSPSession will NEVER go away. However,
 	// the object managing the session should be aware that if IsLiveSession returns
 	// false it may be wise to relinquish control of the session
-	void IncrementObjectHolderCount() { /*(void)atomic_add(&fObjectHolders, 1);*/ ++fObjectHolders; }
+	void IncrementObjectHolderCount() { (void)atomic_add(&fObjectHolders, 1); }
 	void DecrementObjectHolderCount();
 
 	// If RTP data is interleaved into the RTSP connection, we need to associate
